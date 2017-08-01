@@ -9,10 +9,10 @@ the canonical URL for this is
 ##Files in this example:
 
 - README.md - this file
+- README.html - this file, in HTML format (```'make html'``` to update that from .md)
 - Makefile - to build the example and HTML (there's a clean target too)
 - broken-malloc.h - the header file we'd include when using this
 - broken-malloc.c - a C program to test our macros
-- README.html - this file, in HTML format (```'make html'``` will creete that from the markdown)
 
 After running ```'make'``` then these files will be produced (if all
 goes well):
@@ -30,13 +30,17 @@ team on a large codebase (maybe 10^6 LOC) where that code has lots of
 calls to malloc, and we suspected (knew actually:-) that not all bits 
 of calling code checked the return value from malloc.
 
+##The Core Line of Code
+
 The LOC itself:
 
 		#define malloc(__xxx__) (rand()%100<=30?0:malloc((__xxx__)))
 
 What does that do?
 
+
 ------------------------------------------
+##First, some man pages...
 
 First, what is malloc()? Let's use the unix/linux manual pages to find out... 
 

@@ -6,10 +6,10 @@ the canonical URL for this is
 <h2>Files in this example:</h2>
 <ul>
 <li>README.md - this file</li>
+<li>README.html - this file, in HTML format (<code>'make html'</code> to update that from .md)</li>
 <li>Makefile - to build the example and HTML (there's a clean target too)</li>
 <li>broken-malloc.h - the header file we'd include when using this</li>
 <li>broken-malloc.c - a C program to test our macros</li>
-<li>README.html - this file, in HTML format (<code>'make html'</code> will creete that from the markdown)</li>
 </ul>
 <p>After running <code>'make'</code> then these files will be produced (if all
 goes well):</p>
@@ -24,11 +24,13 @@ for good.</p>
 team on a large codebase (maybe 10^6 LOC) where that code has lots of
 calls to malloc, and we suspected (knew actually:-) that not all bits 
 of calling code checked the return value from malloc.</p>
+<h2>The Core Line of Code</h2>
 <p>The LOC itself:</p>
 <pre><code>    #define malloc(__xxx__) (rand()%100&lt;=30?0:malloc((__xxx__)))
 </code></pre>
 <p>What does that do?</p>
 <hr />
+<h2>First, some man pages...</h2>
 <p>First, what is malloc()? Let's use the unix/linux manual pages to find out... </p>
 <pre><code>    $ man malloc
 </code></pre>
