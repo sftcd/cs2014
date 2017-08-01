@@ -8,16 +8,19 @@ the canonical URL for this is
 
 ##Files in this example:
 
-- README.md - this file
-- README.html - this file, in HTML format (```'make html'``` to update that from .md)
-- Makefile - to build the example and HTML (there's a clean target too)
-- broken-malloc.h - the header file we'd include when using this
-- broken-malloc.c - a C program to test our macros
+- [README.md](README.md) - this file in markdown format
+- [README.html](README.html) - this file, in HTML format (```'make html'``` to update that from .md)
+- [Makefile](Makefile) - to build the example and HTML (there's a clean target too)
+- [broken-malloc.h](broken-malloc.h) - the header file we'd include when using this
+- [broken-malloc.c](broken-malloc.c) - a C program to test our macros
 
 After running ```'make'``` then these files will be produced (if all
 goes well):
 
 - broken-malloc - the executable that runs the tests
+
+Note that most examples won't have the links to the files as per the above
+list, those are just there since this is our first one.
 
 ##Background
 
