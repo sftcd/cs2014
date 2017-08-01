@@ -26,7 +26,7 @@ version of) this in the mid-1990's. It purpose is to break things,
 for good.
 
 The context was that I was working in a large-ish software development
-team on a large codebase (maybe 10^ LOC) where that code has lots of
+team on a large codebase (maybe 10^6 LOC) where that code has lots of
 calls to malloc, and we suspected (knew actually:-) that not all bits 
 of calling code checked the return value from malloc.
 
