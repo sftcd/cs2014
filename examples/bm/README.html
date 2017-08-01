@@ -30,7 +30,7 @@ of calling code checked the return value from malloc.</p>
 <p>What does that do?</p>
 <hr />
 <p>First, what is malloc()? Let's use the unix/linux manual pages to find out... </p>
-<pre><code>    man 3 malloc
+<pre><code>    $ man malloc
 </code></pre>
 <p>That produces this information...</p>
 <pre>
@@ -134,8 +134,17 @@ GNU                                                         2015-08-08          
 
 <hr />
 <p>Ok, I can kinda guess what rand() might be, but how to confirm?</p>
-<p>Same plan.</p>
-<pre><code>    man 3 rand
+<p>Same plan. But note that <code>man rand</code> may not get you the right thing, (if you have openssl installed for example)
+so you need to go for section 3 of the
+manual pages, so we want <code>man 3 rand</code> in this case. There's a basic kind of search for topics that <code>man</code>
+supports using the <code>-k</code> command line argument, so <code>man -k rand</code> will show us a list of the names
+of man pages and in this case we want the one in section 3, which is for library calls.
+You can of course find the same information via a web search (e.g. 
+<a href="https://duckduckgo.com/html?q=rand%20C%20function">https://duckduckgo.com/html?q=rand%20C%20function</a>)
+but maybe you'll read the wrong thing, and there are system-specifics that can differ from 
+OS to OS and even within different GNU/Linux distributions, so <code>man</code> is your best friend
+even if not as usable as a web search.</p>
+<pre><code>    $ man 3 rand
 </code></pre>
 <pre>
 RAND(3)                                             Linux Programmer's Manual                                             RAND(3)

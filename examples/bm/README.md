@@ -40,7 +40,7 @@ What does that do?
 
 First, what is malloc()? Let's use the unix/linux manual pages to find out... 
 
-		man 3 malloc
+		$ man malloc
 
 That produces this information...
 
@@ -147,9 +147,18 @@ GNU                                                         2015-08-08          
 
 Ok, I can kinda guess what rand() might be, but how to confirm?
 
-Same plan.
+Same plan. But note that ```man rand``` may not get you the right thing, (if you have openssl installed for example)
+so you need to go for section 3 of the
+manual pages, so we want ```man 3 rand``` in this case. There's a basic kind of search for topics that ```man```
+supports using the ```-k``` command line argument, so ```man -k rand``` will show us a list of the names
+of man pages and in this case we want the one in section 3, which is for library calls.
+You can of course find the same information via a web search (e.g. 
+<a href="https://duckduckgo.com/html?q=rand%20C%20function">https://duckduckgo.com/html?q=rand%20C%20function</a>)
+but maybe you'll read the wrong thing, and there are system-specifics that can differ from 
+OS to OS and even within different GNU/Linux distributions, so ```man``` is your best friend
+even if not as usable as a web search.
 
-		man 3 rand
+		$ man 3 rand
 
 <pre>
 RAND(3)                                             Linux Programmer's Manual                                             RAND(3)

@@ -11,6 +11,4 @@ Each subdirectory has a README.md, a bit of related code and a Makefile.</p>
 <code>'man'</code> command. That should use ascii output (e.g. <code>man -E ascii 3
 rand</code>) and I also need to remember to replace left angle brackets in the
 output with the corresponding HTML entity or they won't display, so the 
-incantation to use is:</p>
-<pre><code>    man -E ascii 3 rand | sed -e 's/&lt;/\&amp;lt/g'
-</code></pre>
+incantation to use when editing markdown is: <code>man -E ascii 3 rand | sed -e 's/&lt;/\&amp;lt/g'</code></p>

@@ -12,8 +12,6 @@ Note-to-self: various markdown/html files here contain the output of the
 ```'man'``` command. That should use ascii output (e.g. ```man -E ascii 3
 rand```) and I also need to remember to replace left angle brackets in the
 output with the corresponding HTML entity or they won't display, so the 
-incantation to use is:
-
-		man -E ascii 3 rand | sed -e 's/</\&lt/g'
+incantation to use when editing markdown is: ```man -E ascii 3 rand | sed -e 's/</\&lt/g'```
 
 
