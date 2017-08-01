@@ -14,7 +14,7 @@ the canonical URL for this is
 - [broken-malloc.h](broken-malloc.h) - the header file we'd include when using this
 - [broken-malloc.c](broken-malloc.c) - a C program to test our macros
 
-After running ```'make'``` then these files will be produced (if all
+After running ```'make'``` then this file will be produced (if all
 goes well):
 
 - broken-malloc - the executable that runs the tests
