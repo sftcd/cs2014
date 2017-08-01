@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "broken-malloc.h"
 
 #define MINTESTS 0

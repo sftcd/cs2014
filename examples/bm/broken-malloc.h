@@ -31,11 +31,12 @@
 
 void *__vxx__;
 int __tsz__;
-#define calloc(__sz__,__n__) ((__tsz__=(__sz__)*(__n__))? \
-								( (__vxx__=malloc(__tsz__)) ?  \
-									memset(__vxx__,__tsz__,0) \
-								: 0 ) \
-							: 0)
+#define calloc(__sz__,__n__) (	\
+			(__tsz__=(__sz__)*(__n__))? \
+				( (__vxx__=malloc(__tsz__)) ?  \
+					memset(__vxx__,__tsz__,0) \
+				: 0 ) \
+			: 0)
 
 // realloc is left as an exercise for the reader!
 

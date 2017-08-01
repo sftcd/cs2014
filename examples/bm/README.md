@@ -30,8 +30,8 @@ for good.
 
 The context was that I was working in a large-ish software development
 team on a large codebase (maybe 10^6 LOC) where that code has lots of
-calls to malloc, and we suspected (knew actually:-) that not all bits 
-of calling code checked the return value from malloc.
+calls to ```malloc()```, and we suspected (knew actually:-) that not all bits 
+of calling code checked the return value from ```malloc()```.
 
 ##The Core Line of Code
 
@@ -45,7 +45,7 @@ What does that do?
 ------------------------------------------
 ##First, some man pages...
 
-First, what is malloc()? Let's use the unix/linux manual pages to find out... 
+So, what is ```malloc()```? Let's use the unix/linux manual pages to find out... 
 
 		$ man malloc
 
@@ -281,4 +281,335 @@ COLOPHON
 
                                                             2016-03-15                                                    RAND(3)
 </pre>
+
+---------------------------------------
+
+##A program that uses ```malloc()```...
+
+Store the following as say p1.c
+
+		#include <stdio.h>
+		#include <stdlib.h>
+		int main(int argc, char **argv)
+		{
+			char *x=malloc(100);
+			if (!x) {
+				printf("Malloc failed!\n");
+			} else {
+				printf("Malloc succeeded!\n");
+				free(x);
+			}
+			return(0);
+		}
+
+If we compile, and run that:
+
+		$ gcc p1.c
+		$ ./a.out
+		Malloc succeeded!
+		$
+
+
+---------------------------------------
+
+##Now let's break that
+
+Edit p1.c (e.g. using ```vi```) and now also include broken-malloc.h which
+includes our fine LOC, (we'll look inside that in a bit)...
+
+		#include <stdio.h>
+		#include <stdlib.h>
+		#include "broken-malloc.h"
+		int main(int argc, char **argv)
+		{
+			char *x=malloc(100);
+			if (!x) {
+				printf("Malloc %d failed!\n");
+			} else {
+				printf("Malloc %d succeeded!\n");
+				free(x);
+			}
+			return(0);
+		}
+
+If we compile, and run that, we should see random fails:
+
+		$ gcc p1.c
+		$ ./a.out
+		Malloc failed!
+		$ ./a.out
+		Malloc succeeded!
+		$
+
+---------------------------------------
+
+##Let's add some more test code to save us time:
+
+
+This is basically broken-malloc.c...
+
+		#include <stdio.h>
+		#include <stdlib.h>
+		#include "broken-malloc.h"
+		
+		#define MINTESTS 0
+		#define MAXTESTS 100
+		
+		int main(int argc, char **argv)
+		{
+			int i;
+			int countfails=0;
+			int tests=10;
+		
+			if (argc==2) {
+				int maybetests=atoi(argv[1]);
+				if (maybetests <= MINTESTS || maybetests > MAXTESTS) {
+					fprintf(stderr,"Out of range argument (\"%s\") min: %d, max: %d - exiting\n",
+						argv[1],MINTESTS,MAXTESTS);
+					return(1);
+				}
+				tests=maybetests;
+			}
+		
+			for (i=1;i<=tests;i++) {
+				char *x=malloc(i);
+				if (!x) {
+					printf("Malloc %d failed!\n",i);
+					countfails++;
+				} else {
+					printf("Malloc %d succeeded!\n",i);
+					free(x);
+				}
+			}
+		
+			printf("Tests: %d, fails: %d\n",tests,countfails);
+			return(0);
+		}
+		
+
+Before we go further, please note the error checking of the 
+command line arguments - an important rule to remember is
+that YOU CANNOT TRUST INPUT VALUES. I'll say that again:
+YOU CANNOT TRUST INPUT VALUES!!
+Note also that we call the ```free()``` function to 
+release the memory allocated by ```malloc()``` as we go.
+If we handn't checked the inputs, and hadn't made 
+that call to ```free()``` then our little test tool
+could someday be turned into a pretty fine denial-of-service
+attack vector. And while it might seem unlikely that 
+that could happen, it might, say if someone decided to
+make a web-enabled version of this available for some
+reason, or if this kind of test was built into some
+nightly build environment that could be triggered
+remotely (e.g. via a git commit to a repo).
+
+The lesson (and it's a very very important lesson) is
+to always be cautious in coding, even if it seems that
+there's no need today. Your code may be re-used years
+later in ways and in an environment you never considered
+and would think crazy!
+
+Now we compile that using ```make``` and our executable
+file is now ```broken-malloc``` instead of ```a.out```:
+
+		$ make 
+		gcc     broken-malloc.c broken-malloc.h   -o broken-malloc
+		$ ./broken-malloc 
+		Malloc 1 succeeded!
+		Malloc 2 failed!
+		Malloc 3 succeeded!
+		Malloc 4 succeeded!
+		Malloc 5 failed!
+		Malloc 6 succeeded!
+		Malloc 7 failed!
+		Malloc 8 succeeded!
+		Malloc 9 succeeded!
+		Malloc 10 failed!
+		Tests: 10, fails: 4
+
+Or we can run it just 5 times:
+
+		$ ./broken-malloc 5
+		Malloc 1 succeeded!
+		Malloc 2 failed!
+		Malloc 3 succeeded!
+		Malloc 4 succeeded!
+		Malloc 5 failed!
+		Tests: 5, fails: 2
+
+Do you notice anything in the above outputs?
+
+--------------------------
+
+##Random but repeatable...
+
+Recall our fun LOC:
+
+		#define malloc(__xxx__) (rand()%100<=30?0:malloc((__xxx__)))
+
+With the above LOC, we didn't make any call to ```srand()``` so the
+PRNG is always initialised in the same way, and hence always produces
+the same set of random numbers, and hence our pattern of success/fail
+for ```malloc()``` calls will be the same, every time we run ```broken-malloc``.
+
+That might sound bad, but can be useful - when testing it is good to
+get the same result from two iterations of the same test, so you
+can debug things more easily. OTOH, sometimes we'd like to have 
+different things happen in each test, so this is a fine thing to
+instrument, so we can control whether tests are repeatable or
+not.
+
+So let's see what it'd look like if we have two variations of
+the test, one repeatable and one that differs each time.
+In doing this, we'll switch
+from using ```rand()``` to using ```random()``` which has a
+different initialisation method that fits better for the
+hack we're after here. (That's because ```initstate()```
+returns a value we can use, whereas ```srand()``` has 
+no return value.)
+
+Here's a version of broken-malloc.h that does that for us:
+
+		#include <stdlib.h>
+		#include <string.h>
+		#include <time.h>
+		
+		// comment this out for non-repetitive behaviour
+		//#define REPEAT 
+		
+		// what percentage of mallocs should fail?
+		#define PERCENTFAIL 30
+		
+		#ifdef REPEAT
+			// repeating version, no PRNG initialisation, same each time
+			#define malloc(__xxx__) (rand()%100<=PERCENTFAIL?0:malloc((__xxx__)))
+		#else
+			// PRNG initialisation => different behaviour each time 
+			char* __srand_inited__=NULL;
+			char __srand_state__[100];
+			#define malloc(__xxx__) (( \
+				( \
+					(__srand_inited__==NULL) \
+					? \
+						__srand_inited__=initstate(time(NULL),__srand_state__,100) \
+					:\
+						NULL \
+				), \
+				random() \
+				)%100<=PERCENTFAIL?0:malloc((__xxx__)))
+		
+		#endif
+
+Now when we run our tests we get variation in the behaviour:
+
+		$ ./broken-malloc 5
+		Malloc 1 succeeded!
+		Malloc 2 succeeded!
+		Malloc 3 succeeded!
+		Malloc 4 failed!
+		Malloc 5 failed!
+		Tests: 5, fails: 2
+		$ ./broken-malloc 5
+		Malloc 1 succeeded!
+		Malloc 2 failed!
+		Malloc 3 succeeded!
+		Malloc 4 failed!
+		Malloc 5 failed!
+		Tests: 5, fails: 3
+
+-------------------------
+
+##Lovely, so are we done?
+
+Well, not quite, if you look back to the ```malloc()``` man page, you'll
+see there are related functions like ```calloc()``` that is a little
+different, and we'd also like to catch those and make 'em randomly
+fail, so we should add a bit more to our header file...
+
+		void *__vxx__;
+		int __tsz__;
+		#define calloc(__sz__,__n__) (	\
+					(__tsz__=(__sz__)*(__n__))? \
+						( (__vxx__=malloc(__tsz__)) ?  \
+							memset(__vxx__,__tsz__,0) \
+						: 0 ) \
+					: 0)
+
+There's also ```realloc()``` but I'll leave that one to you
+as an exercise.
+
+------------------------------
+
+##What's in the Makefile?
+
+Here's the Makefile for all this:
+
+
+		# This is the Makefile for CS2014 bm example
+		
+		# markdown stuff
+		MDCMD=markdown_py 
+		# make sure -f is last
+		MDOPTS=-f
+		
+		# debug version
+		#CC=gcc -g
+		
+		# non-debug version
+		CC=gcc
+		
+		all: broken-malloc html
+		
+		broken-malloc: broken-malloc.c broken-malloc.h
+		
+		html: README.html
+		
+		clean:
+			@rm -f broken-malloc 
+		
+		reallyclean: clean
+			@rm -f README.html
+
+		%.html: %.md
+			$(MDCMD) $(MDOPTS) $(@) $(<) 
+
+
+----------------------------------
+
+##Warning!! broken-malloc.h is hacky!!
+
+You MUST NOT do things like broken-malloc.h in production code.
+It's meant to only be used during testing.
+That can be a bit tricky, as someone might compile their
+code with that included and failures will then occur in the
+real world, and not in a test harness, and that'd be bad.
+It does illustrate some of the goodness and badness of
+C coding though:-)
+
+Can you say what you think is good/bad about broken-malloc.h?
+
+In fact, broken-malloc.h is pretty 20-th Century
+and there are better tools available these days
+that we'll look at later in the course.
+
+------------------------------------
+
+#Conclusion
+
+We've skimmed over a good few things here but will
+go into more of them in detail as the course
+progresses. Those included:
+
+- man pages
+- make and Makefile
+- Editing, compiling and running C programs
+- ```malloc()``` and friends - a bit about memory handling
+- ```rand()``` and friends - a bit about randomness
+- ``argc`` and ```argv``` - command line arguments
+- We should be PARANOID ABOUT INPUT VALUES!
+- Header files and macros (#define)
+- Breaking things in testing
+- Hacky code isn't *always* bad, but mostly is:-)
+
+
 
