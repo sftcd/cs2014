@@ -25,7 +25,7 @@ team on a large codebase (maybe 10^6 LOC) where that code has lots of
 calls to malloc, and we suspected (knew actually:-) that not all bits 
 of calling code checked the return value from malloc.</p>
 <p>The LOC itself:</p>
-<pre><code>    #define malloc(__xxx__) (rand()%100&lt;=PERCENTFAIL?0:malloc((__xxx__)))
+<pre><code>    #define malloc(__xxx__) (rand()%100&lt;=30?0:malloc((__xxx__)))
 </code></pre>
 <p>What does that do?</p>
 <hr />

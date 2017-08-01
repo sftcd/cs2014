@@ -32,7 +32,7 @@ of calling code checked the return value from malloc.
 
 The LOC itself:
 
-		#define malloc(__xxx__) (rand()%100<=PERCENTFAIL?0:malloc((__xxx__)))
+		#define malloc(__xxx__) (rand()%100<=30?0:malloc((__xxx__)))
 
 What does that do?
 
