@@ -1,4 +1,4 @@
-# This is the Makefile for CS2014 Examples
+# This is the Makefile for CS2014 bm example
 
 # markdown stuff
 MDCMD=markdown_py 

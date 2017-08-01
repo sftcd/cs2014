@@ -1,0 +1,15 @@
+<p>This is the directory of examples for <a href="https://down.dsg.cs.tcd.ie/cs2014">CS2014</a>.
+Each subdirectory has a README.md, a bit of related code and a Makefile.</p>
+<ul>
+<li>README.md - this file, in markdown (the source)</li>
+<li>README.html - this file in html (<code>make html</code> to update)</li>
+<li>Makefile - will run make in each subdirectory, has a "make clean" target</li>
+<li><a href="bm/README.html">bm</a> - the "broken malloc" example</li>
+</ul>
+<p>Note-to-self: various markdown/html files here contain the output of the
+<code>'man'</code> command. That should use ascii output (e.g. <code>man -E ascii 3
+rand</code>) and I also need to remember to replace left angle brackets in the
+output with the corresponding HTML entity or they won't display, so the 
+incantation to use is:</p>
+<pre><code>    man -E ascii 3 rand | sed -e 's/&lt;/\&amp;lt/g'
+</code></pre>
