@@ -177,6 +177,7 @@ and to exit saving changes it's: <code>:wq</code></p>
 good thing to ask about in the first lab.</p>
 <p>There are plenty of other editors available on many
 linux systems, from the most basic <code>ed</code> to 
+<code>nano</code> to
 <code>emacs</code> which I think is a bit of a monster. Many
 people though just love and swear by <code>emacs</code>  (for
 too much information about emacs, go <a href="https://www.gnu.org/software/emacs/">here</a>.)
@@ -191,3 +192,87 @@ fact that tool is still there shows up a strength
 of UNIX and GNU/Linux - pretty much no matter what
 scenario you hit, there's a tool that works as well
 as can be expected for that scenario.</p>
+<h2>Piping shell commands...</h2>
+<p>There are loads of commands available to you
+in a typical shell and you might want to use the
+output of one command as the input of another.
+Not surprisingly, that works just fine.</p>
+<p>Let's say you want to count how many files
+exist below your home directory, including
+all sub-directories (like the <code>code</code>
+directory we created a minute ago). Then
+you can use the <code>find</code> and <code>wc</code>
+commands to do that by feeding the output
+of <code>find</code> into <code>wc</code> like this:</p>
+<pre><code>    $ find $HOME -type f  | wc | awk '{print $1}'
+</code></pre>
+<p>The pipe character (<code>|</code>) basically feeds the
+output from the command on the left into the
+subsequent command.</p>
+<p>In the example above, we also tidied up the 
+output using <code>awk</code> which is a bit of a swiss-army
+knife for the shell - it can do nearly anything
+you want.</p>
+<p>Check out the man pages for <code>find</code>, <code>wc</code>,
+and <code>awk</code> for more details, and <a href="https://bash.cyberciti.biz/guide/Pipes">here's</a>
+an introduction to pipes in the shell.</p>
+<p>Another handy thing is to be able to input file
+contents to a shell command or to send the output 
+of a shell command to a file, so if you wanted to
+for some reason record how many files you have
+each time you logged in you could do this:</p>
+<pre><code>    $ find $HOME -type f  | wc | awk '{print $1}' &gt;"howmanyfiles.`date --rfc-3339="date"`"
+</code></pre>
+<p>The greater-than character (<code>&gt;</code>) causes the
+output of the command we ran earlier to be sent
+to a new file.</p>
+<p>Today (August 3rd 2017) that'll create a file called 
+<code>howmanyfiles.2017-08-03</code> that just contains
+the number of files found. (We're sneakily
+using the backquote character (`) there
+to cause the <code>date</code> command to be 
+executed as the file is being created:-)</p>
+<p>It seems a little untidy to create a new file each time
+though, so we can also get the command ouput appended
+to an existing file, and include the number of 
+files and the date on one line of the file. That'd
+look like:</p>
+<pre><code>    $ find $HOME -type f  | wc | awk '{print $1 " " strftime("%Y-%m-%d") }' &gt;&gt;howmanyfiles.txt
+</code></pre>
+<p>That uses <code>awk</code>'s built-in strftime function, and the
+content of the file will end up looking like:</p>
+<pre><code>    $ cat howmanyfiles.txt
+    197 2017-08-03
+    199 2017-08-04
+    202 2017-08-08
+</code></pre>
+<p>(Note that we didn't run the command over the August
+bank-holiday weekend - it is possible to do too much work!)</p>
+<p>To show reading that file as input we can again use <code>awk</code>
+magic to calculate the average number of files as follows:</p>
+<pre><code>    $ cat howmanyfiles.txt | awk '{ sum += $1; n++ } END { if (n &gt; 0) print sum / n; }'
+    199.333
+</code></pre>
+<p>And another way to do that is to use the <code>&lt;</code> character to
+provide the input to the <code>awk</code> command as follows:</p>
+<pre><code>    $ awk '{ sum += $1; n++ } END { if (n &gt; 0) print sum / n; }' &lt;howmanyfiles.txt
+    199.333
+</code></pre>
+<h2>Shell scripting...</h2>
+<p>Now that you have a shell and can enter commands, you'll
+quickly tire of typing the same sets of commands
+over and over. So you'll want to script up sets of
+useful commands into shell scripts that you can run
+in a single command. You'll also of course tend to
+forget the exact syntax for things like that last
+awk command and will type things wrong all the time,
+so putting more complicated shell commands into a
+script is also much more relaiable. </p>
+<p>In fact, you
+can do pretty much any programming using shell scripts
+if you like, it's just a good bit slower to use
+the shell (which forks processes a lot and is
+interpreted and hence slower) than a compiled
+C program. OTOH, shell scripts can be quicker to
+create and small ones can be very handy.</p>
+<p>What problem?</p>

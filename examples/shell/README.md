@@ -213,6 +213,7 @@ good thing to ask about in the first lab.
 
 There are plenty of other editors available on many
 linux systems, from the most basic ```ed``` to 
+```nano``` to
 ```emacs``` which I think is a bit of a monster. Many
 people though just love and swear by ```emacs```  (for
 too much information about emacs, go [here](https://www.gnu.org/software/emacs/).)
@@ -229,5 +230,107 @@ of UNIX and GNU/Linux - pretty much no matter what
 scenario you hit, there's a tool that works as well
 as can be expected for that scenario.
 
+##Piping shell commands...
+
+There are loads of commands available to you
+in a typical shell and you might want to use the
+output of one command as the input of another.
+Not surprisingly, that works just fine.
+
+Let's say you want to count how many files
+exist below your home directory, including
+all sub-directories (like the ```code```
+directory we created a minute ago). Then
+you can use the ```find``` and ```wc```
+commands to do that by feeding the output
+of ```find``` into ```wc``` like this:
+
+		$ find $HOME -type f  | wc | awk '{print $1}'
+
+The pipe character (```|```) basically feeds the
+output from the command on the left into the
+subsequent command.
+
+In the example above, we also tidied up the 
+output using ```awk``` which is a bit of a swiss-army
+knife for the shell - it can do nearly anything
+you want.
+
+Check out the man pages for ```find```, ```wc```,
+and ```awk``` for more details, and [here's](https://bash.cyberciti.biz/guide/Pipes)
+an introduction to pipes in the shell.
+
+Another handy thing is to be able to input file
+contents to a shell command or to send the output 
+of a shell command to a file, so if you wanted to
+for some reason record how many files you have
+each time you logged in you could do this:
+
+		$ find $HOME -type f  | wc | awk '{print $1}' >"howmanyfiles.`date --rfc-3339="date"`"
+
+The greater-than character (```>```) causes the
+output of the command we ran earlier to be sent
+to a new file.
+
+Today (August 3rd 2017) that'll create a file called 
+```howmanyfiles.2017-08-03``` that just contains
+the number of files found. (We're sneakily
+using the backquote character (\`) there
+to cause the ```date``` command to be 
+executed as the file is being created:-)
+
+It seems a little untidy to create a new file each time
+though, so we can also get the command ouput appended
+to an existing file, and include the number of 
+files and the date on one line of the file. That'd
+look like:
+
+		$ find $HOME -type f  | wc | awk '{print $1 " " strftime("%Y-%m-%d") }' >>howmanyfiles.txt
+
+That uses ```awk```'s built-in strftime function, and the
+content of the file will end up looking like:
+
+		$ cat howmanyfiles.txt
+		197 2017-08-03
+		199 2017-08-04
+		202 2017-08-08
+
+(Note that we didn't run the command over the August
+bank-holiday weekend - it is possible to do too much work!)
+
+To show reading that file as input we can again use ```awk```
+magic to calculate the average number of files as follows:
+
+		$ cat howmanyfiles.txt | awk '{ sum += $1; n++ } END { if (n > 0) print sum / n; }'
+		199.333
+
+And another way to do that is to use the ```<``` character to
+provide the input to the ```awk``` command as follows:
+
+		$ awk '{ sum += $1; n++ } END { if (n > 0) print sum / n; }' <howmanyfiles.txt
+		199.333
 
 
+
+
+##Shell scripting...
+
+Now that you have a shell and can enter commands, you'll
+quickly tire of typing the same sets of commands
+over and over. So you'll want to script up sets of
+useful commands into shell scripts that you can run
+in a single command. You'll also of course tend to
+forget the exact syntax for things like that last
+awk command and will type things wrong all the time,
+so putting more complicated shell commands into a
+script is also much more relaiable. 
+
+In fact, you
+can do pretty much any programming using shell scripts
+if you like, it's just a good bit slower to use
+the shell (which forks processes a lot and is
+interpreted and hence slower) than a compiled
+C program. OTOH, shell scripts can be quicker to
+create and small ones can be very handy.
+
+What problem?
