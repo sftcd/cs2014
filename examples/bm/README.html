@@ -411,7 +411,7 @@ file is now <code>broken-malloc</code> instead of <code>a.out</code>:</p>
 <p>With the above LOC, we didn't make any call to <code>srand()</code> so the
 PRNG is always initialised in the same way, and hence always produces
 the same set of random numbers, and hence our pattern of success/fail
-for <code>malloc()</code> calls will be the same, every time we run <code>`broken-malloc</code>.</p>
+for <code>malloc()</code> calls will be the same, every time we run <code>broken-malloc</code>.</p>
 <p>That might sound bad, but can be useful - when testing it is good to
 get the same result from two iterations of the same test, so you
 can debug things more easily. OTOH, sometimes we'd like to have 

@@ -450,7 +450,7 @@ Recall our fun LOC:
 With the above LOC, we didn't make any call to ```srand()``` so the
 PRNG is always initialised in the same way, and hence always produces
 the same set of random numbers, and hence our pattern of success/fail
-for ```malloc()``` calls will be the same, every time we run ```broken-malloc``.
+for ```malloc()``` calls will be the same, every time we run ```broken-malloc```.
 
 That might sound bad, but can be useful - when testing it is good to
 get the same result from two iterations of the same test, so you
