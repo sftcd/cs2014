@@ -64,6 +64,10 @@ You can now use the ```man``` command to get some
 help, or search online for loads of explanations as to
 how to use a shell.
 
+------------------------------------------------------
+
+##Careful now...
+
 You'll also need to be non-dumb of course, as there
 are commands that can delete or break things. (Hopefully
 not too badly in the lab!) The ```rm``` command in
@@ -114,6 +118,9 @@ STRONG PASSWORDS!
 The next thing we want to do is clone the github repository
 for the course and then run the [broken malloc](../bm/README.html)
 example.
+
+
+------------------------------------------------------
 
 ##Clone [this repo](https://github.com/sftcd/cs2014)...
 
@@ -187,6 +194,8 @@ somewhere in the PR I can see it, so's I know who's submitted
 what. (I'll even take typo-fixes, as I'm pretty bad at getting
 rid of all the typos in my text/code;-)
 
+------------------------------------------------------
+
 ##Editing files... probably using ```vi```
 
 In order to play about with the example, you need a way to
@@ -231,7 +240,9 @@ of UNIX and GNU/Linux - pretty much no matter what
 scenario you hit, there's a tool that works as well
 as can be expected for that scenario.
 
-##Piping shell commands...
+------------------------------------------------------
+
+##Piping hot shell commands...
 
 There are loads of commands available to you
 in a typical shell and you might want to use the
@@ -312,9 +323,9 @@ provide the input to the ```awk``` command as follows:
 		199.333
 
 
+------------------------------------------------------
 
-
-##Shell scripting...
+##A little shell scripting...
 
 Now that you have a shell and can enter commands, you'll
 quickly tire of typing the same sets of commands
@@ -391,6 +402,10 @@ then you should see...
 		Between 2017-08-03 and 2017-08-08, there were on average 199.333 files below /home/student100
 		Last I looked (using /home/student100/bin/filecount.sh) the total was 202
 
+------------------------------------------------------
+
+##The path to righteousness (or to binaries)...
+
 When we run a command from the shell, the shell and operating
 system search through the set of directories in the ```$PATH```
 environment variable, to try find the command to run. So if
@@ -424,6 +439,11 @@ shell itself, compared to in a typical GNU/Linux distribution.
 Anyway the last run above shows up a fairly obvious bug in that script that I'd like you
 to tell me about.... What's the bug and the fix?
 
+
+------------------------------------------------------
+
+##Going a bit further...
+
 As further exercises for you: 
 
 - you can change what the script counts, and,
@@ -443,7 +463,9 @@ run, so you could exit without damaging the ```$RECORDFILE``` if
 that's not zero for example), and the whole thing could be a lot
 more robust against corruption of the ```$RECORDFILE```.
 
+------------------------------------------------------
+
 ##A more interesting script...
 
 What problem? Maybe a n/w timing thing, depending on
-what's on the LG12 boxen.
+what's on the LG12 boxen. This is TBD for now.
