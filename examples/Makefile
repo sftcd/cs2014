@@ -7,7 +7,7 @@ MDOPTS=-f
 
 SUBDIRS = $(shell ls -d */)
 
-all:
+all: html
 	@for dir in $(SUBDIRS) ; do \
         make -C  $$dir ; \
 	done

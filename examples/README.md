@@ -7,6 +7,7 @@ Each subdirectory has a README.md, a bit of related code and a Makefile.
 - README.html - this file in html (```make html``` to update)
 - Makefile - will run make in each subdirectory, has a "make clean" target
 - [bm](bm/README.html) - the "broken malloc" example
+- [shell](shell/README.html) - the "shell" example
 
 Note-to-self: various markdown/html files here contain the output of the
 ```'man'``` command. That should use ascii output (e.g. ```man -E ascii 3
