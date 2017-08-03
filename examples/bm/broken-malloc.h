@@ -16,16 +16,21 @@
 	// PRNG initialisation => different behaviour each time 
 	char* __srand_inited__=NULL;
 	char __srand_state__[100];
-	#define malloc(__xxx__) (( \
-		( \
-			(__srand_inited__==NULL) \
-			? \
-				__srand_inited__=initstate(time(NULL),__srand_state__,100) \
-			:\
-				NULL \
-		), \
-		random() \
-		)%100<=PERCENTFAIL?0:malloc((__xxx__)))
+	#define malloc(__xxx__) ( \
+			( \
+				( \
+					(__srand_inited__==NULL) \
+					? \
+					__srand_inited__=initstate(time(NULL),__srand_state__,100) \
+					:\
+					NULL \
+				), \
+				random() \
+			)%100<=PERCENTFAIL \
+				? 0 \
+				: \
+				malloc((__xxx__)) \
+		)
 
 #endif
 
