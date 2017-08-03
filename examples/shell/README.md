@@ -20,6 +20,7 @@ better, i.e. we assume the machines in LG12.
 - README.md - this file in markdown format
 - README.html - this file, in HTML format (```'make html'``` to update that from .md)
 - Makefile - to build the example and HTML (there's a clean target too)
+- filecount.sh - a shell script to count files (see below)
 
 After running ```'make'``` then this file will be produced (if all
 goes well):
@@ -333,4 +334,116 @@ interpreted and hence slower) than a compiled
 C program. OTOH, shell scripts can be quicker to
 create and small ones can be very handy.
 
-What problem?
+Let's imagine you do want to be anal about the 
+number of files below your home directory and how
+the average changes. We can put the commands
+above into a file and then run that each time.
+
+Typically people put scripts like that in a ```bin```
+directory just below their home directory...
+
+		$ mkdir $HOME/bin
+		$ cd $HOME/bin
+		$ vi filecount.sh
+		... edits done here ...
+		$ chmod u+x filecount.sh
+		$ cd $HOME
+		$ $HOME/bin/filecount.sh
+
+The ```chmod``` command sets the file permissions to that the
+owner of the file can execute it.
+
+And let's see what we might put in ```filecount.sh```...
+
+		#!/bin/bash
+		
+		# This counts and records the number of files below $HOME
+		# and reports the current count and average over time.
+		
+		# Where to start counting from...
+		TOP=$HOME
+		
+		# where to keep the records
+		RECORDFILE=howmanyfiles.txt
+		
+		# count the files and record the count and date in a file
+		find $TOP -type f  | wc | awk '{print $1 " " strftime("%Y-%m-%d") }' >>$RECORDFILE
+		
+		# take today's count from last line...
+		lastcount=`tail -1 $RECORDFILE | awk '{print $1}'`
+		# take dates from first and last line...
+		lastdate=`tail -1 $RECORDFILE | awk '{print $2}'`
+		firstdate=`head -1 $RECORDFILE | awk '{print $2}'`
+		
+		# figure out the average
+		average=`cat howmanyfiles.txt | awk '{ sum += $1; n++ } END { if (n > 0) print sum / n; }'`
+		
+		# say what we found
+		echo "Between $firstdate and $lastdate, there were on average $average files below $TOP" 
+		echo "Last I looked (using $0) the total was $lastcount"
+		
+		exit 0
+
+If you run that with the content of ```howmanyfiles.txt``` as per the above
+then you should see...
+
+		$ $HOME/bin/filecount.sh 
+		Between 2017-08-03 and 2017-08-08, there were on average 199.333 files below /home/student100
+		Last I looked (using /home/student100/bin/filecount.sh) the total was 202
+
+When we run a command from the shell, the shell and operating
+system search through the set of directories in the ```$PATH```
+environment variable, to try find the command to run. So if
+you want to run ```find``` for example, then program that
+will usually be run is found in a file called ```/usr/bin/find```
+but we don't have to type the ```/usr/bin/``` part of that
+because the ```$PATH``` variable contains ```/usr/bin```.
+You can look at the ```$PATH``` environment variable just you can
+look at the ```$HOME``` environment variable, and you can
+also add to it, so that scripts in ```$HOME/bin``` can be
+run without having to provide the full pathname of the file.
+So, you might see/do this...
+
+		$ echo $PATH
+		/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+		$ export PATH="/home/student100/bin:$PATH"
+		$ echo $PATH
+		/home/student100/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+		$ cd $HOME/code
+		$ filecount.sh
+		Between 2017-08-08 and 2017-08-08, there were on average 202 files below /home/student100
+		Last I looked (using filecount.sh) the total was 202
+
+Note that there are some shell "built-ins" (e.g. the ```cd``` command) 
+that don't live as files anywhere in the filesystem - see ```man builtins``` for 
+details of those. And if you're using a smaller embedded 
+system based on the popular [busybox](https://www.busybox.net/)
+tool then there may be lots more commands built in to the
+shell itself, compared to in a typical GNU/Linux distribution.
+
+Anyway the last run above shows up a fairly obvious bug in that script that I'd like you
+to tell me about.... What's the bug and the fix?
+
+As further exercises for you: 
+
+- you can change what the script counts, and,
+
+- if you're
+keen try figure out how to run the script every day, say at midnight,
+using ``cron``, or,  
+
+- since I'm not sure if you have permission to use ```cron```
+on the LG12 boxes, you could figure out how to run it
+each time you login, but then you'll need to remove duplicate counts
+one way or another if you log in a bunch of times in one day, and lastly,
+
+- you could also usefully extend this to do error checking (the
+bash variable ```$?``` records the return value of the commands
+run, so you could exit without damaging the ```$RECORDFILE``` if
+that's not zero for example), and the whole thing could be a lot
+more robust against corruption of the ```$RECORDFILE```.
+
+##A more interesting script...
+
+What problem? Maybe a n/w timing thing, depending on
+what's on the LG12 boxen.

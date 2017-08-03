@@ -15,6 +15,7 @@ better, i.e. we assume the machines in LG12.</p>
 <li>README.md - this file in markdown format</li>
 <li>README.html - this file, in HTML format (<code>'make html'</code> to update that from .md)</li>
 <li>Makefile - to build the example and HTML (there's a clean target too)</li>
+<li>filecount.sh - a shell script to count files (see below)</li>
 </ul>
 <p>After running <code>'make'</code> then this file will be produced (if all
 goes well):</p>
@@ -275,4 +276,112 @@ the shell (which forks processes a lot and is
 interpreted and hence slower) than a compiled
 C program. OTOH, shell scripts can be quicker to
 create and small ones can be very handy.</p>
-<p>What problem?</p>
+<p>Let's imagine you do want to be anal about the 
+number of files below your home directory and how
+the average changes. We can put the commands
+above into a file and then run that each time.</p>
+<p>Typically people put scripts like that in a <code>bin</code>
+directory just below their home directory...</p>
+<pre><code>    $ mkdir $HOME/bin
+    $ cd $HOME/bin
+    $ vi filecount.sh
+    ... edits done here ...
+    $ chmod u+x filecount.sh
+    $ cd $HOME
+    $ $HOME/bin/filecount.sh
+</code></pre>
+<p>The <code>chmod</code> command sets the file permissions to that the
+owner of the file can execute it.</p>
+<p>And let's see what we might put in <code>filecount.sh</code>...</p>
+<pre><code>    #!/bin/bash
+
+    # This counts and records the number of files below $HOME
+    # and reports the current count and average over time.
+
+    # Where to start counting from...
+    TOP=$HOME
+
+    # where to keep the records
+    RECORDFILE=howmanyfiles.txt
+
+    # count the files and record the count and date in a file
+    find $TOP -type f  | wc | awk '{print $1 " " strftime("%Y-%m-%d") }' &gt;&gt;$RECORDFILE
+
+    # take today's count from last line...
+    lastcount=`tail -1 $RECORDFILE | awk '{print $1}'`
+    # take dates from first and last line...
+    lastdate=`tail -1 $RECORDFILE | awk '{print $2}'`
+    firstdate=`head -1 $RECORDFILE | awk '{print $2}'`
+
+    # figure out the average
+    average=`cat howmanyfiles.txt | awk '{ sum += $1; n++ } END { if (n &gt; 0) print sum / n; }'`
+
+    # say what we found
+    echo "Between $firstdate and $lastdate, there were on average $average files below $TOP" 
+    echo "Last I looked (using $0) the total was $lastcount"
+
+    exit 0
+</code></pre>
+<p>If you run that with the content of <code>howmanyfiles.txt</code> as per the above
+then you should see...</p>
+<pre><code>    $ $HOME/bin/filecount.sh 
+    Between 2017-08-03 and 2017-08-08, there were on average 199.333 files below /home/student100
+    Last I looked (using /home/student100/bin/filecount.sh) the total was 202
+</code></pre>
+<p>When we run a command from the shell, the shell and operating
+system search through the set of directories in the <code>$PATH</code>
+environment variable, to try find the command to run. So if
+you want to run <code>find</code> for example, then program that
+will usually be run is found in a file called <code>/usr/bin/find</code>
+but we don't have to type the <code>/usr/bin/</code> part of that
+because the <code>$PATH</code> variable contains <code>/usr/bin</code>.
+You can look at the <code>$PATH</code> environment variable just you can
+look at the <code>$HOME</code> environment variable, and you can
+also add to it, so that scripts in <code>$HOME/bin</code> can be
+run without having to provide the full pathname of the file.
+So, you might see/do this...</p>
+<pre><code>    $ echo $PATH
+    /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+    $ export PATH="/home/student100/bin:$PATH"
+    $ echo $PATH
+    /home/student100/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+    $ cd $HOME/code
+    $ filecount.sh
+    Between 2017-08-08 and 2017-08-08, there were on average 202 files below /home/student100
+    Last I looked (using filecount.sh) the total was 202
+</code></pre>
+<p>Note that there are some shell "built-ins" (e.g. the <code>cd</code> command) 
+that don't live as files anywhere in the filesystem - see <code>man builtins</code> for 
+details of those. And if you're using a smaller embedded 
+system based on the popular <a href="https://www.busybox.net/">busybox</a>
+tool then there may be lots more commands built in to the
+shell itself, compared to in a typical GNU/Linux distribution.</p>
+<p>Anyway the last run above shows up a fairly obvious bug in that script that I'd like you
+to tell me about.... What's the bug and the fix?</p>
+<p>As further exercises for you: </p>
+<ul>
+<li>
+<p>you can change what the script counts, and,</p>
+</li>
+<li>
+<p>if you're
+keen try figure out how to run the script every day, say at midnight,
+using <code>cron</code>, or,  </p>
+</li>
+<li>
+<p>since I'm not sure if you have permission to use <code>cron</code>
+on the LG12 boxes, you could figure out how to run it
+each time you login, but then you'll need to remove duplicate counts
+one way or another if you log in a bunch of times in one day, and lastly,</p>
+</li>
+<li>
+<p>you could also usefully extend this to do error checking (the
+bash variable <code>$?</code> records the return value of the commands
+run, so you could exit without damaging the <code>$RECORDFILE</code> if
+that's not zero for example), and the whole thing could be a lot
+more robust against corruption of the <code>$RECORDFILE</code>.</p>
+</li>
+</ul>
+<h2>A more interesting script...</h2>
+<p>What problem? Maybe a n/w timing thing, depending on
+what's on the LG12 boxen.</p>
