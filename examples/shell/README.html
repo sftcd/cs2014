@@ -98,7 +98,7 @@ directory below my home directory so...</p>
 <pre><code>    student100:~$ mkdir code    
     student100:~$ cd code
 </code></pre>
-<p>Anothe abbreviation for $HOME is the tilda character (<code>~</code>) which 
+<p>Another abbreviation for $HOME is the tilda character (<code>~</code>) which 
 is why that may be part of the prompt depending on
 your preferences. So, if you're logged in as student100, the following names for that
 <code>code</code> directory are equivalent:</p>
@@ -110,7 +110,15 @@ your preferences. So, if you're logged in as student100, the following names for
 and <code>~/code</code> will refer to <code>/home/student666/code/</code> instead.</p>
 <p>Now you want to get a copy of this repository:</p>
 <pre><code>    student100:~/code$ git clone https://github.com/sftcd/cs2014.git
+    Cloning into 'cs2014'...
+    remote: Counting objects: 139, done.
+    remote: Compressing objects: 100% (89/89), done.
+    remote: Total 139 (delta 73), reused 111 (delta 48), pack-reused 0
+    Receiving objects: 100% (139/139), 714.98 KiB | 587.00 KiB/s, done.
+    Resolving deltas: 100% (73/73), done.
 </code></pre>
+<p>The output you see will differ from the above as I'll have modified
+the repo by then.</p>
 <p>And now you can go build and run the first <code>`broken-malloc</code>
 example:</p>
 <pre><code>    student100:~/code$ cd cs2014/examples/bm
@@ -142,9 +150,9 @@ plan.
 If you manage to make it better (or interestingly different),
 and you have a github.com account,
 then feel free to submit a <a href="https://help.github.com/articles/about-pull-requests/">pull-request</a> (PR) and if it's good I'll
-accept that and maybe use it another year. (Put your name
+accept that and maybe use it another year. Put your name
 somewhere in the PR I can see it, so's I know who's submitted
-what. I'll even take typo-fixes, as I'm pretty bad at getting
+what. (I'll even take typo-fixes, as I'm pretty bad at getting
 rid of all the typos in my text/code;-)</p>
 <h2>Editing files... probably using <code>vi</code></h2>
 <p>In order to play about with the example, you need a way to
@@ -171,9 +179,9 @@ good thing to ask about in the first lab.</p>
 linux systems, from the most basic <code>ed</code> to 
 <code>emacs</code> which I think is a bit of a monster. Many
 people though just love and swear by <code>emacs</code>  (for
-too much information about emacs, go <a href="https://www.gnu.org/software/emacs/">here</a>.
+too much information about emacs, go <a href="https://www.gnu.org/software/emacs/">here</a>.)
 In any case, 
-try them out and see which you find most comfortable.</p>
+try out various editors if you like and see which you find most comfortable.</p>
 <p>BTW, <code>ed</code> is something I've not used in 
 many years, and you'll only likely need to use it
 if editing a file over a gigantically crappy network

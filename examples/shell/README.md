@@ -122,7 +122,7 @@ directory below my home directory so...
 		student100:~$ mkdir code	
 		student100:~$ cd code	
 
-Anothe abbreviation for $HOME is the tilda character (```~```) which 
+Another abbreviation for $HOME is the tilda character (```~```) which 
 is why that may be part of the prompt depending on
 your preferences. So, if you're logged in as student100, the following names for that
 ```code``` directory are equivalent:
@@ -137,6 +137,15 @@ and ```~/code``` will refer to ```/home/student666/code/``` instead.
 Now you want to get a copy of this repository:
 
 		student100:~/code$ git clone https://github.com/sftcd/cs2014.git
+		Cloning into 'cs2014'...
+		remote: Counting objects: 139, done.
+		remote: Compressing objects: 100% (89/89), done.
+		remote: Total 139 (delta 73), reused 111 (delta 48), pack-reused 0
+		Receiving objects: 100% (139/139), 714.98 KiB | 587.00 KiB/s, done.
+		Resolving deltas: 100% (73/73), done.
+
+The output you see will differ from the above as I'll have modified
+the repo by then.
 
 And now you can go build and run the first ```broken-malloc``
 example:
@@ -172,9 +181,9 @@ plan.
 If you manage to make it better (or interestingly different),
 and you have a github.com account,
 then feel free to submit a [pull-request](https://help.github.com/articles/about-pull-requests/) (PR) and if it's good I'll
-accept that and maybe use it another year. (Put your name
+accept that and maybe use it another year. Put your name
 somewhere in the PR I can see it, so's I know who's submitted
-what. I'll even take typo-fixes, as I'm pretty bad at getting
+what. (I'll even take typo-fixes, as I'm pretty bad at getting
 rid of all the typos in my text/code;-)
 
 ##Editing files... probably using ```vi```
@@ -206,9 +215,9 @@ There are plenty of other editors available on many
 linux systems, from the most basic ```ed``` to 
 ```emacs``` which I think is a bit of a monster. Many
 people though just love and swear by ```emacs```  (for
-too much information about emacs, go [here](https://www.gnu.org/software/emacs/).
+too much information about emacs, go [here](https://www.gnu.org/software/emacs/).)
 In any case, 
-try them out and see which you find most comfortable.
+try out various editors if you like and see which you find most comfortable.
 
 BTW, ```ed``` is something I've not used in 
 many years, and you'll only likely need to use it
