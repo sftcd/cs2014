@@ -255,7 +255,7 @@ magic to calculate the average number of files as follows:</p>
 </code></pre>
 <p>And another way to do that is to use the <code>&lt;</code> character to
 provide the input to the <code>awk</code> command as follows:</p>
-<pre><code>    $ awk '{ sum += $1; n++ } END { if (n &gt; 0) print sum / n; }' &lt;howmanyfiles.txt
+<pre><code>    $ awk '{ sum += $1; n++ } END { if (n &gt; 0) print sum / n; }' &lt; howmanyfiles.txt
     199.333
 </code></pre>
 <h2>Shell scripting...</h2>
@@ -267,7 +267,7 @@ in a single command. You'll also of course tend to
 forget the exact syntax for things like that last
 awk command and will type things wrong all the time,
 so putting more complicated shell commands into a
-script is also much more relaiable. </p>
+script is also much more reliable. </p>
 <p>In fact, you
 can do pretty much any programming using shell scripts
 if you like, it's just a good bit slower to use
