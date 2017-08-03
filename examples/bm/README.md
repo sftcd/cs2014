@@ -1,5 +1,5 @@
 
-#Random Memory Allocaion Failure for Fun and Profit
+#Random Memory Allocation Failure for Fun and Profit
 
 This is an example from my course on systems 
 programming (<a href="https://down.dsg.cs.tcd.ie/cs2014">CS2014</a>),
