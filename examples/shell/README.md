@@ -21,6 +21,7 @@ better, i.e. we assume the machines in LG12.
 - README.html - this file, in HTML format (```'make html'``` to update that from .md)
 - Makefile - to build the example and HTML (there's a clean target too)
 - filecount.sh - a shell script to count files (see below)
+- chkpwned.sh - a shell script to check if a password is on a (BIG) list of hashes
 
 After running ```'make'``` then this file will be produced (if all
 goes well):
@@ -462,6 +463,105 @@ bash variable ```$?``` records the return value of the commands
 run, so you could exit without damaging the ```$RECORDFILE``` if
 that's not zero for example), and the whole thing could be a lot
 more robust against corruption of the ```$RECORDFILE```.
+
+
+------------------------------------------------------
+
+##A password hashing example
+
+This example isn't that interesting but is timely, as I knocked up
+this script while preparing the course...
+
+On 20170803 Troy Hunt [published](https://haveibeenpwned.com/Passwords) the 
+sha1 hashes of a set of 320 million
+unique passwords he's been collecting from hacked web site leaks over
+the last few years. While I'd previously never used his online checking
+service (sending a password hash over the network to who knows where? Yuk!),
+I was happy to download the 6GB of compressed hashes (expands to 12GB on
+disk) so I could check for what passwords might be in the leaked set.
+
+Anyway here's the script I knocked up for that:
+
+
+		#!/bin/bash
+
+		# A v. basic script to check if (the hash of) a password is present
+		# in the list of passwords previously leaked.
+		# The list of 320 million hashes has been released (20170804) from
+		# https://haveibeenpwned.com/Passwords for research purposes.
+
+
+		# initial list has 306 million entries
+		LIST=$HOME/data/pwned-passwords-1.0.txt
+		# update has another 14M, apparently with mixed-case variations
+		# that got missed when assembling the 306M list
+		UPDATE1=$HOME/data/pwned-passwords-update-1.txt
+
+		if [[ ! -f $LIST || ! -f $UPDATE1 ]]
+		then
+			echo "Sorry, you need the lists, nothing to check for now"
+			exit 1
+		fi
+
+
+		# If you do put a pwd on the command line, it'll be visible to
+		# ps, for about 30 seconds, so that's a bad plan:-)
+		if [[ $1 != "" ]]
+		then
+			PWD=$1
+		else
+			# Read Password without it being visible to system for a long time
+			echo -n Password: 
+			read -s PWD
+			echo
+			#PWD="password"
+			#echo "checking $PWD"
+		fi
+
+		# note that the password is visible here briefly, FIXME
+		hash=`echo -n $PWD  | openssl sha1 | awk '{print $2}' | awk 'BEGIN { getline; print toupper($0) }'`
+		# maybe don't display this?
+		echo "Hash is $hash"
+
+		# There has to be a quicker way, but 30s isn't that bad
+		count1=`grep -c $hash $LIST`
+		count2=`grep -c $hash $UPDATE1`
+
+		count=$((count1+count2))
+
+		echo "Found $count occurrences in $LIST and $UPDATE1"
+
+		exit 0
+
+That takes around 30 seconds to run on my laptop. The files with
+the lists are just simply one upper-case sha-1 hash per line, so...
+
+
+		$ head ~/data/pwned-passwords-1.0.txt
+		000000005AD76BD555C1D6D771DE417A4B87E4B4
+		00000000A8DAE4228F821FB418F59826079BF368
+		00000000DD7F2A1C68A35673713783CA390C9E93
+		00000001E225B908BAC31C56DB04D892E47536E0
+		00000008CD1806EB7B9B46A8F87690B2AC16F617
+		0000000A0E3B9F25FF41DE4B5AC238C2D545C7A8
+		0000000A1D4B746FAA3FD526FF6D5BC8052FDB38
+		0000000CAEF405439D57847A8657218C618160B2
+		0000000FC1C08E6454BED24F463EA2129E254D43
+		00000010F4B38525354491E099EB1796278544B1
+		... 320 million more...
+
+
+Possible improvements:
+
+- Ditch the ```$1``` stuff, dangerous!
+
+- Don't expose the ```$PWD``` on the command line (from ```echo```)
+  even if only monentarily
+
+- Make it faster! Lots of scope for playing there.
+
+As I said, that script isn't that interesting but happened to be
+timely, so I added it here.
 
 ------------------------------------------------------
 
