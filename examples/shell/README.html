@@ -398,7 +398,7 @@ more robust against corruption of the <code>$RECORDFILE</code>.</p>
 <p>This example isn't that interesting but is timely, as I knocked up
 this script while preparing the course...</p>
 <p>On 20170803 Troy Hunt <a href="https://haveibeenpwned.com/Passwords">published</a> the 
-sha1 hashes of a set of 320 million
+sha-1 hashes of a set of 320 million
 unique passwords he's been collecting from hacked web site leaks over
 the last few years. While I'd previously never used his online checking
 service (sending a password hash over the network to who knows where? Yuk!),
@@ -484,7 +484,9 @@ the lists are just simply one upper-case sha-1 hash per line, so...</p>
 </li>
 </ul>
 <p>As I said, that script isn't that interesting but happened to be
-timely, so I added it here.</p>
+timely, so I added it here. One question for you though - any idea
+why I chose the <code>-c</code> argument to grep? Answers on a postcard
+please:-)</p>
 <hr />
 <h2>A more interesting script...</h2>
 <p>What problem? Maybe a n/w timing thing, depending on

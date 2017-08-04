@@ -473,7 +473,7 @@ This example isn't that interesting but is timely, as I knocked up
 this script while preparing the course...
 
 On 20170803 Troy Hunt [published](https://haveibeenpwned.com/Passwords) the 
-sha1 hashes of a set of 320 million
+sha-1 hashes of a set of 320 million
 unique passwords he's been collecting from hacked web site leaks over
 the last few years. While I'd previously never used his online checking
 service (sending a password hash over the network to who knows where? Yuk!),
@@ -561,7 +561,9 @@ Possible improvements:
 - Make it faster! Lots of scope for playing there.
 
 As I said, that script isn't that interesting but happened to be
-timely, so I added it here.
+timely, so I added it here. One question for you though - any idea
+why I chose the ```-c``` argument to grep? Answers on a postcard
+please:-)
 
 ------------------------------------------------------
 
