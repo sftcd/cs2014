@@ -32,6 +32,7 @@ And here's the code:
 		int main()
 		{
 			printf("Hello World!\n");
+			return(0);
 		}
 
 Let's go through it line-by-line since there are so few lines...
@@ -44,7 +45,7 @@ file extension, and ```make``` and Makefiles know how to handle that. (More
 on ```make``` in a bit.)
 
 The C preprocessor is basically a program run before compilation that 
-expands macros/preprocessor directives and then feeds the resulting
+eat comments and expands macros/preprocessor directives and then feeds the resulting
 expanded code into the compiler.
 Note that the C preprocessor isn't really part of the C language and
 could be used for other things.
@@ -61,6 +62,7 @@ The main preprocessor directives we want learn to use properly in this course ar
 		#include
 		#define
 		#ifdef 	
+		#ifndef 	
 		#else 
 		#endif 
 
@@ -70,7 +72,6 @@ angle-brackets ```<>``` say to to look for that file in the standard known
 places where the operating system keeps standard header files. In this
 case, ```stdio.h``` is probably going to be in the ```/usr/include```
 directory but that varies from system to system. 
-
 [Here's](stdio.h) a local copy of that from my system we can look at.
 
 If you wanted to write and include your own header file, say called
@@ -93,12 +94,101 @@ if you're using multiple object files in a single executable,
 or if you're building a library - more on both of those later
 in the course.
 
-GOT HERE
+Anyway, on we go...
 
 		int main()
 		{
-			printf("Hello World!\n");
+			...
 		}
 
+Every C program needs a ```main()``` function, which as you'd
+expect is what gets called when you execute the program that
+the compiler produced from your source code. The braces ```{}```
+mark the start and end of that function.
 
+There are various *prototypes* for the ```main()``` function,
+and which you use depends on whether or not you need to provide
+input to ```main()``` (from the command line), so you could
+see any of these:
+
+		// the one we used 
+		int main();
+		// same meaning, just being explicit that no input is expected
+		int main(void);
 		
+		// a common form when command line arguments are to be processed
+		int main(int argc, char **argv);
+		// identical to the previous one
+		int main(int argc, char *argv[]);
+
+There are some others, and some system-specific extensions but
+the above are the most portable forms that are most commonly used.
+
+In our case, we're saying that no comand line arguments will be
+processed, and that the ```main()``` function will return an
+integer, which can be used by the operating system to check if
+how the executable exited, e.g. with success or failure.
+Note that we can still provide arguments on the command line
+but they'll just be ignored:
+
+		$ ./hw
+		Hello World!
+		$ ./hw ignored arguments are pointless
+		Hello World!
+		$
+
+And on we go...
+		
+The body of our one and only function has two statements,
+the first being...
+
+			printf("Hello World!\n");
+
+This is the meat of the program (slim pickings, eh!) and calls
+the standard ```printf()``` function with one argument, that
+is the string we want to print. Note that the ```\n``` there
+means "add a new line when printing."
+
+And finally, since we said ```main()``` would return an 
+integer result we better do that to be nice and tidy:
+
+			return(0);
+
+If you want to check the return value then the ```bash``
+variable ```$?``` will display the result the the last
+run command returned, so...
+
+		$ ./hw
+		Hello World!
+		$ echo $?
+		0
+		$
+
+So if we wanted a different return value, we could edit
+```hw.c``` to return 22 so:
+
+		$ cat hw.c
+		#include <stdio.h>
+		
+		int main()
+		{
+			printf("Hello World!\n");
+			return(22);
+		}
+		$ make
+		gcc     hw.c   -o hw
+		$ ./hw
+		Hello World!
+		$ echo $?
+		22
+		$
+
+
+Note that the return value here is only an 8-bit value though, so ```$?```
+will be whatever was provided to the ```return()``` call modulo 256.
+
+## Next Example
+
+TBD, should tee-up assignment#1
+		
+

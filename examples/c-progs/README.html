@@ -26,6 +26,7 @@ some history, if you're interested.</p>
     int main()
     {
         printf("Hello World!\n");
+        return(0);
     }
 </code></pre>
 <p>Let's go through it line-by-line since there are so few lines...</p>
@@ -36,7 +37,7 @@ header file. 'C' header files are traditionally (and usefully) use the <code>.h<
 file extension, and <code>make</code> and Makefiles know how to handle that. (More
 on <code>make</code> in a bit.)</p>
 <p>The C preprocessor is basically a program run before compilation that 
-expands macros/preprocessor directives and then feeds the resulting
+eat comments and expands macros/preprocessor directives and then feeds the resulting
 expanded code into the compiler.
 Note that the C preprocessor isn't really part of the C language and
 could be used for other things.
@@ -51,6 +52,7 @@ page is maybe more officially better, but not particularly readable.</p>
 <pre><code>    #include
     #define
     #ifdef  
+    #ifndef     
     #else 
     #endif
 </code></pre>
@@ -59,8 +61,8 @@ says to replace that line with the contents of the file <code>stdio.h</code>. Th
 angle-brackets <code>&lt;&gt;</code> say to to look for that file in the standard known
 places where the operating system keeps standard header files. In this
 case, <code>stdio.h</code> is probably going to be in the <code>/usr/include</code>
-directory but that varies from system to system. </p>
-<p><a href="stdio.h">Here's</a> a local copy of that from my system we can look at.</p>
+directory but that varies from system to system. 
+<a href="stdio.h">Here's</a> a local copy of that from my system we can look at.</p>
 <p>If you wanted to write and include your own header file, say called
 <code>myownheaderfile.h</code> then you'd probably have that in the same
 directory as <code>hw.c</code> and would use quote characters instead of
@@ -78,9 +80,85 @@ you keep those, and stick with the angle brackets. That helps
 if you're using multiple object files in a single executable,
 or if you're building a library - more on both of those later
 in the course.</p>
-<p>GOT HERE</p>
+<p>Anyway, on we go...</p>
 <pre><code>    int main()
     {
-        printf("Hello World!\n");
+        ...
     }
 </code></pre>
+<p>Every C program needs a <code>main()</code> function, which as you'd
+expect is what gets called when you execute the program that
+the compiler produced from your source code. The braces <code>{}</code>
+mark the start and end of that function.</p>
+<p>There are various <em>prototypes</em> for the <code>main()</code> function,
+and which you use depends on whether or not you need to provide
+input to <code>main()</code> (from the command line), so you could
+see any of these:</p>
+<pre><code>    // the one we used 
+    int main();
+    // same meaning, just being explicit that no input is expected
+    int main(void);
+
+    // a common form when command line arguments are to be processed
+    int main(int argc, char **argv);
+    // identical to the previous one
+    int main(int argc, char *argv[]);
+</code></pre>
+<p>There are some others, and some system-specific extensions but
+the above are the most portable forms that are most commonly used.</p>
+<p>In our case, we're saying that no comand line arguments will be
+processed, and that the <code>main()</code> function will return an
+integer, which can be used by the operating system to check if
+how the executable exited, e.g. with success or failure.
+Note that we can still provide arguments on the command line
+but they'll just be ignored:</p>
+<pre><code>    $ ./hw
+    Hello World!
+    $ ./hw ignored arguments are pointless
+    Hello World!
+    $
+</code></pre>
+<p>And on we go...</p>
+<p>The body of our one and only function has two statements,
+the first being...</p>
+<pre><code>        printf("Hello World!\n");
+</code></pre>
+<p>This is the meat of the program (slim pickings, eh!) and calls
+the standard <code>printf()</code> function with one argument, that
+is the string we want to print. Note that the <code>\n</code> there
+means "add a new line when printing."</p>
+<p>And finally, since we said <code>main()</code> would return an 
+integer result we better do that to be nice and tidy:</p>
+<pre><code>        return(0);
+</code></pre>
+<p>If you want to check the return value then the <code>bash``
+variable</code>$?``` will display the result the the last
+run command returned, so...</p>
+<pre><code>    $ ./hw
+    Hello World!
+    $ echo $?
+    0
+    $
+</code></pre>
+<p>So if we wanted a different return value, we could edit
+<code>hw.c</code> to return 22 so:</p>
+<pre><code>    $ cat hw.c
+    #include &lt;stdio.h&gt;
+
+    int main()
+    {
+        printf("Hello World!\n");
+        return(22);
+    }
+    $ make
+    gcc     hw.c   -o hw
+    $ ./hw
+    Hello World!
+    $ echo $?
+    22
+    $
+</code></pre>
+<p>Note that the return value here is only an 8-bit value though, so <code>$?</code>
+will be whatever was provided to the <code>return()</code> call modulo 256.</p>
+<h2>Next Example</h2>
+<p>TBD, should tee-up assignment#1</p>
