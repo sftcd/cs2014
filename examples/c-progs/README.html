@@ -8,11 +8,79 @@ the canonical URL for this is
 <li>README.md - this file in markdown format</li>
 <li>README.html - this file, in HTML format (<code>'make html'</code> to update that from .md)</li>
 <li>Makefile - to build the example and HTML (there's a clean target too)</li>
-<li>hw.c - a version of hellow world</li>
+<li><a href="hw.c">hw.c</a> - a version of hellow world</li>
+<li><a href="stdio.h">stdio.h</a> - a copy of the most standard header file</li>
 </ul>
 <p>After running <code>'make'</code> then this file will be produced (if all
 goes well):</p>
 <ul>
 <li>hw - the hello world binary</li>
 </ul>
-<h2>More TBD</h2>
+<h2>Hello World</h2>
+<p><a href="hw.c">This</a> is the canonical first C program pretty much everyone
+has written for decades. (<a href="https://www.thesoftwareguild.com/blog/the-history-of-hello-world/">Here's</a>
+some history, if you're interested.</p>
+<p>And here's the code:</p>
+<pre><code>    #include &lt;stdio.h&gt;
+
+    int main()
+    {
+        printf("Hello World!\n");
+    }
+</code></pre>
+<p>Let's go through it line-by-line since there are so few lines...</p>
+<pre><code>    #include &lt;stdio.h&gt;
+</code></pre>
+<p>The C preprocessor command <code>#include</code> says to add in the content of a
+header file. 'C' header files are traditionally (and usefully) use the <code>.h</code>
+file extension, and <code>make</code> and Makefiles know how to handle that. (More
+on <code>make</code> in a bit.)</p>
+<p>The C preprocessor is basically a program run before compilation that 
+expands macros/preprocessor directives and then feeds the resulting
+expanded code into the compiler.
+Note that the C preprocessor isn't really part of the C language and
+could be used for other things.
+Most C preprocessor commands start with a <code>#</code> character, and we already
+saw the <code>#define</code> command in our earlier <a href="../bm/README.html">broken malloc</a> 
+example. Since the <a href="https://en.wikipedia.org/wiki/C_preprocessor">Wikipedia page</a>
+for this is plenty good enough for our purposes, we'll head over there for
+more on preprocessor directives. (And hope nobody's crapped on the page
+in the meantime:-) The <a href="https://gcc.gnu.org/onlinedocs/gcc-2.95.3/cpp_1.html">GNU</a>
+page is maybe more officially better, but not particularly readable.</p>
+<p>The main preprocessor directives we want learn to use properly in this course are:</p>
+<pre><code>    #include
+    #define
+    #ifdef  
+    #else 
+    #endif
+</code></pre>
+<p>We'll explain those as we come to them. In this case <code>#include &lt;stdio.h&gt;</code>
+says to replace that line with the contents of the file <code>stdio.h</code>. The
+angle-brackets <code>&lt;&gt;</code> say to to look for that file in the standard known
+places where the operating system keeps standard header files. In this
+case, <code>stdio.h</code> is probably going to be in the <code>/usr/include</code>
+directory but that varies from system to system. </p>
+<p><a href="stdio.h">Here's</a> a local copy of that from my system we can look at.</p>
+<p>If you wanted to write and include your own header file, say called
+<code>myownheaderfile.h</code> then you'd probably have that in the same
+directory as <code>hw.c</code> and would use quote characters instead of
+angle brackets to signal the preprocessor to look in the current
+directory like this:</p>
+<pre><code>    #include "myownheaderfile.h"
+</code></pre>
+<p>Note that, in contrast to C language statements we don't end the
+preprocessor directives with a semi-colon (since the preprocessor
+directive ins't a C language statement). </p>
+<p>Using quotes like that isn't really great practice in a bigger
+project though, it's mostly better to extend the standard 
+search path for header files to include the directories where
+you keep those, and stick with the angle brackets. That helps
+if you're using multiple object files in a single executable,
+or if you're building a library - more on both of those later
+in the course.</p>
+<p>GOT HERE</p>
+<pre><code>    int main()
+    {
+        printf("Hello World!\n");
+    }
+</code></pre>
