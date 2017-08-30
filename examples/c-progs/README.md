@@ -16,9 +16,10 @@ the canonical URL for this is
 - [rndbytes-borked.c](rndbytes-borked.c) - a broken version of the above 
 - [stdio.h](stdio.h) - a copy of the most standard header file
 
-After running ```'make'``` then this file will be produced (if all
+After running ```'make'``` then these files will be produced (if all
 goes well):
 
+- README.html - the html version of README.md
 - hw - the hello world binary
 - rndbytes - the rndbytes binary
 - rndbytes-borked - guess what?
