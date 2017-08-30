@@ -20,6 +20,8 @@ After running ```'make'``` then this file will be produced (if all
 goes well):
 
 - hw - the hello world binary
+- rndbytes - the rndbytes binary
+- rndbytes-borked - guess what?
 
 ##Hello World
 
