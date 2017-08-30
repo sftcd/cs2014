@@ -10,7 +10,7 @@ the canonical URL for this is
 
 - README.md - this file in markdown format
 - README.html - this file, in HTML format (```'make html'``` to update that from .md)
-- Makefile - to build the example and HTML (there's a clean target too)
+- [Makefile](Makefile) - to build the example and HTML (there's a clean target too)
 - [hw.c](hw.c) - a version of hellow world
 - [rndbytes.c](rndbytes.c) - a program to print bytes from ```/dev/random```
 - [rndbytes-borked.c](rndbytes-borked.c) - a broken version of the above 
