@@ -425,7 +425,7 @@ and is below...
 			return(0);
 		}
 
-Reminder to self: show using ``gdb``` with that to break at the
+Reminder to self: show using ```gdb``` with that to break at the
 call to ```rndbyte()``` and using ```p/x``` with ```s``` and
 ```byte``` locals so we can see what's up with the hex values.
 
