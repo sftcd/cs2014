@@ -6,17 +6,17 @@ MDCMD=markdown_py
 MDOPTS=-f
 
 # debug version
-#CC=gcc -g
+CC=gcc -g
 
 # non-debug version
-CC=gcc
+#CC=gcc
 
-all: html hw
+all: html hw rndbytes rndbytes-borked
 
 html: README.html
 
 clean:
-	@rm -f a.out hw
+	@rm -f a.out hw rndbytes rndbytes-borked
 
 reallyclean: clean
 	@rm -f README.html

@@ -187,8 +187,244 @@ So if we wanted a different return value, we could edit
 Note that the return value here is only an 8-bit value though, so ```$?```
 will be whatever was provided to the ```return()``` call modulo 256.
 
-## Next Example
+## An example with a bug
 
-TBD, should tee-up assignment#1
+We'll want to learn about [Debugging](http://courses.cms.caltech.edu/cs24/Debugging-1.pdf),
+and use [GDB and valgrind](http://courses.cms.caltech.edu/cs24/Debugging-2.pdf) in a
+while. (Those are from a [caltech course](http://courses.cms.caltech.edu/cs24/) which
+seems pretty good, but has more than we need, and are used with permission - at least
+I hope I get permission:-) 
+
+So let's look at another example, but this time one that'll crash.
+
+This example is intended to print out some random numbers. Unlike last time,
+we want to use ```/dev/random``` as our source of randomness because we will
+shortly use those randoms as a cryptographic key. (```rand()``` and buddies
+aren't really good enough for that.)
+
+Here's the code from [rndbytes-borked.c](rndbytes-borked.c) ... what's wrong with it?
+
+
+		/* 
+		 * Copyright (c) 2017 stephen.farrell@cs.tcd.ie
+		 * 
+		 * Permission is hereby granted, free of charge, to any person obtaining a copy
+		 * of this software and associated documentation files (the "Software"), to deal
+		 * in the Software without restriction, including without limitation the rights
+		 * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+		 * copies of the Software, and to permit persons to whom the Software is
+		 * furnished to do so, subject to the following conditions:
+		 * 
+		 * The above copyright notice and this permission notice shall be included in
+		 * all copies or substantial portions of the Software.
+		 * 
+		 * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+		 * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+		 * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+		 * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+		 * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+		 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+		 * THE SOFTWARE.
+		 *
+		 */
+
+		// usual includes
+		#include <stdio.h>
+		#include <stdlib.h>
+
+		// needed for getting access to /dev/random
+		#include <unistd.h>
+		#include <sys/syscall.h>
+		#include <linux/random.h>
+
+		// the most we wanna print
+		#define LIMIT 65536
+
+		void usage(char *progname)
+		{
+			fprintf(stderr,"Print some random numbers from /dev/random.\n");
+			fprintf(stderr,"Options:\n");
+			fprintf(stderr,"\t%s <number> where number is the number of bytes to print [Default: 10, min: 0, max: %d]\n",progname,LIMIT);
+			exit(-1);
+		}
+
+		unsigned char rndbyte()
+		{
+			unsigned long int s;
+			syscall(SYS_getrandom, &s, sizeof(unsigned long int), 0);
+			unsigned char byte=(s>>16)%256;
+			return(byte);
+		}
+
+		int main(int argc,char *argv[])
+		{
+			int number;
+
+			if (argc!=2) {
+				number=atoi(argv[1]);
+				if (number<=0) {
+					fprintf(stderr,"%d too small\n",number);
+					usage(argv[0]);
+				}
+				if (number>LIMIT) {
+					fprintf(stderr,"%d too big\n",number);
+					usage(argv[0]);
+				}
+			}
+
+
+			for (int i=0;i!=number;i++) {
+				unsigned char byte=rndbyte();
+				printf("rnd%d: %02x\n",i,byte);
+			}
+
+			return(0);
+		}
+
+So let's try build that:
+
+		$ make rndbytes-borked
+		gcc -g     rndbytes-borked.c   -o rndbytes-borked
 		
+And now let's crash it:
+
+		$./rndbytes-borked 
+		Segmentation fault (core dumped)
+
+Yuk! It crashed! Let's debug...
+		
+		gdb rndbytes-borked 
+		GNU gdb (Ubuntu 7.12.50.20170314-0ubuntu1.1) 7.12.50.20170314-git
+		Copyright (C) 2017 Free Software Foundation, Inc.
+		License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+		This is free software: you are free to change and redistribute it.
+		There is NO WARRANTY, to the extent permitted by law.  Type "show copying"
+		and "show warranty" for details.
+		This GDB was configured as "x86_64-linux-gnu".
+		Type "show configuration" for configuration details.
+		For bug reporting instructions, please see:
+		<http://www.gnu.org/software/gdb/bugs/>.
+		Find the GDB manual and other documentation resources online at:
+		<http://www.gnu.org/software/gdb/documentation/>.
+		For help, type "help".
+		Type "apropos word" to search for commands related to "word"...
+		Reading symbols from rndbytes-borked...done.
+		(gdb) r
+		Starting program: /home/stephen/Documents/tcd-other/cs2014/examples/c-progs/rndbytes-borked 
+		
+		Program received signal SIGSEGV, Segmentation fault.
+		__GI_____strtol_l_internal (nptr=0x0, endptr=endptr@entry=0x0, base=base@entry=10, group=group@entry=0, loc=0x7ffff7dd2400 <_nl_global_locale>)
+		    at ../stdlib/strtol_l.c:293
+		293	../stdlib/strtol_l.c: No such file or directory.
+		(gdb) bt
+		#0  __GI_____strtol_l_internal (nptr=0x0, endptr=endptr@entry=0x0, base=base@entry=10, group=group@entry=0, loc=0x7ffff7dd2400 <_nl_global_locale>)
+		    at ../stdlib/strtol_l.c:293
+		#1  0x00007ffff7a4b642 in __strtol (nptr=<optimized out>, endptr=endptr@entry=0x0, base=base@entry=10) at ../stdlib/strtol.c:106
+		#2  0x00007ffff7a471e0 in atoi (nptr=<optimized out>) at atoi.c:27
+		#3  0x000055555555497e in main (argc=1, argv=0x7fffffffdeb8) at rndbytes-borked.c:58
+		(gdb) f 3
+		#3  0x000055555555497e in main (argc=1, argv=0x7fffffffdeb8) at rndbytes-borked.c:58
+		58			number=atoi(argv[1]);
+		(gdb) l
+		53	int main(int argc,char *argv[])
+		54	{
+		55		int number;
+		56	
+		57		if (argc!=2) {
+		58			number=atoi(argv[1]);
+		59			if (number<=0) {
+		60				fprintf(stderr,"%d too small\n",number);
+		61				usage(argv[0]);
+		62			}
+		(gdb) 
+		
+A version of that that works as planned is in [rndbytes.c](rndbytes.c)
+and is below...
+
+
+
+		/* 
+		 * Copyright (c) 2017 stephen.farrell@cs.tcd.ie
+		 * 
+		 * Permission is hereby granted, free of charge, to any person obtaining a copy
+		 * of this software and associated documentation files (the "Software"), to deal
+		 * in the Software without restriction, including without limitation the rights
+		 * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+		 * copies of the Software, and to permit persons to whom the Software is
+		 * furnished to do so, subject to the following conditions:
+		 * 
+		 * The above copyright notice and this permission notice shall be included in
+		 * all copies or substantial portions of the Software.
+		 * 
+		 * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+		 * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+		 * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+		 * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+		 * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+		 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+		 * THE SOFTWARE.
+		 *
+		 */
+
+		// usual includes
+		#include <stdio.h>
+		#include <stdlib.h>
+
+		// needed for getting access to /dev/random
+		#include <unistd.h>
+		#include <sys/syscall.h>
+		#include <linux/random.h>
+
+		// the most we wanna print
+		#define LIMIT 65536
+
+		void usage(char *progname)
+		{
+			fprintf(stderr,"Print some random numbers from /dev/random.\n");
+			fprintf(stderr,"Options:\n");
+			fprintf(stderr,"\t%s <number> where number is the number of bytes to print [Default: 10, min: 0, max: %d]\n",progname,LIMIT);
+			exit(-1);
+		}
+
+		unsigned char rndbyte()
+		{
+			unsigned long int s;
+			syscall(SYS_getrandom, &s, sizeof(unsigned long int), 0);
+			unsigned char byte=(s>>16)%256;
+			return(byte);
+		}
+
+		int main(int argc,char *argv[])
+		{
+			int number=10;
+
+			if (argc==2) {
+				int newnumber=atoi(argv[1]);
+				if (newnumber<=0) {
+					fprintf(stderr,"%d too small\n",newnumber);
+					usage(argv[0]);
+				}
+				if (newnumber>LIMIT) {
+					fprintf(stderr,"%d too big\n",newnumber);
+					usage(argv[0]);
+				}
+				number=newnumber;
+			}
+
+
+			for (int i=0;i!=number;i++) {
+				unsigned char byte=rndbyte();
+				printf("rnd%d: %02x\n",i,byte);
+			}
+
+			return(0);
+		}
+
+Reminder to self: show using ``gdb``` with that to break at the
+call to ```rndbyte()``` and using ```p/x``` with ```s``` and
+```byte``` locals so we can see what's up with the hex values.
+
+## Next... Assignment#1
+
+Surprise text to be added here.
 
