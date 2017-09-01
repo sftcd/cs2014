@@ -1,0 +1,394 @@
+<h1>C Program Examples#1</h1>
+<p>These are some C program examples from my course on systems 
+programming (<a href="https://down.dsg.cs.tcd.ie/cs2014">CS2014</a>),
+the canonical URL for this is 
+<a href="https://down.dsg.cs.tcd.ie/cs2014/examples/c-progs-1/README.html">here</a>.</p>
+<h2>Files in this example:</h2>
+<ul>
+<li>README.md - this file in markdown format</li>
+<li>README.html - this file, in HTML format (<code>'make html'</code> to update that from .md)</li>
+<li><a href="Makefile">Makefile</a> - to build the example and HTML (there's a clean target too)</li>
+<li><a href="stdio.h">stdio.h</a> - a copy of the most standard header file</li>
+<li><a href="hw.c">hw.c</a> - a version of hellow world</li>
+<li><a href="rndbytes-borked.c">rndbytes-borked.c</a> - a broken version of...</li>
+<li><a href="rndbytes.c">rndbytes.c</a> - a program to print bytes from <code>/dev/random</code></li>
+</ul>
+<p>After running <code>'make'</code> then these files will be produced (if all
+goes well):</p>
+<ul>
+<li>README.html - the html version of README.md</li>
+<li>hw - the hello world binary</li>
+<li>rndbytes - the rndbytes binary</li>
+<li>rndbytes-borked - guess what?</li>
+</ul>
+<h2>Hello World</h2>
+<p><a href="hw.c">This</a> is the canonical first C program pretty much everyone
+has written for decades. (<a href="https://www.thesoftwareguild.com/blog/the-history-of-hello-world/">Here's</a>
+some history, if you're interested.</p>
+<p>And here's the code:</p>
+<pre><code>    #include &lt;stdio.h&gt;
+
+    int main()
+    {
+        printf("Hello World!\n");
+        return(0);
+    }
+</code></pre>
+<p>Let's go through it line-by-line since there are so few lines...</p>
+<pre><code>    #include &lt;stdio.h&gt;
+</code></pre>
+<p>The C preprocessor command <code>#include</code> says to add in the content of a
+header file. 'C' header files are traditionally (and usefully) use the <code>.h</code>
+file extension, and <code>make</code> and Makefiles know how to handle that. (More
+on <code>make</code> in a bit.)</p>
+<p>The C preprocessor is basically a program run before compilation that 
+eat comments and expands macros/preprocessor directives and then feeds the resulting
+expanded code into the compiler.
+Note that the C preprocessor isn't really part of the C language and
+could be used for other things.
+Most C preprocessor commands start with a <code>#</code> character, and we already
+saw the <code>#define</code> command in our earlier <a href="../bm/README.html">broken malloc</a> 
+example. Since the <a href="https://en.wikipedia.org/wiki/C_preprocessor">Wikipedia page</a>
+for this is plenty good enough for our purposes, we'll head over there for
+more on preprocessor directives. (And hope nobody's crapped on the page
+in the meantime:-) The <a href="https://gcc.gnu.org/onlinedocs/gcc-2.95.3/cpp_1.html">GNU</a>
+page is maybe more officially better, but not particularly readable.</p>
+<p>The main preprocessor directives we want learn to use properly in this course are:</p>
+<pre><code>    #include
+    #define
+    #ifdef  
+    #ifndef     
+    #else 
+    #endif
+</code></pre>
+<p>We'll explain those as we come to them. In this case <code>#include &lt;stdio.h&gt;</code>
+says to replace that line with the contents of the file <code>stdio.h</code>. The
+angle-brackets <code>&lt;&gt;</code> say to to look for that file in the standard known
+places where the operating system keeps standard header files. In this
+case, <code>stdio.h</code> is probably going to be in the <code>/usr/include</code>
+directory but that varies from system to system. 
+<a href="stdio.h">Here's</a> a local copy of that from my system we can look at.</p>
+<p>If you wanted to write and include your own header file, say called
+<code>myownheaderfile.h</code> then you'd probably have that in the same
+directory as <code>hw.c</code> and would use quote characters instead of
+angle brackets to signal the preprocessor to look in the current
+directory like this:</p>
+<pre><code>    #include "myownheaderfile.h"
+</code></pre>
+<p>Note that, in contrast to C language statements we don't end the
+preprocessor directives with a semi-colon (since the preprocessor
+directive ins't a C language statement). </p>
+<p>Using quotes like that isn't really great practice in a bigger
+project though, it's mostly better to extend the standard 
+search path for header files to include the directories where
+you keep those, and stick with the angle brackets. That helps
+if you're using multiple object files in a single executable,
+or if you're building a library - more on both of those later
+in the course.</p>
+<p>Anyway, on we go...</p>
+<pre><code>    int main()
+    {
+        ...
+    }
+</code></pre>
+<p>Every C program needs a <code>main()</code> function, which as you'd
+expect is what gets called when you execute the program that
+the compiler produced from your source code. The braces <code>{}</code>
+mark the start and end of that function.</p>
+<p>There are various <em>prototypes</em> for the <code>main()</code> function,
+and which you use depends on whether or not you need to provide
+input to <code>main()</code> (from the command line), so you could
+see any of these:</p>
+<pre><code>    // the one we used 
+    int main();
+    // same meaning, just being explicit that no input is expected
+    int main(void);
+
+    // a common form when command line arguments are to be processed
+    int main(int argc, char **argv);
+    // identical to the previous one
+    int main(int argc, char *argv[]);
+</code></pre>
+<p>There are some others, and some system-specific extensions but
+the above are the most portable forms that are most commonly used.</p>
+<p>In our case, we're saying that no comand line arguments will be
+processed, and that the <code>main()</code> function will return an
+integer, which can be used by the operating system to check if
+how the executable exited, e.g. with success or failure.
+Note that we can still provide arguments on the command line
+but they'll just be ignored:</p>
+<pre><code>    $ ./hw
+    Hello World!
+    $ ./hw ignored arguments are pointless
+    Hello World!
+    $
+</code></pre>
+<p>And on we go...</p>
+<p>The body of our one and only function has two statements,
+the first being...</p>
+<pre><code>        printf("Hello World!\n");
+</code></pre>
+<p>This is the meat of the program (slim pickings, eh!) and calls
+the standard <code>printf()</code> function with one argument, that
+is the string we want to print. Note that the <code>\n</code> there
+means "add a new line when printing."</p>
+<p>And finally, since we said <code>main()</code> would return an 
+integer result we better do that to be nice and tidy:</p>
+<pre><code>        return(0);
+</code></pre>
+<p>If you want to check the return value then the <code>bash``
+variable</code>$?``` will display the result the the last
+run command returned, so...</p>
+<pre><code>    $ ./hw
+    Hello World!
+    $ echo $?
+    0
+    $
+</code></pre>
+<p>So if we wanted a different return value, we could edit
+<code>hw.c</code> to return 22 so:</p>
+<pre><code>    $ cat hw.c
+    #include &lt;stdio.h&gt;
+
+    int main()
+    {
+        printf("Hello World!\n");
+        return(22);
+    }
+    $ make
+    gcc     hw.c   -o hw
+    $ ./hw
+    Hello World!
+    $ echo $?
+    22
+    $
+</code></pre>
+<p>Note that the return value here is only an 8-bit value though, so <code>$?</code>
+will be whatever was provided to the <code>return()</code> call modulo 256.</p>
+<h2>An example with a bug</h2>
+<p>We'll want to learn about <a href="http://courses.cms.caltech.edu/cs24/Debugging-1.pdf">Debugging</a>,
+and use <a href="http://courses.cms.caltech.edu/cs24/Debugging-2.pdf">GDB and valgrind</a> in a
+while. (Those are from a <a href="http://courses.cms.caltech.edu/cs24/">caltech course</a> which
+seems pretty good, but has more than we need, and are used with permission - at least
+I hope I get permission:-) </p>
+<p>So let's look at another example, but this time one that'll crash.</p>
+<p>This example is intended to print out some random numbers. Unlike last time,
+we want to use <code>/dev/random</code> as our source of randomness because we will
+shortly use those randoms as a cryptographic key. (<code>rand()</code> and buddies
+aren't really good enough for that.)</p>
+<p>Here's the code from <a href="rndbytes-borked.c">rndbytes-borked.c</a> ... what's wrong with it?</p>
+<pre><code>    /* 
+     * Copyright (c) 2017 stephen.farrell@cs.tcd.ie
+     * 
+     * Permission is hereby granted, free of charge, to any person obtaining a copy
+     * of this software and associated documentation files (the "Software"), to deal
+     * in the Software without restriction, including without limitation the rights
+     * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+     * copies of the Software, and to permit persons to whom the Software is
+     * furnished to do so, subject to the following conditions:
+     * 
+     * The above copyright notice and this permission notice shall be included in
+     * all copies or substantial portions of the Software.
+     * 
+     * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+     * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+     * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+     * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+     * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+     * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+     * THE SOFTWARE.
+     *
+     */
+
+    // usual includes
+    #include &lt;stdio.h&gt;
+    #include &lt;stdlib.h&gt;
+
+    // needed for getting access to /dev/random
+    #include &lt;unistd.h&gt;
+    #include &lt;sys/syscall.h&gt;
+    #include &lt;linux/random.h&gt;
+
+    // the most we wanna print
+    #define LIMIT 65536
+
+    void usage(char *progname)
+    {
+        fprintf(stderr,"Print some random numbers from /dev/random.\n");
+        fprintf(stderr,"Options:\n");
+        fprintf(stderr,"\t%s &lt;number&gt; where number is the number of bytes to print [Default: 10, min: 0, max: %d]\n",progname,LIMIT);
+        exit(-1);
+    }
+
+    unsigned char rndbyte()
+    {
+        unsigned long int s;
+        syscall(SYS_getrandom, &amp;s, sizeof(unsigned long int), 0);
+        unsigned char byte=(s&gt;&gt;16)%256;
+        return(byte);
+    }
+
+    int main(int argc,char *argv[])
+    {
+        int number;
+
+        if (argc!=2) {
+            number=atoi(argv[1]);
+            if (number&lt;=0) {
+                fprintf(stderr,"%d too small\n",number);
+                usage(argv[0]);
+            }
+            if (number&gt;LIMIT) {
+                fprintf(stderr,"%d too big\n",number);
+                usage(argv[0]);
+            }
+        }
+
+
+        for (int i=0;i!=number;i++) {
+            unsigned char byte=rndbyte();
+            printf("rnd%d: %02x\n",i,byte);
+        }
+
+        return(0);
+    }
+</code></pre>
+<p>So let's try build that:</p>
+<pre><code>    $ make rndbytes-borked
+    gcc -g     rndbytes-borked.c   -o rndbytes-borked
+</code></pre>
+<p>And now let's crash it:</p>
+<pre><code>    $./rndbytes-borked 
+    Segmentation fault (core dumped)
+</code></pre>
+<p>Yuk! It crashed! Let's debug...</p>
+<pre><code>    gdb rndbytes-borked 
+    GNU gdb (Ubuntu 7.12.50.20170314-0ubuntu1.1) 7.12.50.20170314-git
+    Copyright (C) 2017 Free Software Foundation, Inc.
+    License GPLv3+: GNU GPL version 3 or later &lt;http://gnu.org/licenses/gpl.html&gt;
+    This is free software: you are free to change and redistribute it.
+    There is NO WARRANTY, to the extent permitted by law.  Type "show copying"
+    and "show warranty" for details.
+    This GDB was configured as "x86_64-linux-gnu".
+    Type "show configuration" for configuration details.
+    For bug reporting instructions, please see:
+    &lt;http://www.gnu.org/software/gdb/bugs/&gt;.
+    Find the GDB manual and other documentation resources online at:
+    &lt;http://www.gnu.org/software/gdb/documentation/&gt;.
+    For help, type "help".
+    Type "apropos word" to search for commands related to "word"...
+    Reading symbols from rndbytes-borked...done.
+    (gdb) r
+    Starting program: /home/stephen/Documents/tcd-other/cs2014/examples/c-progs-1/rndbytes-borked
+
+    Program received signal SIGSEGV, Segmentation fault.
+    __GI_____strtol_l_internal (nptr=0x0, endptr=endptr@entry=0x0, base=base@entry=10, group=group@entry=0, loc=0x7ffff7dd2400 &lt;_nl_global_locale&gt;)
+        at ../stdlib/strtol_l.c:293
+    293 ../stdlib/strtol_l.c: No such file or directory.
+    (gdb) bt
+    #0  __GI_____strtol_l_internal (nptr=0x0, endptr=endptr@entry=0x0, base=base@entry=10, group=group@entry=0, loc=0x7ffff7dd2400 &lt;_nl_global_locale&gt;)
+        at ../stdlib/strtol_l.c:293
+    #1  0x00007ffff7a4b642 in __strtol (nptr=&lt;optimized out&gt;, endptr=endptr@entry=0x0, base=base@entry=10) at ../stdlib/strtol.c:106
+    #2  0x00007ffff7a471e0 in atoi (nptr=&lt;optimized out&gt;) at atoi.c:27
+    #3  0x000055555555497e in main (argc=1, argv=0x7fffffffdeb8) at rndbytes-borked.c:58
+    (gdb) f 3
+    #3  0x000055555555497e in main (argc=1, argv=0x7fffffffdeb8) at rndbytes-borked.c:58
+    58          number=atoi(argv[1]);
+    (gdb) l
+    53  int main(int argc,char *argv[])
+    54  {
+    55      int number;
+    56  
+    57      if (argc!=2) {
+    58          number=atoi(argv[1]);
+    59          if (number&lt;=0) {
+    60              fprintf(stderr,"%d too small\n",number);
+    61              usage(argv[0]);
+    62          }
+    (gdb)
+</code></pre>
+<p>A version of that that works as planned is in <a href="rndbytes.c">rndbytes.c</a>
+and is below...</p>
+<pre><code>    /* 
+     * Copyright (c) 2017 stephen.farrell@cs.tcd.ie
+     * 
+     * Permission is hereby granted, free of charge, to any person obtaining a copy
+     * of this software and associated documentation files (the "Software"), to deal
+     * in the Software without restriction, including without limitation the rights
+     * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+     * copies of the Software, and to permit persons to whom the Software is
+     * furnished to do so, subject to the following conditions:
+     * 
+     * The above copyright notice and this permission notice shall be included in
+     * all copies or substantial portions of the Software.
+     * 
+     * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+     * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+     * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+     * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+     * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+     * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+     * THE SOFTWARE.
+     *
+     */
+
+    // usual includes
+    #include &lt;stdio.h&gt;
+    #include &lt;stdlib.h&gt;
+
+    // needed for getting access to /dev/random
+    #include &lt;unistd.h&gt;
+    #include &lt;sys/syscall.h&gt;
+    #include &lt;linux/random.h&gt;
+
+    // the most we wanna print
+    #define LIMIT 65536
+
+    void usage(char *progname)
+    {
+        fprintf(stderr,"Print some random numbers from /dev/random.\n");
+        fprintf(stderr,"Options:\n");
+        fprintf(stderr,"\t%s &lt;number&gt; where number is the number of bytes to print [Default: 10, min: 0, max: %d]\n",progname,LIMIT);
+        exit(-1);
+    }
+
+    unsigned char rndbyte()
+    {
+        unsigned long int s;
+        syscall(SYS_getrandom, &amp;s, sizeof(unsigned long int), 0);
+        unsigned char byte=(s&gt;&gt;16)%256;
+        return(byte);
+    }
+
+    int main(int argc,char *argv[])
+    {
+        int number=10;
+
+        if (argc==2) {
+            int newnumber=atoi(argv[1]);
+            if (newnumber&lt;=0) {
+                fprintf(stderr,"%d too small\n",newnumber);
+                usage(argv[0]);
+            }
+            if (newnumber&gt;LIMIT) {
+                fprintf(stderr,"%d too big\n",newnumber);
+                usage(argv[0]);
+            }
+            number=newnumber;
+        }
+
+
+        for (int i=0;i!=number;i++) {
+            unsigned char byte=rndbyte();
+            printf("rnd%d: %02x\n",i,byte);
+        }
+
+        return(0);
+    }
+</code></pre>
+<p>Reminder to self: show using <code>gdb</code> with that to break at the
+call to <code>rndbyte()</code> and using <code>p/x</code> with <code>s</code> and
+<code>byte</code> locals so we can see what's up with the hex values.</p>
+<h2>Next... Assignment#1</h2>
+<p>Details of this will be <a href="../assignments/assignment1/README.html">here</a> at
+the appropriate time.</p>
