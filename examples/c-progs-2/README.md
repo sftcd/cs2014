@@ -19,7 +19,6 @@ After running ```'make'``` then these files will be produced (if all
 goes well):
 
 - README.html - the html version of README.md
-- hw - the hello world binary
 - rndbytes.o - the rndbytes object
 - rbtest - the rndbytes test program
 
