@@ -11,6 +11,8 @@ the canonical URL for this is
 - README.md - this file in markdown format
 - README.html - this file, in HTML format (```'make html'``` to update that from .md)
 - [Makefile](Makefile) - to build the example and HTML (there's a clean target too)
+- [refman.pdf](refman.pdf) - doxygen automated documentation from javadoc comments
+- [rnd-dox](rnd-dox) - doxygen config file
 - [rndbytes.c](rndbytes.c) - a couple of wee utility fuctions to get stuff from ```/dev/random```
 - [rndbytes.h](rndbytes.h) - header for those functions
 - [rbtest.c](rbtest.c) - ```main()``` that calls functions from ```rndbytes.h```
@@ -125,7 +127,7 @@ The significant part of the Makefile is below...
 			$(MDCMD) $(MDOPTS) $(@) $(<) 
 
 
-## Built-in documentation
+## Documentation/Comments and all that...
 
 There are varying opinions as to whether and how to best document
 your code. Those vary from "don't include any comments" to schemes
@@ -163,21 +165,25 @@ is sufficient.
 - Adding comments, but especially keeping comments up to date, 
 takes time, and you probably won't have that much time (or will 
 get bored), so having too many comments does have negative 
-consequences.
+consequences. In the worst case, if code is changed but
+comments aren't then comments might be misleading.
 
 - There are cases where some fragment of code is just complex
-or non-obvious and really needs a comment to explain what's
-going on.
+or non-obvious and really needs some documentation to explain what's
+going on. In-line code comments can be a good way to do that,
+as you will see those when you look at the code, but might
+not see any other artefact. (Unless comments have been 
+stripped.)
 
-- Making your code as "self-documenting" as you can is probably
-good. Choose meaningful names for functions and variables, but
-it's also ok to just use ```foo``` or ```i```.  
-
-- Don't be an asshole.
+- Making your code as "self-documenting" as you can is good. 
+Choose meaningful names for functions and variables, but
+it's also ok to just use ```foo``` or ```i```. Do consider
+what someone reading your code might think, as you 
+write (and re-factor) your code.
 
 The overall goal should be to make your code something that can
-be understood, fixed or refactored by you or someone else, possibly in many 
-years time.
+be understood, fixed or refactored by you or someone else, 
+possibly in many years time.
 
 
 

@@ -8,6 +8,8 @@ the canonical URL for this is
 <li>README.md - this file in markdown format</li>
 <li>README.html - this file, in HTML format (<code>'make html'</code> to update that from .md)</li>
 <li><a href="Makefile">Makefile</a> - to build the example and HTML (there's a clean target too)</li>
+<li><a href="refman.pdf">refman.pdf</a> - doxygen automated documentation from javadoc comments</li>
+<li><a href="rnd-dox">rnd-dox</a> - doxygen config file</li>
 <li><a href="rndbytes.c">rndbytes.c</a> - a couple of wee utility fuctions to get stuff from <code>/dev/random</code></li>
 <li><a href="rndbytes.h">rndbytes.h</a> - header for those functions</li>
 <li><a href="rbtest.c">rbtest.c</a> - <code>main()</code> that calls functions from <code>rndbytes.h</code></li>
@@ -115,7 +117,7 @@ things that we'll talk about in class:</p>
     %.html: %.md
         $(MDCMD) $(MDOPTS) $(@) $(&lt;)
 </code></pre>
-<h2>Built-in documentation</h2>
+<h2>Documentation/Comments and all that...</h2>
 <p>There are varying opinions as to whether and how to best document
 your code. Those vary from "don't include any comments" to schemes
 for generating code from "documentation." [refs needed]</p>
@@ -156,22 +158,25 @@ is sufficient.</p>
 <p>Adding comments, but especially keeping comments up to date, 
 takes time, and you probably won't have that much time (or will 
 get bored), so having too many comments does have negative 
-consequences.</p>
+consequences. In the worst case, if code is changed but
+comments aren't then comments might be misleading.</p>
 </li>
 <li>
 <p>There are cases where some fragment of code is just complex
-or non-obvious and really needs a comment to explain what's
-going on.</p>
+or non-obvious and really needs some documentation to explain what's
+going on. In-line code comments can be a good way to do that,
+as you will see those when you look at the code, but might
+not see any other artefact. (Unless comments have been 
+stripped.)</p>
 </li>
 <li>
-<p>Making your code as "self-documenting" as you can is probably
-good. Choose meaningful names for functions and variables, but
-it's also ok to just use <code>foo</code> or <code>i</code>.  </p>
-</li>
-<li>
-<p>Don't be an asshole.</p>
+<p>Making your code as "self-documenting" as you can is good. 
+Choose meaningful names for functions and variables, but
+it's also ok to just use <code>foo</code> or <code>i</code>. Do consider
+what someone reading your code might think, as you 
+write (and re-factor) your code.</p>
 </li>
 </ul>
 <p>The overall goal should be to make your code something that can
-be understood, fixed or refactored by you or someone else, possibly in many 
-years time.</p>
+be understood, fixed or refactored by you or someone else, 
+possibly in many years time.</p>
