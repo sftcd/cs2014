@@ -131,4 +131,54 @@ There are varying opinions as to whether and how to best document
 your code. Those vary from "don't include any comments" to schemes
 for generating code from "documentation." [refs needed]
 
+A lot of the "debate" on this topic seems pertty badly justified
+to me, and more like a whole load of opinion. However, there are
+some aspects of documentation on which I think a lot of people
+would agree:
+
+- In most development environments, you will in any case have to
+follow the local coding style, so you won't get to choose, until
+you're the one writing the coding style (which takes us beyond this
+course:-). In other words, usually there's no point in worrying
+about this as you'll have no choice.
+
+- Adding [Javadoc](https://www.stack.nl/~dimitri/doxygen/manual/docblocks.html) 
+style comments to APIs is a fine thing. Those do make it easier
+to understand an API, and also force you to think a bit more when
+creating an API, and automatically produced documentation is a
+fine thing, since it saves you time. 
+
+- ```usage()``` and help options for command line tools are good, 
+as is a man page, if you might want your tool to be adopted
+by e.g. some Linux distro. If it's just a local tool and not aiming
+to be part of an open-source distro, then you can probably skip 
+the man page.
+
+- You will inevitably need to leave TODO: and FIXME: breadcrumbs,
+for yourself or later developers. Those are good things if they
+help someone to later debug a problem! But it's clearly a bad
+practice to just leave your code incomplete and think a FIXME:
+is sufficient.
+
+- Adding comments, but especially keeping comments up to date, 
+takes time, and you probably won't have that much time (or will 
+get bored), so having too many comments does have negative 
+consequences.
+
+- There are cases where some fragment of code is just complex
+or non-obvious and really needs a comment to explain what's
+going on.
+
+- Making your code as "self-documenting" as you can is probably
+good. Choose meaningful names for functions and variables, but
+it's also ok to just use ```foo``` or ```i```.  
+
+- Don't be an asshole.
+
+The overall goal should be to make your code something that can
+be understood, fixed or refactored by you or someone else, possibly in many 
+years time.
+
+
+
 
