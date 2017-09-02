@@ -1,3 +1,10 @@
+/*!
+ * @file rndbytes.c
+ * @brief This is the implementation of the external i/f for the rndbytes example
+ * 
+ * This is part of CS2014
+ *    https://down.dsg.cs.tcd.ie/cs2014/examples/c-progs-2/README.html
+ */
 /* 
  * Copyright (c) 2017 stephen.farrell@cs.tcd.ie
  * 
