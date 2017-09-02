@@ -17,13 +17,23 @@ rbtest: rbtest.c rndbytes.o rndbytes.h
 
 rndbytes.o: rndbytes.c rndbytes.h
 
+doc: rbtest rnd-dox latex/refman.pdf
+	doxygen rnd-dox
+
+latex/refman.pdf:
+	cd latex;make
+
+rnd-dox:
+	doxygen -g rnd-dox
+
 html: README.html
 
 clean:
 	@rm -f rbtest rndbytes.o 
+	@rm -rf latex html
 
 reallyclean: clean
-	@rm -f README.html
+	@rm -f README.html rnd-dox 
 
 %.html: %.md
 	$(MDCMD) $(MDOPTS) $(@) $(<) 

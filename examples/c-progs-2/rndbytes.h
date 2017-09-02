@@ -1,3 +1,11 @@
+/*!
+ * @file rndbytes.h
+ * @brief This is the external i/f for the rndbytes example
+ * 
+ * This is part of CS2014
+ *    https://down.dsg.cs.tcd.ie/cs2014/examples/c-progs-2/README.html
+ */
+
 /* 
  * Copyright (c) 2017 stephen.farrell@cs.tcd.ie
  * 
@@ -21,22 +29,23 @@
  *
  */
 
-/* 
- * @brief: produce a random byte
- * @param: none
- * @return: the random byte
+/*!
+ * @brief produce a random byte
+ * @return the random byte
  *
  * Get me a random byte from /dev/random 
+ *
  */
 unsigned char rndbyte();
 
-/* 
- * @brief: fill a buffer with random bytes
- * @param: buf, an allocated buffer of at least the required size 
- * @param: buflen, the number of random bytes to insert into the buffer
- * @return: zero for success, nonzero for error
+/*!
+ * @brief fill a buffer with random bytes
+ * @param buf an allocated buffer of at least the required size 
+ * @param buflen the number of random bytes to insert into the buffer
+ * @return zero for success, nonzero for error
  *
  * Fill me buffer with randoms.
+ *
  */
 int rndbytes(unsigned char* buf,int buflen);
 

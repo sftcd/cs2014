@@ -19,10 +19,17 @@ After running ```'make'``` then these files will be produced (if all
 goes well):
 
 - README.html - the html version of README.md
-- rndbytes.o - the rndbytes object
+- rndbytes.o - the rndbytes object file
 - rbtest - the rndbytes test program
 
 ##A More Structured ```rndbytes.c``` setup
 
-Text here shortly:-)
+This iteration of the ```rndbytes``` example demonstrates a bunch of 
+things that we'll talk about in class:
 
+- Making a header file
+- Object files
+- One issue about efficiency
+- Documentation (doxygen, not sure how relevant, but leads to useful thoughts)
+- Coding styles such as [Mozilla's](https://developer.mozilla.org/en-US/docs/Mozilla/Developer_guide/Coding_Style)
+- Performance (running ```time c-prog-2/rbtest 60000``` vs. ```time c-prog-1/rndbytes 60000```) 
