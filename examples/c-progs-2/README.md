@@ -185,6 +185,11 @@ The overall goal should be to make your code something that can
 be understood, fixed or refactored by you or someone else, 
 possibly in many years time.
 
+While Javascript code is often minimised (to save transmission
+and speed up download) there aren't that often equivalent 
+benefits for systems programming code where maintainability
+is often more important.
+
 
 
 
