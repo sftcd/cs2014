@@ -68,5 +68,7 @@ int main(int argc,char *argv[])
 		printf("rnd%d: %02x\n",i,buf[i]);
 	}
 
+	free(buf);
+
 	return(0);
 }

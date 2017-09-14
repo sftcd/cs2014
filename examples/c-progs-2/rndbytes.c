@@ -32,6 +32,7 @@
 #include <unistd.h>
 #include <sys/syscall.h>
 #include <linux/random.h>
+#include "rndbytes.h"
 
 /// TODO: check if conditional compile needed as per: https://stackoverflow.com/questions/30800331/getrandom-syscall-in-c-not-found
 

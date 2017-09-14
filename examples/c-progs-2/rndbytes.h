@@ -29,6 +29,9 @@
  *
  */
 
+#ifndef RNDBYTES_H_INCLUDED
+#define RNDBYTES_H_INCLUDED
+
 /*!
  * @brief produce a random byte
  * @return the random byte
@@ -48,4 +51,6 @@ unsigned char rndbyte();
  *
  */
 int rndbytes(unsigned char* buf,int buflen);
+
+#endif
 

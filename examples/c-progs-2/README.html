@@ -31,7 +31,13 @@ things that we'll talk about in class:</p>
 <li>Coding styles such as <a href="https://developer.mozilla.org/en-US/docs/Mozilla/Developer_guide/Coding_Style">Mozilla's</a></li>
 <li>Performance (running <code>time c-prog-2/rbtest 60000</code> vs. <code>time c-prog-1/rndbytes 60000</code>) </li>
 </ul>
-<h2>Header file</h2>
+<h2>The header file or the API prototypes</h2>
+<p>Today, the term <a href="https://en.wikipedia.org/wiki/Application_programming_interface">Application Progamming
+Interface</a>
+(API) is a bit ambiguous as to whether we're talking about the kind of API in
+question here, or a web API that one accesses over the Internet via HTTPS. For
+this course we mean the former, except as otherwise stated. Normally,
+that'd be the reverse.</p>
 <p>Here's the source:</p>
 <pre><code>    /*!
      * @file rndbytes.h
@@ -64,6 +70,9 @@ things that we'll talk about in class:</p>
      *
      */
 
+    #ifndef RNDBYTES_H_INCLUDED
+    #define RNDBYTES_H_INCLUDED
+
     /*!
      * @brief produce a random byte
      * @return the random byte
@@ -83,11 +92,17 @@ things that we'll talk about in class:</p>
      *
      */
     int rndbytes(unsigned char* buf,int buflen);
+
+    #endif
 </code></pre>
-<p>Noteworthy:
-- doxygen header @ top and before function prototypes
-- function prototypes, one we've seen and one we've not 
-- memory management of <code>buf</code> parameter of <code>rndbytes</code></p>
+<p>Noteworthy things:</p>
+<ul>
+<li>doxygen header @ top and before function prototypes</li>
+<li>function prototypes, one we've seen and one we've not </li>
+<li>memory management of <code>buf</code> parameter of <code>rndbytes</code></li>
+<li>semi-colon after prototype</li>
+<li><code>#ifndef RNDBYTES_H_INCLUDED</code> to handle multiple inclusion</li>
+</ul>
 <h2>The Makefile</h2>
 <p>The significant part of the Makefile is below...</p>
 <pre><code>    all: html rbtest
@@ -184,3 +199,166 @@ possibly in many years time.</p>
 and speed up download) there aren't that often equivalent 
 benefits for systems programming code where maintainability
 is often more important.</p>
+<h2>The implementation of the API</h2>
+<p>Here's the modest snippet of code that implements the API:</p>
+<pre><code>    /*!
+     * @file rndbytes.c
+     * @brief This is the implementation of the external i/f for the rndbytes example
+     * 
+     * This is part of CS2014
+     *    https://down.dsg.cs.tcd.ie/cs2014/examples/c-progs-2/README.html
+     */
+    /* 
+     * Copyright (c) 2017 stephen.farrell@cs.tcd.ie
+     * 
+     * Permission is hereby granted, free of charge, to any person obtaining a copy
+     * of this software and associated documentation files (the "Software"), to deal
+     * in the Software without restriction, including without limitation the rights
+     * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+     * copies of the Software, and to permit persons to whom the Software is
+     * furnished to do so, subject to the following conditions:
+     * 
+     * The above copyright notice and this permission notice shall be included in
+     * all copies or substantial portions of the Software.
+     * 
+     * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+     * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+     * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+     * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+     * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+     * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+     * THE SOFTWARE.
+     *
+     */
+
+    // needed for getting access to /dev/random
+    #include &lt;unistd.h&gt;
+    #include &lt;sys/syscall.h&gt;
+    #include &lt;linux/random.h&gt;
+    #include "rndbytes.h"
+
+    /// TODO: check if conditional compile needed as per: 
+    ///     https://stackoverflow.com/questions/30800331/getrandom-syscall-in-c-not-found
+
+    unsigned char rndbyte()
+    {
+        unsigned long int s;
+        syscall(SYS_getrandom, &amp;s, sizeof(unsigned long int), 0);
+        unsigned char byte=(s&gt;&gt;16)%256;
+        return(byte);
+    }
+
+    int rndbytes(unsigned char* buf,int buflen)
+    {
+        if (!buf) return(1);
+        syscall(SYS_getrandom, buf, buflen, 0);
+        return(0);
+    }
+</code></pre>
+<p>Noteworthy things:</p>
+<ul>
+<li>including the corresponding header file isn't needed by helps with errors as you edit code </li>
+<li><code>rndbytes()</code> function memory management</li>
+</ul>
+<p>An alternative function could have been:</p>
+<pre><code>    int rndbytes(unsigned char** bufp,int buflen)
+    {
+        if (!bufp) return(1);
+        unsigned char *buf=malloc(buflen);
+        if (!buf) return(1);
+        syscall(SYS_getrandom, buf, buflen, 0);
+        *bufp=buf;
+        return(0);
+    }
+</code></pre>
+<p>Or even...</p>
+<pre><code>    unsigned char *rndbytes(int buflen)
+    {
+        unsigned char *buf=malloc(buflen);
+        if (!buf) return(NULL);
+        syscall(SYS_getrandom, buf, buflen, 0);
+        return(buf);
+    }
+</code></pre>
+<p>Both are more error prone - why?</p>
+<h2>The calling code (that uses the API)</h2>
+<pre><code>    /* 
+     * Copyright (c) 2017 stephen.farrell@cs.tcd.ie
+     * 
+     * Permission is hereby granted, free of charge, to any person obtaining a copy
+     * of this software and associated documentation files (the "Software"), to deal
+     * in the Software without restriction, including without limitation the rights
+     * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+     * copies of the Software, and to permit persons to whom the Software is
+     * furnished to do so, subject to the following conditions:
+     * 
+     * The above copyright notice and this permission notice shall be included in
+     * all copies or substantial portions of the Software.
+     * 
+     * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+     * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+     * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+     * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+     * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+     * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+     * THE SOFTWARE.
+     *
+     */
+
+    // usual includes
+    #include &lt;stdio.h&gt;
+    #include &lt;stdlib.h&gt;
+    #include "rndbytes.h"
+
+    #define LIMIT 65536
+
+    void usage(char *progname)
+    {
+        fprintf(stderr,"Print some random numbers from /dev/random.\n");
+        fprintf(stderr,"Options:\n");
+        fprintf(stderr,"\t%s &lt;number&gt; where number is the number of bytes to print [Default: 10, min: 0, max: %d]\n",progname,LIMIT);
+        exit(-1);
+    }
+
+    int main(int argc,char *argv[])
+    {
+        int number=10;
+
+        if (argc==2) {
+            int newnumber=atoi(argv[1]);
+            if (newnumber&lt;=0) {
+                fprintf(stderr,"%d too small\n",newnumber);
+                usage(argv[0]);
+            }
+            if (newnumber&gt;LIMIT) {
+                fprintf(stderr,"%d too big\n",newnumber);
+                usage(argv[0]);
+            }
+            number=newnumber;
+        }
+
+        unsigned char *buf=malloc(number);
+        if (!buf) {
+            fprintf(stderr,"alloc fail\n");
+            return(1);
+        }
+        int rv=rndbytes(buf,number);
+        if (rv) {
+            fprintf(stderr,"rndbytes fail: %d\n",rv);
+            return(rv);
+        }
+
+        for (int i=0;i!=number;i++) {
+            printf("rnd%d: %02x\n",i,buf[i]);
+        }
+
+        free(buf);
+
+        return(0);
+    }
+</code></pre>
+<p>Noteworthy things:</p>
+<ul>
+<li><code>usage()</code> function is a good thing for any command line instruction (CLI)</li>
+<li>memory management</li>
+</ul>
