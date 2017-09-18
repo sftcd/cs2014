@@ -10,6 +10,7 @@ Each subdirectory has a README.md, a bit of related code and a Makefile.
 - [shell](shell/README.html) - the "shell" example
 - [c programs#1](c-progs-1/README.html) - the first few C program examples
 - [c programs#2](c-progs-2/README.html) - the next few C program examples
+- [c programs#3](c-progs-3/README.html) - even moar C program examples
 
 Note-to-self: various markdown/html files here contain the output of the
 ```'man'``` command. That should use ascii output (e.g. ```man -E ascii 3
