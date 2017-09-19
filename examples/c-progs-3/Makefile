@@ -11,12 +11,12 @@ CC=gcc -g
 # non-debug version
 #CC=gcc
 
-all: html 
+all: sizes html 
 
-doc: str-dox refman.pdf
-	doxygen str-dox
+doc: sizes str-dox refman.pdf
 
 refman.pdf:
+	doxygen str-dox
 	cd latex;make;cp refman.pdf ..
 
 str-dox:

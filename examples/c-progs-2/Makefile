@@ -18,9 +18,9 @@ rbtest: rbtest.c rndbytes.o rndbytes.h
 rndbytes.o: rndbytes.c rndbytes.h
 
 doc: rbtest rnd-dox refman.pdf
-	doxygen rnd-dox
 
 refman.pdf:
+	doxygen rnd-dox
 	cd latex;make;cp refman.pdf ..
 
 rnd-dox:

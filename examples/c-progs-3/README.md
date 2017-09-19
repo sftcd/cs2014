@@ -13,9 +13,11 @@ the canonical URL for this is
 - [Makefile](Makefile) - to build the example and HTML (there's a clean target too)
 - [refman.pdf](refman.pdf) - doxygen automated documentation from javadoc comments
 - [str-dox](str-dox) - doxygen config file
+- [sizes.c](sizes.c) - play program to see sizes and similar
 
 After running ```'make'``` then these files will be produced (if all
 goes well):
 
 - README.html - the html version of README.md
+- sizes - the binary for sizes.c
 
