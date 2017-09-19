@@ -11,7 +11,7 @@ CC=gcc -g
 # non-debug version
 #CC=gcc
 
-all: html rbtest
+all: html rbtest rnd-options
 
 rbtest: rbtest.c rndbytes.o rndbytes.h
 

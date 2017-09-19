@@ -15,7 +15,7 @@ all: sizes html
 
 doc: sizes str-dox refman.pdf
 
-refman.pdf:
+refman.pdf: sizes
 	doxygen str-dox
 	cd latex;make;cp refman.pdf ..
 
@@ -25,6 +25,7 @@ str-dox:
 html: README.html
 
 clean:
+	@rm sizes
 	@rm -rf latex html 
 
 reallyclean: clean

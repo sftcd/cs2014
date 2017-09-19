@@ -24,13 +24,18 @@
 /// mess about with struct and union and see how big things are
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <malloc.h>
 
+/// a file-info like structure 
 typedef struct _finfo {
     char *name;
     char *link;
     char isdir;
 } finfo, *finfo_p;
 
+/// a union that could be a name or
+/// a link (not useful really:-)
 typedef union _ufinfo {
     char *name;
     char *link;
@@ -41,22 +46,56 @@ typedef union _ufinfo {
 int main()
 {
 
-	finfo fvar;
-	ufinfo uvar;
-	long adiff;
+	/// play about with the declarations here and see if you
+	/// understand what the compiler is doing
 
-	fvar.name="foo";
+	finfo fvar; /// on-stack struct
+	char stringy[256]; /// on-stack memory
+	char *allocedthing; /// heap memory
+	ufinfo uvar; /// on-stack union
+	long adiff; /// on-stack (long) integer
+
+	snprintf(stringy,256,"foo");
+
+	if ((allocedthing=malloc(1024))==NULL) {
+		printf("Bummer malloc failed\n");
+		return(1);
+	}
+
+	fvar.name=stringy;
 	fvar.link=NULL;
 	fvar.isdir=0;
+	printf("fvar.name size: %lu\n",sizeof(fvar.name));
+	printf("fvar.link size: %lu\n",sizeof(fvar.link));
+	printf("fvar.isdir size: %lu\n",sizeof(fvar.isdir));
 	printf("fvar size: %lu\n",sizeof(fvar));
 	printf("fvar addr: %p\n",&fvar);
 	
 	uvar.name="foo";
+	printf("uvar.name size: %lu\n",sizeof(uvar.name));
+	printf("uvar.link size: %lu\n",sizeof(uvar.link));
 	printf("uvar size: %lu\n",sizeof(uvar));
 	printf("uvar addr: %p\n",&uvar);
 
-	
 	adiff=(long)((void*)&fvar-(void*)&uvar);
-	printf("addr diff: %lu\n",adiff);
+	printf("adiff size: %lu\n",sizeof(adiff));
+	printf("diff val: %lu\n",adiff);
+
+	printf("stringy size %lu\n",sizeof(stringy));
+	printf("allocedthing size %lu\n",sizeof(allocedthing));
+	printf("allocedthing addr %p\n",&allocedthing);
+	printf("heap size %lu\n",malloc_usable_size(allocedthing));
+	printf("heap addr %p\n",allocedthing);
+
+	free(allocedthing);
+
+	if ((allocedthing=malloc(444444))==NULL) {
+		printf("Bummer malloc failed\n");
+		return(1);
+	}
+	printf("heap size %lu\n",malloc_usable_size(allocedthing));
+	printf("heap addr %p\n",allocedthing);
+
+	return(0);
 
 }

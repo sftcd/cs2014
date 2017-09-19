@@ -16,6 +16,7 @@ the canonical URL for this is
 - [rndbytes.c](rndbytes.c) - a couple of wee utility fuctions to get stuff from ```/dev/random```
 - [rndbytes.h](rndbytes.h) - header for those functions
 - [rbtest.c](rbtest.c) - ```main()``` that calls functions from ```rndbytes.h```
+- [rnd-options.c](rnd-options.c) - shows different options for API
 
 After running ```'make'``` then these files will be produced (if all
 goes well):
@@ -23,6 +24,7 @@ goes well):
 - README.html - the html version of README.md
 - rndbytes.o - the rndbytes object file
 - rbtest - the rndbytes test program
+- rnd-options - built as you like it:-)
 
 ##A More Structured ```rndbytes.c``` setup
 
@@ -293,6 +295,9 @@ Or even...
 		}
 
 Both are more error prone - why?
+
+See [```rnd-options.c```](rnd-options.c) for different 
+options that you can conditionally compile.
 
 ## The calling code (that uses the API)
 
