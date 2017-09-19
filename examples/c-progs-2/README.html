@@ -13,6 +13,7 @@ the canonical URL for this is
 <li><a href="rndbytes.c">rndbytes.c</a> - a couple of wee utility fuctions to get stuff from <code>/dev/random</code></li>
 <li><a href="rndbytes.h">rndbytes.h</a> - header for those functions</li>
 <li><a href="rbtest.c">rbtest.c</a> - <code>main()</code> that calls functions from <code>rndbytes.h</code></li>
+<li><a href="rnd-options.c">rnd-options.c</a> - shows different options for API</li>
 </ul>
 <p>After running <code>'make'</code> then these files will be produced (if all
 goes well):</p>
@@ -20,6 +21,7 @@ goes well):</p>
 <li>README.html - the html version of README.md</li>
 <li>rndbytes.o - the rndbytes object file</li>
 <li>rbtest - the rndbytes test program</li>
+<li>rnd-options - built as you like it:-)</li>
 </ul>
 <h2>A More Structured <code>rndbytes.c</code> setup</h2>
 <p>This iteration of the <code>rndbytes</code> example demonstrates a bunch of 
@@ -281,6 +283,8 @@ is often more important.</p>
     }
 </code></pre>
 <p>Both are more error prone - why?</p>
+<p>See <a href="rnd-options.c"><code>rnd-options.c</code></a> for different 
+options that you can conditionally compile.</p>
 <h2>The calling code (that uses the API)</h2>
 <pre><code>    /* 
      * Copyright (c) 2017 stephen.farrell@cs.tcd.ie
