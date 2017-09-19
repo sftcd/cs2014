@@ -1,0 +1,240 @@
+<h1>C Program Examples: <code>tree</code></h1>
+<p>This is the <code>tree</code> program example which is part of my course on systems 
+programming (<a href="https://down.dsg.cs.tcd.ie/cs2014">CS2014</a>),
+the canonical URL for this is 
+<a href="https://down.dsg.cs.tcd.ie/cs2014/examples/tree/README.html">here</a>.</p>
+<h2>Files in this example:</h2>
+<ul>
+<li>README.md - this file in markdown format</li>
+<li>README.html - this file, in HTML format (<code>'make html'</code> to update that from .md)</li>
+<li><a href="Makefile">Makefile</a> - to build the example and HTML (there's a clean target too)</li>
+<li>The <a href="./tree-1.7.0/"><code>tree-1.7.0</code> source code</a> </li>
+</ul>
+<p>After running <code>'make'</code> then these files will be produced (if all
+goes well):</p>
+<ul>
+<li>README.html - the html version of README.md</li>
+</ul>
+<p>To build the <code>tree</code> binary, go into the source directory and run <code>make</code>.</p>
+<h2>The <code>tree</code> program...</h2>
+<p><code>tree</code> produces a recursive, decorated, directory listing.
+It's a fairly old program (since ~1996) and I used to use it
+long ago. It's interesting to us because:</p>
+<ul>
+<li>it uses a lot of system APIs</li>
+<li>it uses a lot of filesystem APIs</li>
+<li>it has some basic GUI stuff</li>
+<li>it's a real thing, not just a plaything</li>
+</ul>
+<p>Note that there are many use-cases where a filesystem could have many
+deeply-nested directories, each with many many files. For example,
+a corporate or campus-wide server that creates files for each employee,
+or a filesystem that contains a very large number of sharded files,
+perhaps for storing user generated content (such as images or 
+comments) in some web service.</p>
+<p>You can find the code at 
+<a href="http://mama.indstate.edu/users/ice/tree/"><code>http://mama.indstate.edu/users/ice/tree/</code></a>.
+<code>tree</code> is part of the Ubuntu distribution as well, and claims to be the
+same version we're looking at.</p>
+<pre><code>    $ which tree
+    /usr/bin/tree
+    $ /usr/bin/tree --version
+    tree v1.7.0 (c) 1996 - 2014 by Steve Baker, Thomas Moore, Francesc Rocher, Florian Sesser, Kyosuke Tokoro
+</code></pre>
+<p>Noteworthy:</p>
+<ul>
+<li>The program is probably older than a bunch of you! :-)</li>
+<li>Over time, maintainers change...</li>
+</ul>
+<p>Let's first look at the output of <code>tree</code> when run in the source directory
+for the program itself,
+which is copied in this repo in <code>$REPO/examples/tree/tree-1.7.0/</code>
+We'll look at that both before and after running <code>make</code>.
+Note that we lose the colours here, in a shell you'd see those.</p>
+<p>FIXME: make this display correctly in FF - works for Chromium, opera and vi but not FF.</p>
+<h3>After <code>make clean</code></h3>
+<pre><code>    .
+    ├── CHANGES
+    ├── color.c
+    ├── doc
+    │   ├── tree.1
+    │   ├── tree.1.fr
+    │   └── xml.dtd
+    ├── hash.c
+    ├── html.c
+    ├── INSTALL
+    ├── json.c
+    ├── LICENSE
+    ├── Makefile
+    ├── README
+    ├── strverscmp.c
+    ├── TODO
+    ├── tree.c
+    ├── tree.h
+    ├── unix.c
+    └── xml.c
+
+    1 directory, 18 files
+</code></pre>
+<p>Noteworthy:</p>
+<ul>
+<li>The <a href="./tree-1.7.0/INSTALL"><code>INSTALL</code></a> file tells you (a bit about) how to build/install</li>
+<li>The <a href="./tree-1.7.0/README"><code>README</code></a> has a nice set of acks - it costs very little to 
+be nice, and it pays off over and over!</li>
+<li>The <a href="./tree-1.7.0/TODO"><code>TODO</code></a> file has some ideas for enhancements/fixes - it's
+a good idea to have a place for such, in case someone does 'em for you, and to head off
+many people suggesting the same (possibly bad) idea over and over.</li>
+<li>Today, we'd land this in github.com or gitlab.io and there'd be much more history information
+available than there is here. There are actually a few github.com repos with this code,
+(hey, including this one now:-), 
+with various changes (but I didn't try check 'em all out).</li>
+</ul>
+<h2>The <a href="./tree-1.7.0/Makefile"><code>Makefile</code></a></h2>
+<p>If we look at the Makefile we see:</p>
+<ul>
+<li>A bunch of different OSes supported, but you need to uncomment the right
+compiler options for your OS. Tools like <code>automake</code> exist to handle
+that issue, but aren't used here. (And we won't cover that on this course,
+it's too finickity;-)</li>
+<li>There's a default to build the <code>tree</code> exeecutable, and a clean target</li>
+<li>THere are also install, distcleana and dist targets which are typical
+for packages one might distribute or install.</li>
+</ul>
+<h2>Running <code>make</code></h2>
+<pre><code>    $ cd $REPO/examples/tree/tree-1.7.0/
+    $ make
+
+    gcc -ggdb -Wall -DLINUX -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64 -c -o tree.o tree.c
+    gcc -ggdb -Wall -DLINUX -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64 -c -o unix.o unix.c
+    gcc -ggdb -Wall -DLINUX -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64 -c -o html.o html.c
+    gcc -ggdb -Wall -DLINUX -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64 -c -o xml.o xml.c
+    gcc -ggdb -Wall -DLINUX -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64 -c -o json.o json.c
+    gcc -ggdb -Wall -DLINUX -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64 -c -o hash.o hash.c
+    gcc -ggdb -Wall -DLINUX -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64 -c -o color.o color.c
+    color.c: In function ‘cmd’:
+    color.c:236:3: warning: this ‘for’ clause does not guard... [-Wmisleading-indentation]
+       for(i=0;cmds[i].cmdnum;i++)
+       ^~~
+    color.c:238:5: note: ...this statement, but the latter is misleadingly indented as if it is guarded by the ‘for’
+         if (s[0] == '*') return DOT_EXTENSION;
+         ^~
+    color.c: In function ‘initlinedraw’:
+    color.c:490:7: warning: this ‘for’ clause does not guard... [-Wmisleading-indentation]
+           for(s=linedraw-&gt;name;*s;++s)
+           ^~~
+    color.c:492:2: note: ...this statement, but the latter is misleadingly indented as if it is guarded by the ‘for’
+      return;
+      ^~~~~~
+    gcc  -o tree tree.o unix.o html.o xml.o json.o hash.o color.o
+    $
+</code></pre>
+<p>FIXME: Is there a way for the browser to open the file at the right LOC?</p>
+<p>The warnings are all pretty much the same, let's look at the first one,
+in <a href="./tree-1.7.0/color.c"><code>color.c</code></a> at line 236:</p>
+<pre><code>      for(i=0;cmds[i].cmdnum;i++)
+        if (!strcmp(cmds[i].cmd,s)) return cmds[i].cmdnum;
+        if (s[0] == '*') return DOT_EXTENSION;
+        return ERROR;
+</code></pre>
+<p>We can see that only the second line above is iterated, the 3rd and fourt
+are not. How to tell if that's significant?</p>
+<h2>After <code>make</code></h2>
+<pre><code>    .
+    ├── CHANGES
+    ├── color.c
+    ├── color.o
+    ├── doc
+    │   ├── tree.1
+    │   ├── tree.1.fr
+    │   └── xml.dtd
+    ├── hash.c
+    ├── hash.o
+    ├── html.c
+    ├── html.o
+    ├── INSTALL
+    ├── json.c
+    ├── json.o
+    ├── LICENSE
+    ├── Makefile
+    ├── README
+    ├── strverscmp.c
+    ├── TODO
+    ├── tree
+    ├── tree.c
+    ├── tree.h
+    ├── tree.o
+    ├── unix.c
+    ├── unix.o
+    ├── xml.c
+    └── xml.o
+
+    1 directory, 26 files
+</code></pre>
+<h2><a href="./tree-1.7.0/tree.h"><code>tree.h</code></a></h2>
+<p>FIXME: install cloc (or similar) and count LOC</p>
+<p>There's only 1 header file that has all the definitions and function prototypes used.
+One could argue that one header file per C file might be better, but for a codebase
+of this size, that's probably not a big deal. </p>
+<p>The current structure also means that
+since pretty much all function prototypes are in one header, the actual code can
+be in nearly any place.</p>
+<p>Noteworthy:</p>
+<ul>
+<li>Clear copyright (GPLv2 in this case) - good!</li>
+<li>Lots of <code>#include</code> directives, as you'd expect for a tool like this</li>
+<li>A few <code>#ifdef</code> directives for different OSes - also quite typical for a thing like this
+that's been on lots of platforms and depends on system libraries.</li>
+<li><code>#ifndef TRUE...</code> - imposing local style!</li>
+<li>There's a <code>#ifdef</code> within the definition of the <code>_info</code> struct - so the
+size of such structures will be OS dependent - possible source of bugs, if you're
+not careful.</li>
+</ul>
+<h3>Linked lists and (of course) trees...</h3>
+<p>Given what this is doing, it's fairly obvious that the code needs
+to be able to discover and then process nested lists of things (files
+in the filesystem) without knowing in advance how many there are of
+each (kind of) thing. Leads us naturally to linked lists, and we
+find those here.</p>
+<p>The <code>_info</code> struct has loads of fields (as there are lots of 
+possible attributes of a thing you find in the filesystem) but
+boils down to...</p>
+<pre><code>    struct _info {
+      char *name;
+      // more fields
+      struct _info **child;
+    };
+</code></pre>
+<p>This is saying, that an instance of the <code>_info</code> struct, can
+contain an array of pointers to other instances of <code>_info</code>
+structs. Just as we'd expect, for a tree!</p>
+<h3>Function pointers</h3>
+<p><a href="./tree-1.7.0/tree.c"><code>tree.c</code></a> contains the following:</p>
+<pre><code>    off_t (*listdir)(char *, int *, int *, u_long, dev_t) = unix_listdir;
+    int (*cmpfunc)() = alnumsort;
+</code></pre>
+<p>These are function pointers. Just as you can define a pointer to
+a structure, you can define a pointer to a function. This can be
+handy when you have a bunch of different ways to do the same
+thing - in this case, providing terminal, html, json etc. output - based
+on the same data structure. Then you can instantiate the function
+pointer according to the given command line arguments and the
+calling code doesn't need to branch based on the command line
+arguments, so saving code.</p>
+<p>It can be a bit opaque though!</p>
+<p>FIXME: Look up defninition!!</p>
+<h3>External variables</h3>
+<h3>A wrapper for malloc</h3>
+<p><code>xmalloc()</code> just wraps <code>malloc()</code> very simply but on failure
+(when out of memory), prints to <code>stderr</code> and calls ``exit(1)```
+which is just fine for a command line tool, but wouldn't work for
+a library function. In this case, that saves lots of lines of
+error checking code, as when we run out of memoery, we just
+fail hard and exit the entire program.</p>
+<p>Doing your own wrapper for <code>malloc()</code> isn't that uncommon,
+for various reasons, e.g. you might want to be sure memory is
+initialised to zero (ala <code>calloc()</code>), or you might want
+to randomly fail (didn't we see that before?:-), or you might
+want to put in magic markers to help you debug things in
+some way.</p>
+<h3>Running under valgrind</h3>
+<p>FIXME: Install valgrind and do it!</p>
