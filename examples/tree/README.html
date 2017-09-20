@@ -1,3 +1,4 @@
+<p><meta charset="utf-8" /> </p>
 <h1>C Program Examples: <code>tree</code></h1>
 <p>This is the <code>tree</code> program example which is part of my course on systems 
 programming (<a href="https://down.dsg.cs.tcd.ie/cs2014">CS2014</a>),
@@ -15,7 +16,6 @@ goes well):</p>
 <ul>
 <li>README.html - the html version of README.md</li>
 </ul>
-<p>To build the <code>tree</code> binary, go into the source directory and run <code>make</code>.</p>
 <h2>The <code>tree</code> program...</h2>
 <p><code>tree</code> produces a recursive, decorated, directory listing.
 It's a fairly old program (since ~1996) and I used to use it
@@ -25,16 +25,17 @@ long ago. It's interesting to us because:</p>
 <li>it uses a lot of filesystem APIs</li>
 <li>it has some basic GUI stuff</li>
 <li>it's a real thing, not just a plaything</li>
+<li>it uses various C programming constructs that are worth knowing about</li>
 </ul>
 <p>Note that there are many use-cases where a filesystem could have many
 deeply-nested directories, each with many many files. For example,
 a corporate or campus-wide server that creates files for each employee,
 or a filesystem that contains a very large number of sharded files,
 perhaps for storing user generated content (such as images or 
-comments) in some web service.</p>
-<p>You can find the code at 
+comments) in some web service. So </p>
+<p>The main repository for the code is at 
 <a href="http://mama.indstate.edu/users/ice/tree/"><code>http://mama.indstate.edu/users/ice/tree/</code></a>.
-<code>tree</code> is part of the Ubuntu distribution as well, and claims to be the
+<code>tree</code> is also part of the Ubuntu distribution as well, and claims to be the
 same version we're looking at.</p>
 <pre><code>    $ which tree
     /usr/bin/tree
@@ -52,7 +53,7 @@ which is copied in this repo in <code>$REPO/examples/tree/tree-1.7.0/</code>
 We'll look at that both before and after running <code>make</code>.
 Note that we lose the colours here, in a shell you'd see those.</p>
 <p>FIXME: make this display correctly in FF - works for Chromium, opera and vi but not FF.</p>
-<h3>After <code>make clean</code></h3>
+<h3>The output of <code>tree</code> in it's source directory</h3>
 <pre><code>    .
     ├── CHANGES
     ├── color.c
@@ -128,7 +129,6 @@ for packages one might distribute or install.</li>
     gcc  -o tree tree.o unix.o html.o xml.o json.o hash.o color.o
     $
 </code></pre>
-<p>FIXME: Is there a way for the browser to open the file at the right LOC?</p>
 <p>The warnings are all pretty much the same, let's look at the first one,
 in <a href="./tree-1.7.0/color.c"><code>color.c</code></a> at line 236:</p>
 <pre><code>      for(i=0;cmds[i].cmdnum;i++)
@@ -138,6 +138,7 @@ in <a href="./tree-1.7.0/color.c"><code>color.c</code></a> at line 236:</p>
 </code></pre>
 <p>We can see that only the second line above is iterated, the 3rd and fourt
 are not. How to tell if that's significant?</p>
+<p>To build the <code>tree</code> binary, go into the source directory and run <code>make</code>.</p>
 <h2>After <code>make</code></h2>
 <pre><code>    .
     ├── CHANGES
@@ -220,9 +221,33 @@ on the same data structure. Then you can instantiate the function
 pointer according to the given command line arguments and the
 calling code doesn't need to branch based on the command line
 arguments, so saving code.</p>
-<p>It can be a bit opaque though!</p>
-<p>FIXME: Look up defninition!!</p>
+<p>This mechanism can be a bit opaque though, so is likely best
+avoided by you, for now. It's fairly often used when encoding
+and decoding structured data that has some built-in extensibility
+mechanism, such as when dealing with various protocols.</p>
+<p><a href="https://www.cprogramming.com/tutorial/function-pointers.html">This</a> page
+explains the concepts well enough that I won't cut'n'paste the text 
+here. (So we'll go there for details.)</p>
 <h3>External variables</h3>
+<p><a href="./tree-1.7.0/tree.c"><code>tree.c</code></a> 
+uses various global variables that
+are declared in other files, those need to be (re-)declared as <code>extern</code> 
+variables in the file that uses them, so for example, in 
+<a href="./tree-1.7.0/tree.c"><code>tree.c</code></a> we see:</p>
+<pre><code>    /* Externs */
+    /* hash.c */
+    extern struct xtable *gtable[256], *utable[256];
+    extern struct inotable *itable[256];
+    /* color.c */
+    extern bool colorize, ansilines, linktargetcolor;
+    extern char *leftcode, *rightcode, *endcode;
+    extern const struct linedraw *linedraw;
+</code></pre>
+<p>And for example in 
+<a href="./tree-1.7.0/hash.c"><code>hash.c</code></a> 
+we see:</p>
+<pre><code>    struct xtable *gtable[256], *utable[256];
+</code></pre>
 <h3>A wrapper for malloc</h3>
 <p><code>xmalloc()</code> just wraps <code>malloc()</code> very simply but on failure
 (when out of memory), prints to <code>stderr</code> and calls ``exit(1)```
@@ -236,5 +261,3 @@ initialised to zero (ala <code>calloc()</code>), or you might want
 to randomly fail (didn't we see that before?:-), or you might
 want to put in magic markers to help you debug things in
 some way.</p>
-<h3>Running under valgrind</h3>
-<p>FIXME: Install valgrind and do it!</p>

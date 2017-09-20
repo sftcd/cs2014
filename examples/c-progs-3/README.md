@@ -114,3 +114,72 @@ Noteworthy things:
 - pointers can move in alloc/free cycles
 - you can get almost all the info printed from ```gdb sizes``` 
 - the addresses you think you're using may not be the real thing
+
+## Output of ```sizes```
+
+Running ```sizes``` on my laptop produces:
+
+		fvar.name size: 8
+		fvar.link size: 8
+		fvar.isdir size: 1
+		fvar size: 24
+		fvar addr: 0x7ffd006c78a0
+		uvar.name size: 8
+		uvar.link size: 8
+		uvar size: 8
+		uvar addr: 0x7ffd006c7890
+		adiff size: 8
+		diff val: 16
+		stringy size 256
+		allocedthing size 8
+		allocedthing addr 0x7ffd006c7888
+		heap size 1032
+		heap addr 0x55dc73769010
+		heap size 446448
+		heap addr 0x7f6d5584b010
+
+## Valgrind'ing that
+
+
+		==6571== Memcheck, a memory error detector
+		==6571== Copyright (C) 2002-2015, and GNU GPL'd, by Julian Seward et al.
+		==6571== Using Valgrind-3.12.0 and LibVEX; rerun with -h for copyright info
+		==6571== Command: ./sizes
+		==6571== 
+		fvar.name size: 8
+		fvar.link size: 8
+		fvar.isdir size: 1
+		fvar size: 24
+		fvar addr: 0xffefffc60
+		uvar.name size: 8
+		uvar.link size: 8
+		uvar size: 8
+		uvar addr: 0xffefffc50
+		adiff size: 8
+		diff val: 16
+		stringy size 256
+		allocedthing size 8
+		allocedthing addr 0xffefffc48
+		heap size 1024
+		heap addr 0x5201040
+		heap size 444444
+		heap addr 0x52024c0
+		==6571== 
+		==6571== HEAP SUMMARY:
+		==6571==     in use at exit: 444,444 bytes in 1 blocks
+		==6571==   total heap usage: 3 allocs, 2 frees, 449,564 bytes allocated
+		==6571== 
+		==6571== LEAK SUMMARY:
+		==6571==    definitely lost: 444,444 bytes in 1 blocks
+		==6571==    indirectly lost: 0 bytes in 0 blocks
+		==6571==      possibly lost: 0 bytes in 0 blocks
+		==6571==    still reachable: 0 bytes in 0 blocks
+		==6571==         suppressed: 0 bytes in 0 blocks
+		==6571== Rerun with --leak-check=full to see details of leaked memory
+		==6571== 
+		==6571== For counts of detected and suppressed errors, rerun with: -v
+		==6571== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+
+Noteworthy:
+
+- The 444444 bytes we ```malloc```'d is "definitely lost" because we didn't free it.

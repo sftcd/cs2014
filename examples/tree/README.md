@@ -1,3 +1,4 @@
+<meta charset="utf-8" /> 
 
 #C Program Examples: ```tree```
 
@@ -18,7 +19,6 @@ goes well):
 
 - README.html - the html version of README.md
 
-To build the ```tree``` binary, go into the source directory and run ```make```.
 
 
 ## The ```tree``` program...
@@ -31,17 +31,18 @@ long ago. It's interesting to us because:
 - it uses a lot of filesystem APIs
 - it has some basic GUI stuff
 - it's a real thing, not just a plaything
+- it uses various C programming constructs that are worth knowing about
 
 Note that there are many use-cases where a filesystem could have many
 deeply-nested directories, each with many many files. For example,
 a corporate or campus-wide server that creates files for each employee,
 or a filesystem that contains a very large number of sharded files,
 perhaps for storing user generated content (such as images or 
-comments) in some web service.
+comments) in some web service. So 
 
-You can find the code at 
+The main repository for the code is at 
 [```http://mama.indstate.edu/users/ice/tree/```](http://mama.indstate.edu/users/ice/tree/).
-```tree``` is part of the Ubuntu distribution as well, and claims to be the
+```tree``` is also part of the Ubuntu distribution as well, and claims to be the
 same version we're looking at.
 
 		$ which tree
@@ -62,8 +63,8 @@ Note that we lose the colours here, in a shell you'd see those.
 
 FIXME: make this display correctly in FF - works for Chromium, opera and vi but not FF.
 
-### After ```make clean```
-
+### The output of ```tree``` in it's source directory
+		
 		.
 		├── CHANGES
 		├── color.c
@@ -141,8 +142,6 @@ for packages one might distribute or install.
 		gcc  -o tree tree.o unix.o html.o xml.o json.o hash.o color.o
 		$
 
-FIXME: Is there a way for the browser to open the file at the right LOC?
-
 The warnings are all pretty much the same, let's look at the first one,
 in [```color.c```](./tree-1.7.0/color.c) at line 236:
 
@@ -154,6 +153,7 @@ in [```color.c```](./tree-1.7.0/color.c) at line 236:
 We can see that only the second line above is iterated, the 3rd and fourt
 are not. How to tell if that's significant?
 
+To build the ```tree``` binary, go into the source directory and run ```make```.
 
 ## After ```make```
 
@@ -249,13 +249,38 @@ pointer according to the given command line arguments and the
 calling code doesn't need to branch based on the command line
 arguments, so saving code.
 
-It can be a bit opaque though!
+This mechanism can be a bit opaque though, so is likely best
+avoided by you, for now. It's fairly often used when encoding
+and decoding structured data that has some built-in extensibility
+mechanism, such as when dealing with various protocols.
 
-
-FIXME: Look up defninition!!
-
+[This](https://www.cprogramming.com/tutorial/function-pointers.html) page
+explains the concepts well enough that I won't cut'n'paste the text 
+here. (So we'll go there for details.)
 
 ### External variables
+
+[```tree.c```](./tree-1.7.0/tree.c) 
+uses various global variables that
+are declared in other files, those need to be (re-)declared as ```extern``` 
+variables in the file that uses them, so for example, in 
+[```tree.c```](./tree-1.7.0/tree.c) we see:
+
+		/* Externs */
+		/* hash.c */
+		extern struct xtable *gtable[256], *utable[256];
+		extern struct inotable *itable[256];
+		/* color.c */
+		extern bool colorize, ansilines, linktargetcolor;
+		extern char *leftcode, *rightcode, *endcode;
+		extern const struct linedraw *linedraw;
+
+And for example in 
+[```hash.c```](./tree-1.7.0/hash.c) 
+we see:
+
+		struct xtable *gtable[256], *utable[256];
+
 
 ### A wrapper for malloc
 
@@ -273,9 +298,8 @@ to randomly fail (didn't we see that before?:-), or you might
 want to put in magic markers to help you debug things in
 some way.
 
-### Running under valgrind
 
-FIXME: Install valgrind and do it!
+
 
 
 
