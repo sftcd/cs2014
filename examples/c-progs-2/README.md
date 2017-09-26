@@ -166,6 +166,8 @@ style comments to APIs is a fine thing. Those do make it easier
 to understand an API, and also force you to think a bit more when
 creating an API, and automatically produced documentation is a
 fine thing, since it saves you time. 
+There's a [cheatsheet](https://www.narf.ssji.net/~shtrom/wiki/tips/doxygencheatsheet)
+for doxygen here.
 
 - ```usage()``` and help options for command line tools are good, 
 as is a man page, if you might want your tool to be adopted
