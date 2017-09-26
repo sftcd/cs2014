@@ -23,7 +23,8 @@ Assignment details will be published as we get to them.
 system is failure.
 
 Note: this [submitty](http://submitty.org/) install is new, please bear with us
-if there are glitches.
+if there are glitches. If you find stuff that's broken or need help then
+let us know at the lab, in a lecture or via email.
 
 ## Assignment zero - no marks, just practice
 
