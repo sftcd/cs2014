@@ -22,6 +22,9 @@ better, i.e. we assume the machines in LG12.
 - Makefile - to build the example and HTML (there's a clean target too)
 - filecount.sh - a shell script to count files (see below)
 - chkpwned.sh - a shell script to check if a password is on a (BIG) list of hashes
+- websites.sh - a shell script to check if some websites are "up"
+- websites.lst - the list of (hostnames of) websites to check
+- emails.lst - the set of emails to which to send a report when a website is not up
 
 After running ```'make'``` then this file will be produced (if all
 goes well):
@@ -567,7 +570,29 @@ please:-)
 
 ------------------------------------------------------
 
-##A more interesting script...
+## A script to check websites are "up"
 
-What problem? Maybe a n/w timing thing, depending on
-what's on the LG12 boxen. This is TBD for now.
+This example shows a common pattern in systems admin: I need 
+to do a quick check on a thing, and maybe automate that
+check being done periodically.
+
+Note: There are *much* better answers for monitoring
+systems, from simple things such as monit to ever more
+complex commercial monitoring systems. So you shouldn't
+do this at all (but you will do stuff like this from
+time to time regardless:-)
+
+Our task here is to check if some websites are "up"
+and to send mail to some recipients if not.
+
+The pattern I followed here is:
+
+- Search the web for a script someone else had done
+- Look at and discard a few options
+- One seems ok-ish, try run that
+- See that script is broken
+- Fix/improve script
+- Run script
+- *NOT DONE* Set script to run automatically via cron 
+
+

@@ -17,6 +17,9 @@ better, i.e. we assume the machines in LG12.</p>
 <li>Makefile - to build the example and HTML (there's a clean target too)</li>
 <li>filecount.sh - a shell script to count files (see below)</li>
 <li>chkpwned.sh - a shell script to check if a password is on a (BIG) list of hashes</li>
+<li>websites.sh - a shell script to check if some websites are "up"</li>
+<li>websites.lst - the list of (hostnames of) websites to check</li>
+<li>emails.lst - the set of emails to which to send a report when a website is not up</li>
 </ul>
 <p>After running <code>'make'</code> then this file will be produced (if all
 goes well):</p>
@@ -488,6 +491,24 @@ timely, so I added it here. One question for you though - any idea
 why I chose the <code>-c</code> argument to grep? Answers on a postcard
 please:-)</p>
 <hr />
-<h2>A more interesting script...</h2>
-<p>What problem? Maybe a n/w timing thing, depending on
-what's on the LG12 boxen. This is TBD for now.</p>
+<h2>A script to check websites are "up"</h2>
+<p>This example shows a common pattern in systems admin: I need 
+to do a quick check on a thing, and maybe automate that
+check being done periodically.</p>
+<p>Note: There are <em>much</em> better answers for monitoring
+systems, from simple things such as monit to ever more
+complex commercial monitoring systems. So you shouldn't
+do this at all (but you will do stuff like this from
+time to time regardless:-)</p>
+<p>Our task here is to check if some websites are "up"
+and to send mail to some recipients if not.</p>
+<p>The pattern I followed here is:</p>
+<ul>
+<li>Search the web for a script someone else had done</li>
+<li>Look at and discard a few options</li>
+<li>One seems ok-ish, try run that</li>
+<li>See that script is broken</li>
+<li>Fix/improve script</li>
+<li>Run script</li>
+<li><em>NOT DONE</em> Set script to run automatically via cron </li>
+</ul>
