@@ -28,6 +28,8 @@
  * \version 1.0
  * \date 20170926
  * \bug None known
+ *
+ * timetaken: this assignment took me 1 minute
  */
 
 #include <stdio.h>
