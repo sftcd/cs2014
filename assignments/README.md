@@ -16,6 +16,7 @@ Assignment details will be published as we get to them.
 ## Submitting assignments
 
 - You submit assignments [here](https://cs2014.scss.tcd.ie/)
+- [Here's](submitty-tutorial.pdf) a bit of tutorial as to how to use the submission system.
 - You'll get an email and should reset the password
 	- Don't use a valuable password
 	- Don't use a crap password
