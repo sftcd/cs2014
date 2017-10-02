@@ -431,7 +431,7 @@ call to ```rndbyte()``` and using ```p/x``` with ```s``` and
 
 ## Next... Assignment#1
 
-Details of this will be [here](../assignments/assignment1/README.html) at
+Details of this will be [here](../../assignments/assignment1/README.html) at
 the appropriate time.
 
 
