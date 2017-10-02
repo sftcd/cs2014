@@ -425,13 +425,101 @@ and is below...
 			return(0);
 		}
 
-Reminder to self: show using ```gdb``` with that to break at the
+Noteworthy:
+
+- show using ```gdb``` with that to break at the
 call to ```rndbyte()``` and using ```p/x``` with ```s``` and
 ```byte``` locals so we can see what's up with the hex values.
+- show stack frame info (```info f```) and the manual for that [here](http://web.mit.edu/gnu/doc/html/gdb_8.html)
+- ```getrandom()``` isn't available in some current versions of
+```glibc``` (see [this article](https://stackoverflow.com/questions/30800331/getrandom-syscall-in-c-not-found)
+for more information - NB: some of that is misleading, you need to know how to figure that kind of thing out!) 
+	- that article implies we can get what we need via ```syscall()``` - so show the output of ```man syscall```
+	- the lesson there is to extract the wheat from the chaff, and then try things
+	- note though that the code above is fairly brittle, I'd not like to depend on it on many different systems
+- chat about shared objects/libraries: 
+	- the ```ldd``` tool helps to figure out which 
+[shared objects/libraries](http://tldp.org/HOWTO/Program-Library-HOWTO/shared-libraries.html) 
+are used by a binary , e.g. 
+	- to see which ```glibc``` version your system has use ```ldd --version```
+		- ```ldd -v``` is verbose, and ```ldd -r``` is recursive
+	- for our ```rndbytes``` binary, we get:
+
+			$ ldd -v rndbytes
+			linux-vdso.so.1 =>  (0x00007ffc04df1000)
+			libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007f1d68481000)
+			/lib64/ld-linux-x86-64.so.2 (0x000055ec72b18000)
+		
+			Version information:
+			./rndbytes:
+				libc.so.6 (GLIBC_2.2.5) => /lib/x86_64-linux-gnu/libc.so.6
+				libc.so.6 (GLIBC_2.4) => /lib/x86_64-linux-gnu/libc.so.6
+			/lib/x86_64-linux-gnu/libc.so.6:
+				ld-linux-x86-64.so.2 (GLIBC_2.3) => /lib64/ld-linux-x86-64.so.2
+				ld-linux-x86-64.so.2 (GLIBC_PRIVATE) => /lib64/ld-linux-x86-64.so.2
+			$ ldd -r rndbytes
+			linux-vdso.so.1 =>  (0x00007ffc9cd5d000)
+			libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007f86ab961000)
+			/lib64/ld-linux-x86-64.so.2 (0x000055d864c68000)
+
+
+
+	- that shows that rndbytes is dynamically linked to glibc, the Ubuntu NetworkManager has
+a few more dependencies, as you'd expect:
+
+			$ ldd -r `which NetworkManager`	linux-vdso.so.1 =>  (0x00007ffee59d3000)
+			libuuid.so.1 => /lib/x86_64-linux-gnu/libuuid.so.1 (0x00007fe4d8925000)
+			libgnutls.so.30 => /usr/lib/x86_64-linux-gnu/libgnutls.so.30 (0x00007fe4d85c5000)
+			libgmodule-2.0.so.0 => /usr/lib/x86_64-linux-gnu/libgmodule-2.0.so.0 (0x00007fe4d83c1000)
+			libgudev-1.0.so.0 => /usr/lib/x86_64-linux-gnu/libgudev-1.0.so.0 (0x00007fe4d81b7000)
+			libnl-3.so.200 => /lib/x86_64-linux-gnu/libnl-3.so.200 (0x00007fe4d7f97000)
+			libsystemd.so.0 => /lib/x86_64-linux-gnu/libsystemd.so.0 (0x00007fe4d7f0d000)
+			libndp.so.0 => /usr/lib/x86_64-linux-gnu/libndp.so.0 (0x00007fe4d7d07000)
+			libm.so.6 => /lib/x86_64-linux-gnu/libm.so.6 (0x00007fe4d79fe000)
+			libselinux.so.1 => /lib/x86_64-linux-gnu/libselinux.so.1 (0x00007fe4d77d6000)
+			libsoup-2.4.so.1 => /usr/lib/x86_64-linux-gnu/libsoup-2.4.so.1 (0x00007fe4d74e9000)
+			libgio-2.0.so.0 => /usr/lib/x86_64-linux-gnu/libgio-2.0.so.0 (0x00007fe4d7154000)
+			libgobject-2.0.so.0 => /usr/lib/x86_64-linux-gnu/libgobject-2.0.so.0 (0x00007fe4d6eff000)
+			libglib-2.0.so.0 => /lib/x86_64-linux-gnu/libglib-2.0.so.0 (0x00007fe4d6beb000)
+			libdl.so.2 => /lib/x86_64-linux-gnu/libdl.so.2 (0x00007fe4d69e7000)
+			libpthread.so.0 => /lib/x86_64-linux-gnu/libpthread.so.0 (0x00007fe4d67c9000)
+			libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007fe4d6402000)
+			/lib64/ld-linux-x86-64.so.2 (0x000055b0bd29b000)
+			libz.so.1 => /lib/x86_64-linux-gnu/libz.so.1 (0x00007fe4d61e6000)
+			libp11-kit.so.0 => /usr/lib/x86_64-linux-gnu/libp11-kit.so.0 (0x00007fe4d5f7f000)
+			libidn.so.11 => /lib/x86_64-linux-gnu/libidn.so.11 (0x00007fe4d5d4c000)
+			libtasn1.so.6 => /usr/lib/x86_64-linux-gnu/libtasn1.so.6 (0x00007fe4d5b39000)
+			libnettle.so.6 => /usr/lib/x86_64-linux-gnu/libnettle.so.6 (0x00007fe4d5903000)
+			libgmp.so.10 => /usr/lib/x86_64-linux-gnu/libgmp.so.10 (0x00007fe4d5683000)
+			libhogweed.so.4 => /usr/lib/x86_64-linux-gnu/libhogweed.so.4 (0x00007fe4d5450000)
+			libudev.so.1 => /lib/x86_64-linux-gnu/libudev.so.1 (0x00007fe4d542d000)
+			librt.so.1 => /lib/x86_64-linux-gnu/librt.so.1 (0x00007fe4d5225000)
+			liblzma.so.5 => /lib/x86_64-linux-gnu/liblzma.so.5 (0x00007fe4d4fff000)
+			liblz4.so.1 => /usr/lib/x86_64-linux-gnu/liblz4.so.1 (0x00007fe4d4de7000)
+			libgcrypt.so.20 => /lib/x86_64-linux-gnu/libgcrypt.so.20 (0x00007fe4d4ad7000)
+			libpcre.so.3 => /lib/x86_64-linux-gnu/libpcre.so.3 (0x00007fe4d4864000)
+			libxml2.so.2 => /usr/lib/x86_64-linux-gnu/libxml2.so.2 (0x00007fe4d44a8000)
+			libsqlite3.so.0 => /usr/lib/x86_64-linux-gnu/libsqlite3.so.0 (0x00007fe4d41a1000)
+			libgssapi_krb5.so.2 => /usr/lib/x86_64-linux-gnu/libgssapi_krb5.so.2 (0x00007fe4d3f57000)
+			libresolv.so.2 => /lib/x86_64-linux-gnu/libresolv.so.2 (0x00007fe4d3d3c000)
+			libmount.so.1 => /lib/x86_64-linux-gnu/libmount.so.1 (0x00007fe4d3af1000)
+			libffi.so.6 => /usr/lib/x86_64-linux-gnu/libffi.so.6 (0x00007fe4d38e9000)
+			libgpg-error.so.0 => /lib/x86_64-linux-gnu/libgpg-error.so.0 (0x00007fe4d36d3000)
+			libicuuc.so.57 => /usr/lib/x86_64-linux-gnu/libicuuc.so.57 (0x00007fe4d332b000)
+			libkrb5.so.3 => /usr/lib/x86_64-linux-gnu/libkrb5.so.3 (0x00007fe4d3056000)
+			libk5crypto.so.3 => /usr/lib/x86_64-linux-gnu/libk5crypto.so.3 (0x00007fe4d2e24000)
+			libcom_err.so.2 => /lib/x86_64-linux-gnu/libcom_err.so.2 (0x00007fe4d2c20000)
+			libkrb5support.so.0 => /usr/lib/x86_64-linux-gnu/libkrb5support.so.0 (0x00007fe4d2a13000)
+			libblkid.so.1 => /lib/x86_64-linux-gnu/libblkid.so.1 (0x00007fe4d27ce000)
+			libicudata.so.57 => /usr/lib/x86_64-linux-gnu/libicudata.so.57 (0x00007fe4d0d51000)
+			libstdc++.so.6 => /usr/lib/x86_64-linux-gnu/libstdc++.so.6 (0x00007fe4d09c9000)
+			libgcc_s.so.1 => /lib/x86_64-linux-gnu/libgcc_s.so.1 (0x00007fe4d07b2000)
+			libkeyutils.so.1 => /lib/x86_64-linux-gnu/libkeyutils.so.1 (0x00007fe4d05ae000)
+		
 
 ## Next... Assignment#1
 
-Details of this will be [here](../../assignments/assignment1/README.html) at
-the appropriate time.
+Details of this are [here](../../assignments/assignment1/README.html) now.
+
 
 
