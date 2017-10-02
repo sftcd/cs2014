@@ -32,3 +32,9 @@ let us know at the lab, in a lecture or via email.
 Your goal here is to submit a "Hello, World!" program that's
 been written for you. Details [here](assignment0/README.html)
 
+## Assignment one 
+
+Your goal here is to extend a program used in class. 
+Details [here](assignment1/README.html)
+
+
