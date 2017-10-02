@@ -12,14 +12,14 @@ Those are fine things but here we'll assume you've installed Ubuntu 16.04 or
 better, i.e. we assume the machines in LG12.</p>
 <h2>Files in this example:</h2>
 <ul>
-<li>README.md - this file in markdown format</li>
-<li>README.html - this file, in HTML format (<code>'make html'</code> to update that from .md)</li>
-<li>Makefile - to build the example and HTML (there's a clean target too)</li>
-<li>filecount.sh - a shell script to count files (see below)</li>
-<li>chkpwned.sh - a shell script to check if a password is on a (BIG) list of hashes</li>
-<li>websites.sh - a shell script to check if some websites are "up"</li>
-<li>websites.lst - the list of (hostnames of) websites to check</li>
-<li>emails.lst - the set of emails to which to send a report when a website is not up</li>
+<li><a href="README.md">README.md</a> - this file in markdown format</li>
+<li><a href="README.html">README.html</a> - this file, in HTML format (do <code>make html</code> to update that from .md)</li>
+<li><a href="Makefile">Makefile</a> - to build the example and HTML (there's a clean target too)</li>
+<li><a href="filecount.sh">filecount.sh</a> - a shell script to count files (see below)</li>
+<li><a href="chkpwnd.sh">chkpwned.sh</a> - a shell script to check if a password is on a (BIG) list of hashes</li>
+<li><a href="websites.sh">websites.sh</a> - a shell script to check if some websites are "up"</li>
+<li><a href="websites.lst">websites.lst</a> - the list of (hostnames of) websites to check</li>
+<li><a href="emails.lst">emails.lst</a> - the set of emails to which to send a report when a website is not up</li>
 </ul>
 <p>After running <code>'make'</code> then this file will be produced (if all
 goes well):</p>
@@ -59,7 +59,7 @@ how to use a shell.</p>
 are commands that can delete or break things. (Hopefully
 not too badly in the lab!) The <code>rm</code> command in
 particular is one to be careful of, especially if you
-ever tell it to delete an entire directory tree via
+ever tell it to recursively delete an entire directory tree via
 the <code>-rf</code> <a href="https://blog.mafr.de/2007/08/05/cmdline-options-in-shell-scripts/">command line option</a>!
 So: BE CAREFUL!</p>
 <p>There are a variety of different shells available, with
@@ -73,11 +73,11 @@ it's man page if you want to switch.</p>
 kind of prompts I show here), usually via editing
 a "hidden" file in your home directory. In the case
 of the bash shell, that file is <code>$HOME/.bashrc</code>.
-("Hidden" file names start with a dot and are 
+("Hidden" file and directory names start with a dot and are 
 not displayed by the <code>ls</code> command unless you
 ask to see 'em via the <code>-a</code> command line option.
 They useful so as to not clutter things up, but
-are just normal files in the filesystem otherwise.)</p>
+they are just normal files and directories in the filesystem otherwise.)</p>
 <p>As a last preliminary, you can change your password
 via the <code>passwd</code> command. If you've been given
 a crappy easily guessed password, then changing
@@ -95,7 +95,10 @@ will be made against the system every few minutes.
 <p>Most systems should have tooling to avoid that problem, but
 not all do, and you as a user don't know when a
 system is well protected or not - so ONLY EVER USE
-STRONG PASSWORDS!</p>
+STRONG PASSWORDS! Note that "STRONG" here really means
+"in practice, not guessable via the network" so "123456"
+is not strong, but "asoduasdhslkjadfadjksl" is even
+though it hasn't much real entropy.</p>
 <p>The next thing we want to do is clone the github repository
 for the course and then run the <a href="../bm/README.html">broken malloc</a>
 example.</p>
@@ -115,7 +118,9 @@ your preferences. So, if you're logged in as student100, the following names for
     $HOME/code/
 </code></pre>
 <p>Of course for <code>student666</code>, <code>$HOME/code</code>
-and <code>~/code</code> will refer to <code>/home/student666/code/</code> instead.</p>
+and <code>~/code</code> will refer to <code>/home/student666/code/</code> instead.
+(Note that your <code>$HOME</code> might not be <code>/home/$USER</code> - that's
+up to the sysadmins to decide when they create accounts.)</p>
 <p>Now you want to get a copy of this repository:</p>
 <pre><code>    student100:~/code$ git clone https://github.com/sftcd/cs2014.git
     Cloning into 'cs2014'...
@@ -181,7 +186,10 @@ the right directory and off you go. If you've not
 checked out a cheatsheet, you'll likely get stuck
 there and never figure out that to exit the editor
 without saving changes you need to type <code>:q!</code>,
-and to exit saving changes it's: <code>:wq</code></p>
+and to exit saving changes then use <code>:wq</code>
+(The <code>:</code> character takes you out of "visual"
+mode, to a vi-internal command line, but go read
+a cheatsheet for more.)</p>
 <p>If you've not used <code>vi</code> before this is a really
 good thing to ask about in the first lab.</p>
 <p>There are plenty of other editors available on many
@@ -201,6 +209,11 @@ fact that tool is still there shows up a strength
 of UNIX and GNU/Linux - pretty much no matter what
 scenario you hit, there's a tool that works as well
 as can be expected for that scenario.</p>
+<p>If you can't remember the name of a shell command,
+that's pretty normal, you can use <code>man -k &lt;keyword&gt;</code>
+to try get help, or in many cases your shell will
+be setup with <a href="https://stackoverflow.com/questions/5570795/how-does-bash-tab-completion-work">"tab completion"</a>
+which also helps when you kinda-remember.</p>
 <hr />
 <h2>Piping hot shell commands...</h2>
 <p>There are loads of commands available to you
@@ -218,7 +231,9 @@ of <code>find</code> into <code>wc</code> like this:</p>
 </code></pre>
 <p>The pipe character (<code>|</code>) basically feeds the
 output from the command on the left into the
-subsequent command.</p>
+subsequent command. (Yes, that uses the 
+<code>stdout</code> and <code>stdin</code> special files
+the same as C programs do.)</p>
 <p>In the example above, we also tidied up the 
 output using <code>awk</code> which is a bit of a swiss-army
 knife for the shell - it can do nearly anything
@@ -286,6 +301,13 @@ the shell (which forks processes a lot and is
 interpreted and hence slower) than a compiled
 C program. OTOH, shell scripts can be quicker to
 create and small ones can be very handy.</p>
+<p><a href="https://www.st-andrews.ac.uk/ITS/training/unix/unix7.html">Here's</a> a 
+reasonable description of how commands map to processes in
+Linux. The basic idea is that each time you run a program
+(e.g. <code>rndbytes</code> or <code>awk</code>) the operating system
+starts a process that runs until it's done. It gets
+more complicated that that (e.g. with <a href="http://www.thegeekstuff.com/2012/03/linux-threads-intro/">threads</a>)
+but we won't go there yet.</p>
 <p>Let's imagine you do want to be anal about the 
 number of files below your home directory and how
 the average changes. We can put the commands
@@ -338,6 +360,22 @@ then you should see...</p>
     Between 2017-08-03 and 2017-08-08, there were on average 199.333 files below /home/student100
     Last I looked (using /home/student100/bin/filecount.sh) the total was 202
 </code></pre>
+<p>Of course, that script is pretty broken, so it's only to illustrate
+how the commands we used earlier can be put into a script and isn't
+meant to be used in real life.</p>
+<p>Minor notes:</p>
+<ul>
+<li><code>$HOME/bin</code> is a traditional place to put useful scripts, and adding
+<code>$HOME/bin</code> to your <code>$PATH</code> inside your <code>$HOME/.bashrc</code> is
+a commonly good thing to do</li>
+<li>The first line of the shell script above (<code>#!/bin/bash</code>) is a 
+special one (called "She-Bang") that tells the shell which 
+command intepreter to use when running the script (after you've
+done the <code>chmod u+x</code> thing). A python script would likely start
+with <code>#!/usr/bin/python</code> for example.</li>
+<li>You've probably guessed that <code>#</code> is the comment character
+for bash commands:-)</li>
+</ul>
 <hr />
 <h2>The path to righteousness (or to binaries)...</h2>
 <p>When we run a command from the shell, the shell and operating
@@ -346,7 +384,7 @@ environment variable, to try find the command to run. So if
 you want to run <code>find</code> for example, then program that
 will usually be run is found in a file called <code>/usr/bin/find</code>
 but we don't have to type the <code>/usr/bin/</code> part of that
-because the <code>$PATH</code> variable contains <code>/usr/bin</code>.
+because the <code>$PATH</code> environment variable contains <code>/usr/bin</code>.
 You can look at the <code>$PATH</code> environment variable just you can
 look at the <code>$HOME</code> environment variable, and you can
 also add to it, so that scripts in <code>$HOME/bin</code> can be
@@ -368,6 +406,8 @@ details of those. And if you're using a smaller embedded
 system based on the popular <a href="https://www.busybox.net/">busybox</a>
 tool then there may be lots more commands built in to the
 shell itself, compared to in a typical GNU/Linux distribution.</p>
+<p>All that kind of thing is fairly distribution-specific and will
+vary from system to system.</p>
 <p>Anyway the last run above shows up a fairly obvious bug in that script that I'd like you
 to tell me about.... What's the bug and the fix?</p>
 <hr />
@@ -473,18 +513,30 @@ the lists are just simply one upper-case sha-1 hash per line, so...</p>
     00000010F4B38525354491E099EB1796278544B1
     ... 320 million more...
 </code></pre>
+<p>Noteworthy:</p>
+<ul>
+<li>We're setting (environment variable) like <code>LIST</code> and refer to
+those as <code>$LIST</code> to access the value (those aren't typed btw,
+and don't have to be upper-case)</li>
+<li>We've used <code>if</code> statements, there are also loops in bash</li>
+<li>We've used <code>$1</code> for the first command line argument 
+(as you no doubt by now expect <code>$0</code> is the name of the
+script)</li>
+<li>The <code>read</code> built-in let's us get (non-argument) input from the command line</li>
+<li>We even did a bit of arithmetic with <code>count=$((count1+count2))</code></li>
+<li>All the bracket stuff is hard to remember (for me), and there
+are loads of ways to do things, just pick one and use that while
+you remember it.</li>
+<li>Explain the meat of that script, which is:<pre><code>        hash=`echo -n $PWD  | openssl sha1 | awk '{print $2}' | awk 'BEGIN { getline; print toupper($0) }'`
+</code></pre>
+</li>
+</ul>
 <p>Possible improvements:</p>
 <ul>
-<li>
-<p>Ditch the <code>$1</code> stuff, dangerous!</p>
-</li>
-<li>
-<p>Don't expose the <code>$PWD</code> on the command line (from <code>echo</code>)
-  even if only monentarily</p>
-</li>
-<li>
-<p>Make it faster! Lots of scope for playing there.</p>
-</li>
+<li>Ditch the <code>$1</code> stuff, dangerous!</li>
+<li>Don't expose the <code>$PWD</code> on the command line (from <code>echo</code>)
+  even if only monentarily</li>
+<li>Make it faster! Lots of scope for playing there.</li>
 </ul>
 <p>As I said, that script isn't that interesting but happened to be
 timely, so I added it here. One question for you though - any idea
@@ -492,7 +544,7 @@ why I chose the <code>-c</code> argument to grep? Answers on a postcard
 please:-)</p>
 <hr />
 <h2>A script to check websites are "up"</h2>
-<p>This example shows a common pattern in systems admin: I need 
+<p>The <a href="websites.sh">websites.sh</a> example shows a common pattern in systems admin: I need 
 to do a quick check on a thing, and maybe automate that
 check being done periodically.</p>
 <p>Note: There are <em>much</em> better answers for monitoring
@@ -511,4 +563,111 @@ and to send mail to some recipients if not.</p>
 <li>Fix/improve script</li>
 <li>Run script</li>
 <li><em>NOT DONE</em> Set script to run automatically via cron </li>
+</ul>
+<p>Here's the code:</p>
+<pre><code>    #!/bin/bash
+
+    #set -x
+
+    # modified from https://serverfault.com/questions/282215/script-to-automatically-test-if-a-web-site-is-available downloaded from there on 20170922
+    # no idea of copyright
+
+    # SF changes
+    # - renamed ".lst" files to take out abs path, need to be put back for cron
+    # - added check of mailx being installed and cfg files being readable
+    # - added use of mktemp
+    # - 200 is not the only good response, 30x's tend to be too:-) Added -L to curl
+    # - added "https://" before the thing to check:-)
+
+    # check if the mail client we need is installed, and give
+    # an error if not
+    MAILX=`which mailx`
+    if [[ $? != 0 || $MAILX == "" ]]
+    then
+        echo "$0: You need mailx - to get that 'sudo apt install mailutils'"
+        exit 1
+    fi
+
+    # list of websites. each website in new line. leave an empty line in the end.
+    LISTFILE=websites.lst
+    # Send mail in case of failure to. leave an empty line in the end.
+    EMAILLISTFILE=emails.lst
+
+    if [[ ! -r $LISTFILE ]]
+    then
+        echo "$0: Can't read $LISTFILE, please fix"
+        exit 1
+    fi
+    if [[ ! -r $EMAILLISTFILE ]]
+    then
+        echo "$0: Can't read $EMAILLISTFILE, please fix"
+        exit 1
+    fi
+
+    WORKDIR=`mktemp -d /tmp/websitesXXXX`
+    if [[ ! -d $WORKDIR ]]
+    then
+        echo "$0: mktemp failed to make $WORKDIR - odd that, exiting"
+        exit 1
+    fi
+
+
+    # `Quiet` is true when in crontab; show output when it's run manually from shell.
+    # Set THIS_IS_CRON=1 in the beginning of your crontab -e.
+    # else you will get the output to your email every time
+    if [ -n "$THIS_IS_CRON" ]; then QUIET=true; else QUIET=false; fi
+
+    function test {
+      response=$(curl -L --write-out %{http_code} --silent --output /dev/null https://$1)
+      filename=$( echo $1 | cut -f1 -d"/" )
+      if [ "$QUIET" = false ] ; then echo -n "$p "; fi
+
+      if [ $response -eq 200 ] ; then
+        # website working
+        if [ "$QUIET" = false ] ; then
+          echo -n "$response "; echo -e "\e[32m[ok]\e[0m"
+        fi
+        # remove .temp file if exist.
+        if [ -f $WORKDIR/$filename ]; then rm -f $WORKDIR/$filename; fi
+      else
+        # website down
+        if [ "$QUIET" = false ] ; then echo -n "$response "; echo -e "\e[31m[DOWN]\e[0m"; fi
+        if [ ! -f $WORKDIR/$filename ]; then
+            while read e; do
+                # using mailx command
+                echo "$p WEBSITE DOWN" | $MAILX -s "$1 WEBSITE DOWN" $e
+                # using mail command
+                #mail -s "$p WEBSITE DOWN" "$EMAIL"
+            done &lt; $EMAILLISTFILE
+            echo &gt; $WORKDIR/$filename
+        fi
+        # remove .temp file if exist.
+        if [ -f $WORKDIR/$filename ]; then rm -f $WORKDIR/$filename; fi
+      fi
+    }
+
+    # main loop
+    while read p; do
+      test $p
+    done &lt; $LISTFILE
+
+    # clean up workdir, but a little carefully - don't
+    # want to delete the working directory if that 
+    # env var got unset!
+    if [[ "$WORKDIR" != "" ]]
+    then
+        rm -rf $WORKDIR
+    fi
+</code></pre>
+<p>Noteworthy:</p>
+<ul>
+<li>The process (see early comments)</li>
+<li><code>set -x</code> for debugging bash scripts (show that)</li>
+<li>Checking existence of commands (only half-done here really)</li>
+<li>Checking expected inputs - those go wrong in loads of ways in real life</li>
+<li>Creating temporary files/directories via <code>mktemp</code> and (carefully) cleaning those up on exit (not always here)</li>
+<li>The bash function <code>test</code> that also uses a new <code>$1</code> (not command line) argument</li>
+<li>Using <code>$()</code> instead of backquotes</li>
+<li>if/then/else/fi conditionals</li>
+<li>while loop</li>
 </ul>

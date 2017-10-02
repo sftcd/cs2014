@@ -68,7 +68,7 @@ function test {
     if [ ! -f $WORKDIR/$filename ]; then
         while read e; do
             # using mailx command
-            echo "$p WEBSITE DOWN" | mailx -s "$1 WEBSITE DOWN" $e
+            echo "$p WEBSITE DOWN" | $MAILX -s "$1 WEBSITE DOWN" $e
             # using mail command
             #mail -s "$p WEBSITE DOWN" "$EMAIL"
         done < $EMAILLISTFILE
@@ -84,4 +84,11 @@ while read p; do
   test $p
 done < $LISTFILE
 
-rm -rf $WORKDIR
+# clean up workdir, but a little carefully - don't
+# want to delete the working directory if that 
+# env var got unset!
+if [[ "$WORKDIR" != "" ]]
+then
+	rm -rf $WORKDIR
+fi
+

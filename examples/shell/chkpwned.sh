@@ -28,10 +28,10 @@
 
 
 # initial list has 306 million entries
-LIST=$HOME/data/pwned-passwords-1.0.txt
+LIST=$HOME/data/passwords/pwned-passwords-1.0.txt
 # update has another 14M, apparently with mixed-case variations
 # that got missed when assembling the 306M list
-UPDATE1=$HOME/data/pwned-passwords-update-1.txt
+UPDATE1=$HOME/data/passwords/pwned-passwords-update-1.txt
 
 if [[ ! -f $LIST || ! -f $UPDATE1 ]]
 then
