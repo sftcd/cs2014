@@ -127,6 +127,9 @@ The deadline for submission of this assignment is 2017-10-09
 For this assignment you only need to submit your single file of
 source code, which can be called ```assignment1.c```
 
+Please do not submit other files, just the ```.c``` file (i.e.,
+do not submit the verification shell script for example:-)
+
 To submit your assignment use 
 [https://cs2014.scss.tcd.ie/](https://cs2014.scss.tcd.ie/) as usual.
 
