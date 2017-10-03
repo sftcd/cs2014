@@ -57,7 +57,7 @@ with open(sys.argv[1], 'r') if len(sys.argv) > 1 else sys.stdin as f:
                 blankline=True
                 firstline=False
                 continue
-            nlines=(arraylen-1)/8
+            nlines=(arraylen-1)//8
             firstline=False
             #print "arraycount: ",arraycount,"arraylen:",arraylen,"nlines:",nlines
             midssofar=0
