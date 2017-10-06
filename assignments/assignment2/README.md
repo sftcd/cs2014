@@ -22,7 +22,7 @@ then you need to do the following (or equivalent) in a shell:
 		$ git clone https://github.com/sftcd/cs2014.git
 		...various output
 		$ cd assignments/assignment2
-		$ wget https://tls.mbed.org/download/start/mbedtls-2.6.0-apache.tgz
+		$ wget https://tls.mbed.org/download/mbedtls-2.6.0-apache.tgz
 		...various output
 		$ tar xzvf mbedtls-2.6.0-apache.tgz
 		...various output
@@ -54,7 +54,7 @@ Now go to the directory for this assignment:
 
 ... and download a copy of the mbed TLS tarball:
 
-		$ wget https://tls.mbed.org/download/start/mbedtls-2.6.0-apache.tgz
+		$ wget https://tls.mbed.org/download/mbedtls-2.6.0-apache.tgz
 
 ... explode the tarball
 
@@ -86,7 +86,7 @@ The files in this assignment directory you should see now are:
 - assignment2.o - the object file for encrypting tool you'll modify in a bit
 - [Makefile](Makefile)  - the Makefile to builld the above and link in the mbed TLS library
 - [mbedtls-2.6.0](mbedtls-2.6.0/) - the directory with the mbed TLS stuff
-- [mbedtls-2.6.0-apache.tgz](https://tls.mbed.org/download/start/mbedtls-2.6.0-apache.tgz)- the tarball you downloaded
+- [mbedtls-2.6.0-apache.tgz](https://tls.mbed.org/download/mbedtls-2.6.0-apache.tgz)- the tarball you downloaded
 - [README.html](README.html) - this HTML file
 - [README.md](README.md) - the markdown source for this HTML file
 
