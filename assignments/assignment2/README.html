@@ -1,0 +1,117 @@
+<h1>CS2014 2017 Assignment2 - A bit of crypto</h1>
+<p>Your assignment is to download and build the <a href="https://tls.mbed.org/kb">mbed TLS</a>
+package and to make a tiny modification to it's sample AES file encryption program 
+as described below. </p>
+<p>For class: scan through Arm's mbed TLS <a href="https://tls.mbed.org/kb/development/mbedtls-coding-standards">coding
+standards</a>.
+It'd be a fine thing (but is not mandatory for marking) if students 
+followed those standards too when working with this code.</p>
+<p>IMPORTANT: Keep your work, including the build of mbed TLS, you'll need it again 
+for other assignments! (You could repeat the work, but that'd be boring:-)</p>
+<h2>Setup a working environment</h2>
+<p>Let's say your working directory is going to be <code>$HOME/code</code>
+then you need to do the following (or equivalent) in a shell:</p>
+<pre><code>    $ mkdir $HOME/code
+    $ cd $HOME/code
+    $ git clone https://github.com/sftcd/cs2014.git
+    ...various output
+    $ cd assignments/assignment2
+    $ wget https://tls.mbed.org/download/start/mbedtls-2.6.0-apache.tgz
+    ...various output
+    $ tar xzvf mbedtls-2.6.0-apache.tgz
+    ...various output
+    $ cd mbedtls-2.6.0
+    $ make
+    ... lots of output, takes a minute or two
+    $ cd ..
+    $ make
+    ...various output
+</code></pre>
+<p>I'll explain those one by one:</p>
+<p>First you make a working directory:</p>
+<pre><code>    $ mkdir $HOME/code
+</code></pre>
+<p>Then go there...</p>
+<pre><code>    $ cd $HOME/code
+</code></pre>
+<p>Then get a copy of the git repo for the course (you should have done that
+already btw!)</p>
+<pre><code>    $ git clone https://github.com/sftcd/cs2014.git
+</code></pre>
+<p>Now go to the directory for this assignment:</p>
+<pre><code>    $ cd assignments/assignment2
+</code></pre>
+<p>... and download a copy of the mbed TLS tarball:</p>
+<pre><code>    $ wget https://tls.mbed.org/download/start/mbedtls-2.6.0-apache.tgz
+</code></pre>
+<p>... explode the tarball</p>
+<pre><code>    $ tar xzvf mbedtls-2.6.0-apache.tgz
+</code></pre>
+<p>... cd into the mbed TLS directory</p>
+<pre><code>    $ cd mbedtls-2.6.0
+</code></pre>
+<p>... build the mbed TLS code</p>
+<pre><code>    $ make
+</code></pre>
+<p>... go back up one level to the assignment2 directory</p>
+<pre><code>    $ cd ..
+</code></pre>
+<p>... and run the build for the assignment st</p>
+<pre><code>    $ make
+</code></pre>
+<h2>What's there?</h2>
+<p>The files in this assignment directory you should see now are:</p>
+<ul>
+<li>assignment2 - the excutable form of the base tool you'll modify in a bit</li>
+<li><a href="assignment2.c">assignment2.c</a> - the base file encrypting tool you'll modify in a bit<ul>
+<li>(Note: This is just a straight copy of what'll be in ./mbedtls-2.6.0/programs/aes/aescrypt2.c)</li>
+</ul>
+</li>
+<li>assignment2.o - the object file for encrypting tool you'll modify in a bit</li>
+<li><a href="Makefile">Makefile</a>  - the Makefile to builld the above and link in the mbed TLS library</li>
+<li><a href="mbedtls-2.6.0/">mbedtls-2.6.0</a> - the directory with the mbed TLS stuff</li>
+<li><a href="https://tls.mbed.org/download/start/mbedtls-2.6.0-apache.tgz">mbedtls-2.6.0-apache.tgz</a>- the tarball you downloaded</li>
+<li><a href="README.html">README.html</a> - this HTML file</li>
+<li><a href="README.md">README.md</a> - the markdown source for this HTML file</li>
+</ul>
+<h2>Run the tool as-is:</h2>
+<pre><code>    $ ./assignment2
+
+      asssignment2 &lt;mode&gt; &lt;input filename&gt; &lt;output filename&gt; &lt;key&gt;
+
+       &lt;mode&gt;: 0 = encrypt, 1 = decrypt
+
+      example: aescrypt2 0 file file.aes hex:E76B2413958B00E193
+    $
+</code></pre>
+<h2>A simple modification...</h2>
+<p>This week, all you need to do is replace the clumsy "0" (for encryption) with
+any case-insensitive substring prefix of the word "encryption" and then
+simlarly replace the "1" for decryption, with any case-insensitive substring
+prefix of the word "decryption" and otherwise leave everything else as-is.</p>
+<p>So, when you're done the following should work:</p>
+<pre><code>    $ echo "hi" &gt;plain.txt
+    $ ./asssignment2 eNcr plain.txt cipher.bin thisisnotagoodkey
+    $ ./asssignment2 De cipher.bin recoveredplain.txt thisisnotagoodkey
+    $  diff -s plain.txt recoveredplain.txt 
+    Files plaintext and plaintext are identical
+    $
+</code></pre>
+<p>And of course any variants of the start of the words "encryption"
+and "decryption" provided in the right place should work just as well,
+regardless of upper or lowercase.</p>
+<h3>A hint...</h3>
+<p>The function <code>strcasestr()</code> might be your friend here, check
+out it's <code>man</code> page - but if using that you'll need to add
+this to nearly the top of your source file:</p>
+<pre><code>    #define _GNU_SOURCE         /* See feature_test_macros(7) */
+</code></pre>
+<p>Otherwise, if you don't want to use <code>strcasestr()</code>, that's fine,
+you can write your own function to do the equivalent comparison.</p>
+<h2>Deadline</h2>
+<p>The deadline for submission of this assignment is 2017-10-16</p>
+<h2>Submission</h2>
+<p>For this assignment you should only submit your single file of
+source code, which can be called <code>assignment2.c</code></p>
+<p>To submit your assignment use 
+<a href="https://cs2014.scss.tcd.ie/">https://cs2014.scss.tcd.ie/</a> as usual.</p>
