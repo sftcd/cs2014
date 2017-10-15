@@ -43,5 +43,10 @@ Your goal here is to download and build a pacakge (mbed TLS)
 and to do a simple modification to one of it's sample
 programs. Details [here](assignment2/README.html)
 
+## Assignment three
+
+Your goal here is to write code to mine a bitcoin-like
+thing Details [here](assignment3/README.html)
+
 
 

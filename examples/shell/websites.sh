@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#set -x
+set -x
 
 # modified from https://serverfault.com/questions/282215/script-to-automatically-test-if-a-web-site-is-available downloaded from there on 20170922
 # no idea of copyright

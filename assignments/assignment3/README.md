@@ -1,0 +1,238 @@
+# CS2014 2017 Assignment3 - Moar crypto, of the play-coin variety
+
+Your assignment is to write code that creates bitcoin-like values 
+that meet the spec below and that are verified by 
+the code you're given here.
+
+We'll re-use the [mbed TLS](https://tls.mbed.org/kb)
+package for the verifier code. You pretty much have to do the same for the coin making
+code so that the automated assignment marking system works.
+There are some hints below to which you ought pay attention.
+ 
+## To setup a working environment...
+
+See [assignment2](../assignment2/README.html).
+
+If you clone the course repo then this code is in ```$REPO/assignments/assignment3```
+and contains a Makefile that assumes that you built mbed tls as instructed
+below ```$REPO/assignments/assignment2``` - if you used some other directoery 
+structure you'll need to figure out what to change.
+
+## "CS2014 COIN" Specification
+
+The basic idea is similar to, but a lot simpler than, the bitcoin idea of
+mining ["difficulty"](https://en.bitcoin.it/wiki/Difficulty). 
+We require that each "CS2014 coin" includes the inputs to a SHA256 hash
+whose output value has a selected number of the low order (rightmost) bits with
+zero values. Since the output of a hash funcion like SHA256 is essentially
+random, one has to try many times before one sees such an output, and
+the longer the run of zeros required, the more attempts one needs.
+
+To generate such outputs we include a [cryptographic nonce](https://en.wikipedia.org/wiki/Cryptographic_nonce)
+in the hash input value. We can vary the nonce value until we find a hash output with the required number of
+bits zero-valued. (Efficiency in coin mining is clearly important, so
+please do try to make your code for this part as speedy as you can!
+Some marks may be available for that - ping me if you think you've
+written some notably good code.)
+
+In addition (just for the coding fun:-) we require each coin to be digitally signed
+using the Elliptic Curve Digital Signature Algorithm (ECDSA) with the
+p256 NIST curve. (That's the default when you generate an Elliptic
+Curve key pair, so you won't need to understand any details of ECDSA:-)
+Our coins therefore also include the public key needed to verify the coin
+signature in the signed data. 
+
+There are also some housekeeping fields to help with encoding and
+decoding and for (pretend:-) futureproofing. 
+
+CS2014 coins are binary values. We don't use JSON, XML or any other
+generic encoding/decoding scheme. 
+
+Here's a hexdump of an example coin: 
+
+		00,00,00,00,00,00,00,14,00,00,00,9e,30,81,9b,30
+		10,06,07,2a,86,48,ce,3d,02,01,06,05,2b,81,04,00
+		23,03,81,86,00,04,01,c8,46,55,6b,4e,26,bb,6e,22
+		d8,7a,f8,2e,1b,15,0b,18,af,98,33,59,00,66,d9,0c
+		08,63,75,4a,ea,50,5e,54,7e,72,8e,3d,57,cb,89,15
+		0f,bc,10,0b,5a,1b,3a,84,08,9f,73,0a,e7,38,c7,03
+		e4,2e,1a,19,45,08,25,f8,01,bd,89,0f,3a,e1,18,3a
+		87,51,74,71,94,a2,4c,8a,1e,3a,7c,52,f3,03,6e,91
+		fe,97,42,4f,3e,22,b7,c5,72,8c,f8,da,dd,53,ee,42
+		ca,af,8d,78,38,70,10,63,e9,8c,51,a5,02,f2,89,f8
+		a0,4d,68,7a,a5,96,d4,67,70,12,00,00,00,20,1e,a9
+		86,c4,2b,ff,9f,99,00,2d,be,2e,91,c4,5a,ac,b7,49
+		e4,7e,1a,7f,65,ae,29,bf,3f,c7,d0,c5,ce,39,00,00
+		00,20,2c,55,ee,bd,2c,f0,ad,c8,77,56,cf,b6,15,e8
+		5e,2b,18,ce,3e,5c,fc,56,d2,4f,9a,8b,f5,71,a5,10
+		00,00,00,00,00,8a,30,81,87,02,41,3b,cb,b3,10,9a
+		87,03,89,ec,61,aa,e4,9c,83,1a,7e,27,64,5b,6d,74
+		fc,6c,a7,f2,f9,2c,1c,11,c6,56,76,b2,77,aa,92,c8
+		cf,de,e8,9d,0f,0f,e3,c0,7a,5b,8f,04,e0,a2,7d,af
+		70,27,57,fb,4b,ba,3d,48,c2,fa,e5,ee,02,42,01,86
+		ff,a4,93,1e,ba,18,f5,14,65,06,25,86,10,9c,d7,3e
+		53,30,c9,39,a3,90,13,b2,7f,a1,ba,10,af,5b,53,c8
+		b1,ae,6a,19,ed,2a,a3,3a,ec,8b,01,7c,50,9a,15,8b
+		7a,77,7b,28,b4,70,71,1f,77,40,c2,6b,22,0e,6e,fb
+
+There are a number of fields in such a value:
+
+<table>
+<tr><th>Offset</th><th>Name</th><th>Length</th><th>Description</th></tr>
+<tr><td>0</td><td>Ciphersuite</td><td>4</td><td>Specifies all crypto: value for now fixed at zero</td></tr>
+<tr><td>4</td><td>Bits</td><td>4</td><td>Specifies difficulty</td></tr>
+<tr><td>8</td><td>Public Key length</td><td>4</td><td>Specifies length of public key</td></tr>
+<tr><td>12</td><td>Public Key</td><td>158</td><td>Public key value (fixed for p256 curve)</td></tr>
+<tr><td>170</td><td>Nonce len</td><td>4</td><td>length of nonce</td></tr>
+<tr><td>174</td><td>Nonce</td><td>32</td><td>nonce used to generate PoW hash</td></tr>
+<tr><td>206</td><td>PoW Hash len</td><td>4</td><td>length of proof-of-work hash</td></tr>
+<tr><td>210</td><td>PoW Hash</td><td>32</td><td>proof-of-work hash</td></tr>
+<tr><td>242</td><td>Signature len</td><td>4</td><td>length of coin self-signature</td></tr>
+<tr><td>246</td><td>Signature</td><td>Variable (~138 octets)</td><td>coin self-signature</td></tr>
+</table>
+
+</table>
+
+Breaking the above sample down into those fields we get...
+
+		Ciphersuite
+		00,00,00,00,
+		Difficulty in terms of bits
+		            00,00,00,14,
+		Length of public key
+		                        00,00,00,9e,
+		Public key value
+		                                    30,81,9b,30
+		10,06,07,2a,86,48,ce,3d,02,01,06,05,2b,81,04,00
+		23,03,81,86,00,04,01,c8,46,55,6b,4e,26,bb,6e,22
+		d8,7a,f8,2e,1b,15,0b,18,af,98,33,59,00,66,d9,0c
+		08,63,75,4a,ea,50,5e,54,7e,72,8e,3d,57,cb,89,15
+		0f,bc,10,0b,5a,1b,3a,84,08,9f,73,0a,e7,38,c7,03
+		e4,2e,1a,19,45,08,25,f8,01,bd,89,0f,3a,e1,18,3a
+		87,51,74,71,94,a2,4c,8a,1e,3a,7c,52,f3,03,6e,91
+		fe,97,42,4f,3e,22,b7,c5,72,8c,f8,da,dd,53,ee,42
+		ca,af,8d,78,38,70,10,63,e9,8c,51,a5,02,f2,89,f8
+		a0,4d,68,7a,a5,96,d4,67,70,12,
+		Length of Nonce
+		                              00,00,00,20,
+		Nonce value
+		                                          1e,a9
+		86,c4,2b,ff,9f,99,00,2d,be,2e,91,c4,5a,ac,b7,49
+		e4,7e,1a,7f,65,ae,29,bf,3f,c7,d0,c5,ce,39,
+		Length of Proof-of-Work hash
+		                                          00,00
+		00,20,
+		Proof-of-Work hash
+		      2c,55,ee,bd,2c,f0,ad,c8,77,56,cf,b6,15,e8
+		5e,2b,18,ce,3e,5c,fc,56,d2,4f,9a,8b,f5,71,a5,10
+		00,00,
+		Length of Signature
+		      00,00,00,8a,
+		Signature
+		                  30,81,87,02,41,3b,cb,b3,10,9a
+		87,03,89,ec,61,aa,e4,9c,83,1a,7e,27,64,5b,6d,74
+		fc,6c,a7,f2,f9,2c,1c,11,c6,56,76,b2,77,aa,92,c8
+		cf,de,e8,9d,0f,0f,e3,c0,7a,5b,8f,04,e0,a2,7d,af
+		70,27,57,fb,4b,ba,3d,48,c2,fa,e5,ee,02,42,01,86
+		ff,a4,93,1e,ba,18,f5,14,65,06,25,86,10,9c,d7,3e
+		53,30,c9,39,a3,90,13,b2,7f,a1,ba,10,af,5b,53,c8
+		b1,ae,6a,19,ed,2a,a3,3a,ec,8b,01,7c,50,9a,15,8b
+		7a,77,7b,28,b4,70,71,1f,77,40,c2,6b,22,0e,6e,fb
+
+
+### Some implementation requirements
+
+The specification above is basically a functional requrements specification
+that says what your code must do. In addition, and as is common, we also 
+have some implementation requirements that [MUST](https://tools.ietf.org/html/rfc2119) 
+also be met:
+
+- Your implementation MUST honour the existing API defined in [cs2014coin.h](./cs2014coin.h)
+- Coins produced by your implementation MUST be verifiable using the
+  verification implementation you've been given. (That is, you cannot just
+  change the verifier to win the game:-)
+- Your implementation of a coin miner SHOULD honour the CS2014COIN_MAXITERS value
+defined in the API - that means your code ought exit with an error
+if it doesn't find a coin after that number of iterations of nonce
+values.
+- You SHOULd implement your coin miner in one .c file, it'd make sense to keep
+using the [cs2014coin-make.c](./cs2014coin-make.c) file and just add your code to that.
+
+### Some hints...
+
+Here's a few hints to help you with your mining code:
+
+- There are examples in ```$BUILD/mbedtls-2.6.0/programs/pkey/``` that should 
+  help you figure out how to use the mbed TLS APIs.
+  (But you've a bunch of stuff to figure out too!)
+  Don't only stare at that code - build, run and test it too.
+- mbed TLS functions you will likely want to use will include:
+	- ```mbedtls_ctr_drbg_seed```
+	- ```mbedtls_ecp_gen_key```
+	- ```mbedtls_md_starts```
+	- ```mbedtls_md_update```
+	- ```mbedtls_md_finish```
+	- ```mbedtls_pk_sign```
+- There are also various ```mbedtls_*_init``` and ```mbedtls_*_setup``` functions related to
+  the above that you'll need to call to get those to work properly.
+- Writing your code to test with a small value for "bits" (say 5) will help
+- Until your code seems to be working, limiting the iterations to a small 
+  number (say 2) will help you debug your stuff 
+- You'll likely need to debug with ```gdb``` for this one. We'll chat about
+  that in class.
+- My working implementation of ```cs2014coin-make.c``` has 250 lines in the
+  file, including comments and debugging code. Yours shouldn't be too much 
+  different to that. 
+- Understanding the verification code will help you write the mining
+  code, so don't ignore that. You can run it and debug it using the
+  sample coin.
+
+## What's here?
+
+The files in this assignment directory you should see now are:
+
+- [cs2014.coin](cs2014.coin) - a sample coin
+- [cs2014coin-main.c](cs2014coin-main.c) - the main line code 
+- [cs2014coin.h](cs201coin.h) - the API definition
+- [cs2014coin-int.h](cs201coin.h) - macros and function prototypes used internally by the API implementation 
+- [cs2014coin-util.c](cs2014coin-check.c) - some API utilities
+- [cs2014coin-check.c](cs2014coin-check.c) - the API implementation code for coin checking
+- [cs2014coin-make.c](cs2014coin-make.c) - a stuf of the API implementation code for making coins - you'll write the code for this
+- [Makefile](Makefile)  - the Makefile to builld the above and link in the mbed TLS library
+- [../assignment2/mbedtls-2.6.0](../assignment2/mbedtls-2.6.0/) - the directory with the mbed TLS stuff
+- [../assignment2/mbedtls-2.6.0-apache.tgz](https://tls.mbed.org/download/start/mbedtls-2.6.0-apache.tgz)- the tarball you downloaded
+- [README.html](README.html) - this HTML file
+- [README.md](README.md) - the markdown source for this HTML file
+
+## Noteworthy
+
+There are a number of notewothy things in the code given to you for this assignment:
+
+- We've seen our first use of an [RFC2119](https://tools.ietf.org/html/rfc2119) MUST
+- We've used ```extern``` in the internal API stuff for error strings.
+- We use ```getopt()``` - for details see ```man 3 getopt``` 
+  Do also look at this [example](https://www.gnu.org/software/libc/manual/html_node/Example-of-Getopt.html)
+- The verification [code](./cs2014coin-check.c) attempts to be 
+[constant time](https://cryptocoding.net/index.php/Coding_rules). 
+That code is nearly, but not quite, done - anyone interested in improving
+that is welcome to try and I'll be interested in what you find. (I
+might do a bit more on that myself as I need to learn how to do
+sometime:-)
+- ```dumpbuf()``` etc is handy and fairly typical
+- Things like ```cs2014coin-int.h``` and ```cs2014coin-util.c``` are typical too.
+- Error string handling like this is sorta-but-not-that common
+- The doxygen docs for this could be interesting to look at, see if
+  you can make them?
+
+## Deadline
+
+The deadline for submission of this assignment is 2017-10-30
+
+## Submission
+
+For this assignment you should only submit your single file of
+source code, which can be called ```cs2014coin-make.c```
+
+To submit your assignment use 
+[https://cs2014.scss.tcd.ie/](https://cs2014.scss.tcd.ie/) as usual.
+

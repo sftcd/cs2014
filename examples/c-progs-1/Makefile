@@ -6,7 +6,7 @@ MDCMD=markdown_py
 MDOPTS=-f
 
 # debug version
-CC=gcc -g
+CC=gcc -g -fsanitize=address
 
 # non-debug version
 #CC=gcc
