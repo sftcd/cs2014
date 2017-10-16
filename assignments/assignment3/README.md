@@ -20,33 +20,38 @@ structure you'll need to figure out what to change.
 
 ## "CS2014 COIN" Specification
 
-The basic idea is similar to, but a lot simpler than, the bitcoin idea of
-mining ["difficulty"](https://en.bitcoin.it/wiki/Difficulty). 
-We require that each "CS2014 coin" includes the inputs to a SHA256 hash
-whose output value has a selected number of the low order (rightmost) bits with
-zero values. Since the output of a hash funcion like SHA256 is essentially
-random, one has to try many times before one sees such an output, and
-the longer the run of zeros required, the more attempts one needs.
+### Overview
 
-To generate such outputs we include a [cryptographic nonce](https://en.wikipedia.org/wiki/Cryptographic_nonce)
-in the hash input value. We can vary the nonce value until we find a hash output with the required number of
-bits zero-valued. (Efficiency in coin mining is clearly important, so
-please do try to make your code for this part as speedy as you can!
-Some marks may be available for that - ping me if you think you've
+The basic idea is similar to, but a lot simpler than, the bitcoin idea of
+mining ["difficulty"](https://en.bitcoin.it/wiki/Difficulty).  We require that
+each "CS2014 coin" includes the inputs to a SHA256 hash whose output value has
+a selected number of the low order (rightmost) bits with zero values. Since the
+output of a hash funcion like SHA256 is essentially random, one has to try many
+times before one sees such an output, and the longer the run of zeros required,
+the more attempts one needs.
+
+To generate such outputs we include a 
+[cryptographic nonce](https://en.wikipedia.org/wiki/Cryptographic_nonce) in 
+the hash input value. We can vary the nonce value until we find a hash output with the
+required number of bits zero-valued. (Efficiency in coin mining is clearly
+important, so please do try to make your code for this part as speedy as you
+can!  Some marks may be available for that - ping me if you think you've
 written some notably good code.)
 
-In addition (just for the coding fun:-) we require each coin to be digitally signed
-using the Elliptic Curve Digital Signature Algorithm (ECDSA) with the
-p256 NIST curve. (That's the default when you generate an Elliptic
-Curve key pair, so you won't need to understand any details of ECDSA:-)
-Our coins therefore also include the public key needed to verify the coin
-signature in the signed data. 
+In addition (just for the coding fun:-) we require each coin to be digitally
+signed using the Elliptic Curve Digital Signature Algorithm (ECDSA) with the
+p256 NIST curve. (That's the default when you generate an Elliptic Curve key
+pair, so you won't need to understand any details of ECDSA:-) Our coins
+therefore also include the public key needed to verify the coin signature in
+the signed data. 
 
 There are also some housekeeping fields to help with encoding and
 decoding and for (pretend:-) futureproofing. 
 
 CS2014 coins are binary values. We don't use JSON, XML or any other
 generic encoding/decoding scheme. 
+
+### Example
 
 Here's a hexdump of an example coin: 
 
@@ -75,7 +80,14 @@ Here's a hexdump of an example coin:
 		b1,ae,6a,19,ed,2a,a3,3a,ec,8b,01,7c,50,9a,15,8b
 		7a,77,7b,28,b4,70,71,1f,77,40,c2,6b,22,0e,6e,fb
 
-There are a number of fields in such a value:
+### Protocol data units (PDUs)
+
+Our coin syntax is pretty simple, with all but one field being fixed width (for
+now), and hence doesn't need us to use any data definition language such as
+[ASN.1](https://en.wikipedia.org/wiki/Abstract_Syntax_Notation_One), 
+[XML schema](https://en.wikipedia.org/wiki/XML_schema) etc.
+
+The fields in a CS2014 coin are: 
 
 <table>
 <tr><th>Offset</th><th>Name</th><th>Length</th><th>Description</th></tr>
@@ -93,7 +105,32 @@ There are a number of fields in such a value:
 
 </table>
 
-Breaking the above sample down into those fields we get...
+As a side-note: the public key and signature fields do actually internally use
+ASN.1 specified encoding of those values encoded with the Distiguished Encoding
+Rules ([DER](https://en.wikipedia.org/wiki/Distinguished_Encoding_Rules)). 
+That's done so that those are the same values used in 
+[X.509 public key certificates](https://tools.ietf.org/html/rfc5280), 
+as used for Transport Layer Security 
+([TLS](https://tools.ietf.org/html/rfc5246)), e.g.
+when using 
+[HTTPS](https://tools.ietf.org/html/rfc2818). 
+While we don't notice it here, that actually makes those values more comlpex
+and bigger for no ostensibly good reason, if one didn't consider the savings 
+in code re-use. Cases like that are common, and are one reason why it can 
+take a very loooong time to migrate away from use of some pretty old 
+format/API to any shiny new format/API. (See issues with 
+[PKCS#1v1.5](https://cryptosense.com/why-pkcs1v1-5-encryption-should-be-put-out-of-our-misery/).)
+
+### Cryptographic inputs/outputs
+
+- Bytes 0..205 inclusive are input to the Proof-of-Work (PoW) hash (which uses SHA256).
+- Bytes 206..241 inclusive are the PoW length and hash value
+- Bytes 0..241 inclusive are input to the signature 
+- Bytes 242..end are the signature length and value
+
+### Example (again)
+
+Breaking the above sample down into these fields we get...
 
 		Ciphersuite
 		00,00,00,00,
