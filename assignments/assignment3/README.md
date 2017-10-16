@@ -53,7 +53,7 @@ generic data representation scheme.
 
 ### Example
 
-Here's a hexdump of an example coin: 
+Here's a hexdump of an example coin with 20 bits of difficulty: 
 
 		00,00,00,00,00,00,00,14,00,00,00,9e,30,81,9b,30
 		10,06,07,2a,86,48,ce,3d,02,01,06,05,2b,81,04,00
@@ -134,13 +134,13 @@ format/API to any shiny new format/API. (See issues with
 
 Breaking the above sample down into these fields we get...
 
-		Ciphersuite
+		Ciphersuite (0)
 		00,00,00,00,
-		Difficulty in terms of bits
+		Difficulty in terms of bits (20)
 		            00,00,00,14,
-		Length of public key
+		Length of public key (4)
 		                        00,00,00,9e,
-		Public key value
+		Public key value (138, DER encoded)
 		                                    30,81,9b,30
 		10,06,07,2a,86,48,ce,3d,02,01,06,05,2b,81,04,00
 		23,03,81,86,00,04,01,c8,46,55,6b,4e,26,bb,6e,22
@@ -152,22 +152,22 @@ Breaking the above sample down into these fields we get...
 		fe,97,42,4f,3e,22,b7,c5,72,8c,f8,da,dd,53,ee,42
 		ca,af,8d,78,38,70,10,63,e9,8c,51,a5,02,f2,89,f8
 		a0,4d,68,7a,a5,96,d4,67,70,12,
-		Length of Nonce
+		Length of Nonce (4)
 		                              00,00,00,20,
-		Nonce value
+		Nonce value (32)
 		                                          1e,a9
 		86,c4,2b,ff,9f,99,00,2d,be,2e,91,c4,5a,ac,b7,49
 		e4,7e,1a,7f,65,ae,29,bf,3f,c7,d0,c5,ce,39,
-		Length of Proof-of-Work hash
+		Length of Proof-of-Work hash (4)
 		                                          00,00
 		00,20,
-		Proof-of-Work hash
+		Proof-of-Work hash (32)
 		      2c,55,ee,bd,2c,f0,ad,c8,77,56,cf,b6,15,e8
 		5e,2b,18,ce,3e,5c,fc,56,d2,4f,9a,8b,f5,71,a5,10
 		00,00,
-		Length of Signature
+		Length of Signature (4)
 		      00,00,00,8a,
-		Signature
+		Signature (138, DER encoded)
 		                  30,81,87,02,41,3b,cb,b3,10,9a
 		87,03,89,ec,61,aa,e4,9c,83,1a,7e,27,64,5b,6d,74
 		fc,6c,a7,f2,f9,2c,1c,11,c6,56,76,b2,77,aa,92,c8
@@ -187,6 +187,7 @@ have some implementation requirements that [MUST](https://tools.ietf.org/html/rf
 also be met:
 
 - Your implementation MUST honour the existing API defined in [cs2014coin.h](./cs2014coin.h)
+- Your implementation MUST honour the existing command line arguments defined in [cs2014coin-main.c](./cs2014coin-main.c)
 - Coins produced by your implementation MUST be verifiable using the
   verification implementation you've been given. (That is, you cannot just
   change the verifier to win the game:-)
@@ -216,6 +217,8 @@ Here's a few hints to help you with your mining code:
   the above that you'll need to call to get those to work properly.
 - Using network byte order means calls to ```htonl``` and ```ntohl``` are needed,
   in case the miner's and verifier's machines have different endianness.
+- The ```hexdump``` (aka ```hd```) tool will help you see what you're putting
+  in files, e.g. to check if your lengths are or are not in network byte order.
 - Writing your code to test with a small value for "bits" (say 5) will help
 - Until your code seems to be working, limiting the iterations to a small 
   number (say 2) will help you debug your stuff 
