@@ -192,7 +192,7 @@ also be met:
 defined in the API - that means your code ought exit with an error
 if it doesn't find a coin after that number of iterations of nonce
 values.
-- You SHOULd implement your coin miner in one .c file, it'd make sense to keep
+- You SHOULD implement your coin miner in one .c file, it'd make sense to keep
 using the [cs2014coin-make.c](./cs2014coin-make.c) file and just add your code to that.
 
 ### Some hints...
@@ -234,7 +234,7 @@ The files in this assignment directory you should see now are:
 - [cs2014coin-int.h](cs201coin.h) - macros and function prototypes used internally by the API implementation 
 - [cs2014coin-util.c](cs2014coin-check.c) - some API utilities
 - [cs2014coin-check.c](cs2014coin-check.c) - the API implementation code for coin checking
-- [cs2014coin-make.c](cs2014coin-make.c) - a stuf of the API implementation code for making coins - you'll write the code for this
+- [cs2014coin-make.c](cs2014coin-make.c) - a stub of the API implementation code for making coins - you'll write the code for this
 - [Makefile](Makefile)  - the Makefile to builld the above and link in the mbed TLS library
 - [../assignment2/mbedtls-2.6.0](../assignment2/mbedtls-2.6.0/) - the directory with the mbed TLS stuff
 - [../assignment2/mbedtls-2.6.0-apache.tgz](https://tls.mbed.org/download/start/mbedtls-2.6.0-apache.tgz)- the tarball you downloaded
