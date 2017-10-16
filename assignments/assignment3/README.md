@@ -49,7 +49,7 @@ There are also some housekeeping fields to help with encoding and
 decoding and for (pretend:-) futureproofing. 
 
 CS2014 coins are binary values. We don't use JSON, XML or any other
-generic encoding/decoding scheme. 
+generic data representation scheme.
 
 ### Example
 
@@ -264,6 +264,19 @@ sometime:-)
 - Error string handling like this is sorta-but-not-that common
 - The doxygen docs for this could be interesting to look at, see if
   you can make them?
+- I'd have preferred to use [EdDSA](https://en.wikipedia.org/wiki/EdDSA),
+  and in particular [Ed25519](https://tools.ietf.org/html/rfc8032), 
+  for this, or at least 
+  [deterministic signatures](https://tools.ietf.org/html/rfc6979), 
+  but that'd have made this too hard an assignment.
+  The reason is that ECDSA signature generation requires a random
+  number, and if that's badly chosen, then the private signing
+  key can leak (invalidating the entire point of signing). Such
+  details are often not easily visible to you as a programmer, but can be
+  critically important for the overall system produced. (The point
+  here is about security, but similar issues arise for any 
+  emergent property of the system, such as performance or
+  usability.)
 
 ## Deadline
 
