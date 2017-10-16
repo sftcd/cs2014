@@ -87,6 +87,7 @@ now), and hence doesn't need us to use any data definition language such as
 
 </table>
 
+<p>All length fields and the bits field are in <a href="https://en.wikipedia.org/wiki/Network_byte_order">network byte order</a>.</p>
 <p>As a side-note: the public key and signature fields do actually internally use
 ASN.1 specified encoding of those values encoded with the Distiguished Encoding
 Rules (<a href="https://en.wikipedia.org/wiki/Distinguished_Encoding_Rules">DER</a>). 
@@ -96,7 +97,7 @@ as used for Transport Layer Security
 (<a href="https://tools.ietf.org/html/rfc5246">TLS</a>), e.g.
 when using 
 <a href="https://tools.ietf.org/html/rfc2818">HTTPS</a>. 
-While we don't notice it here, that actually makes those values more comlpex
+While we don't notice it here, that actually makes those values more complex
 and bigger for no ostensibly good reason, if one didn't consider the savings 
 in code re-use. Cases like that are common, and are one reason why it can 
 take a very loooong time to migrate away from use of some pretty old 
@@ -190,6 +191,8 @@ using the <a href="./cs2014coin-make.c">cs2014coin-make.c</a> file and just add 
 </li>
 <li>There are also various <code>mbedtls_*_init</code> and <code>mbedtls_*_setup</code> functions related to
   the above that you'll need to call to get those to work properly.</li>
+<li>Using network byte order means calls to <code>htonl</code> and <code>ntohl</code> are needed,
+  in case the miner's and verifier's machines have different endianness.</li>
 <li>Writing your code to test with a small value for "bits" (say 5) will help</li>
 <li>Until your code seems to be working, limiting the iterations to a small 
   number (say 2) will help you debug your stuff </li>

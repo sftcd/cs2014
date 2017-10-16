@@ -105,6 +105,8 @@ The fields in a CS2014 coin are:
 
 </table>
 
+All length fields and the bits field are in [network byte order](https://en.wikipedia.org/wiki/Network_byte_order).
+
 As a side-note: the public key and signature fields do actually internally use
 ASN.1 specified encoding of those values encoded with the Distiguished Encoding
 Rules ([DER](https://en.wikipedia.org/wiki/Distinguished_Encoding_Rules)). 
@@ -114,7 +116,7 @@ as used for Transport Layer Security
 ([TLS](https://tools.ietf.org/html/rfc5246)), e.g.
 when using 
 [HTTPS](https://tools.ietf.org/html/rfc2818). 
-While we don't notice it here, that actually makes those values more comlpex
+While we don't notice it here, that actually makes those values more complex
 and bigger for no ostensibly good reason, if one didn't consider the savings 
 in code re-use. Cases like that are common, and are one reason why it can 
 take a very loooong time to migrate away from use of some pretty old 
@@ -212,6 +214,8 @@ Here's a few hints to help you with your mining code:
 	- ```mbedtls_pk_sign```
 - There are also various ```mbedtls_*_init``` and ```mbedtls_*_setup``` functions related to
   the above that you'll need to call to get those to work properly.
+- Using network byte order means calls to ```htonl``` and ```ntohl``` are needed,
+  in case the miner's and verifier's machines have different endianness.
 - Writing your code to test with a small value for "bits" (say 5) will help
 - Until your code seems to be working, limiting the iterations to a small 
   number (say 2) will help you debug your stuff 
