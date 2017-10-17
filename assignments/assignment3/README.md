@@ -300,6 +300,12 @@ might declare that function like this:
 
 		void print_coin (cs2014coin_t coin);
 
+
+To call that with mycoin as an input I just pass the variable to the function
+follows:
+
+		print_coin(mycoin);
+
 That's a little inefficient as the full structure is passed
 on the stack. So we much more commonly pass a pointer to
 the structure and hence would have a function like this 
@@ -308,7 +314,12 @@ instead:
 		void print_coin (cs2014coin_t *coin);
 
 Now there's only one pointer passed on the stack which is
-better, for large structs.
+better, for large structs. To call that with mycoin as an
+input I need to pass the address of mycoin and not the 
+value of mycoin, which I do using the &amp; character as
+follows:
+
+		print_coin(&mycoin);
 
 Inside that function, to access (read/set) the values of
 the fields we might have code like:
