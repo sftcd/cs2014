@@ -46,7 +46,7 @@
 #define CS2014COIN_MAXITER 1024*1024 /// the highest number of attepts we'll make
 
 /*!
- * @breief our basic cs2094 coin type
+ * @brief our basic cs2094 coin type
  * 
  * This structure describes a cs2014 coin.
  * Fields are flattened as usual, lengths use network byte order.

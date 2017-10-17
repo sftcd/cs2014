@@ -13,10 +13,11 @@ There are some hints below to which you ought pay attention.
 
 See [assignment2](../assignment2/README.html).
 
-If you clone the course repo then this code is in ```$REPO/assignments/assignment3```
-and contains a Makefile that assumes that you built mbed tls as instructed
-below ```$REPO/assignments/assignment2``` - if you used some other directoery 
-structure you'll need to figure out what to change.
+If you clone the course repo and this file is in ```$REPO/assignments/assignment3```
+then that directory contains a Makefile you can use. That Makefile assumes that 
+you already built mbed TLS for assignment 2 and that the mbed TLS 
+header files and library are below ```$REPO/assignments/assignment2``` - if you used 
+some other directory structure you'll need to figure out what to change.
 
 ## "CS2014 COIN" Specification
 
@@ -69,7 +70,7 @@ Here's a hexdump of an example coin with 20 bits of difficulty:
 		86,c4,2b,ff,9f,99,00,2d,be,2e,91,c4,5a,ac,b7,49
 		e4,7e,1a,7f,65,ae,29,bf,3f,c7,d0,c5,ce,39,00,00
 		00,20,2c,55,ee,bd,2c,f0,ad,c8,77,56,cf,b6,15,e8
-		5e,2b,18,ce,3e,5c,fc,56,d2,4f,9a,8b,f5,71,a5,10
+		5e,2b,18,ce,3e,5c,fc,56,d2,4f,9a,8b,f5,71,a5,10 <- 20 zero bits start with that last nibble 
 		00,00,00,00,00,8a,30,81,87,02,41,3b,cb,b3,10,9a
 		87,03,89,ec,61,aa,e4,9c,83,1a,7e,27,64,5b,6d,74
 		fc,6c,a7,f2,f9,2c,1c,11,c6,56,76,b2,77,aa,92,c8
@@ -91,7 +92,7 @@ The fields in a CS2014 coin are:
 
 <table>
 <tr><th>Offset</th><th>Name</th><th>Length</th><th>Description</th></tr>
-<tr><td>0</td><td>Ciphersuite</td><td>4</td><td>Specifies all crypto: value for now fixed at zero</td></tr>
+<tr><td>0</td><td>Ciphersuite</td><td>4</td><td>Specifies all cryptographic algorithms - value for now fixed at zero</td></tr>
 <tr><td>4</td><td>Bits</td><td>4</td><td>Specifies difficulty</td></tr>
 <tr><td>8</td><td>Public Key length</td><td>4</td><td>Specifies length of public key</td></tr>
 <tr><td>12</td><td>Public Key</td><td>158</td><td>Public key value (fixed for p256 curve)</td></tr>
@@ -104,6 +105,10 @@ The fields in a CS2014 coin are:
 </table>
 
 </table>
+
+The ciphersuite value of zero means: "use SHA256 for the proof-of-work and use
+ECDSA with NIST p256 for the public key and signature." The ciphersuite concept
+is used in TLS and various other cryptographic protocols.
 
 All length fields and the bits field are in [network byte order](https://en.wikipedia.org/wiki/Network_byte_order).
 
@@ -230,6 +235,99 @@ Here's a few hints to help you with your mining code:
 - Understanding the verification code will help you write the mining
   code, so don't ignore that. You can run it and debug it using the
   sample coin.
+
+## A typedef for our coins...
+
+The [cs2014coin.h](./cs2014coin.h) header file defines the API you
+have to use, and includes the  ```typedef struct``` below. You
+can, but don't have to use that in your code. (There are no copies
+of, or pointers to, instances of that structure passed in the API,
+so you don't have to use it.)
+
+But we'll look at it now anyway...
+
+		/*!
+		 * @breief our basic cs2094 coin type
+		 * 
+		 * This structure describes a cs2014 coin.
+		 * Fields are flattened as usual, lengths use network byte order.
+		 * The hash is over the fields that preceed it in the struct.
+		 * The rightmost 'bits' bits of the hash value must be zero.
+		 * The signature is over the fields that proceed it in the struct.
+		 * All length fields, except 'bits' are in octets
+		 *
+		 */
+		typedef struct cs2014coin_t_defn {
+			int ciphersuite; /// specifies all algorithms 
+			int bits; /// specifies the zero-bit run length needed in the hashval
+			int keylen; /// length of the public key
+			unsigned char *keyval; /// public key value
+			int noncelen; /// length of nonce
+			unsigned char *nonceval;
+			int hashlen; /// length of hashval
+			unsigned char *hashval; /// hash value with 'bits' of the LSBs having a value of zero 
+			int siglen; /// signature length
+			unsigned char *sigval; /// signature value
+		} cs2014coin_t;
+		
+
+If I wanted to use that in some code, then I'd declare a variable
+```foo``` like this:
+
+		cs2014coin_t mycoin;
+
+And I can access (read/set) the field values like this:
+
+		mycoin.ciphesuite==CS2014COIN_CS_0;
+
+When I declare such a variable on the stack it'll consume a pile
+of memory ( 6 ints and 4 pointers, so maybe ~48 bytes total or
+more if the compiler aligns things specially).
+But your code may be a good bit tidier if you use such a variable
+rather than have a load of separate variables (which won't really
+be much more memory efficient in many cases). And tidier
+code is easier to maintain etc. which is a good thing (tm). 
+
+If I wanted to pass a value like mycoin (say after it's been
+fully populated) to some function, ```print_coin()``` then I
+might declare that function like this:
+
+		void print_coin (cs2014couin_t coin);
+
+That's a little inefficient as the full structure is passed
+on the stack. So we much more commonly pass a pointer to
+the structure and hence would have a function like this 
+instead:
+
+		void print_coin (cs2014couin_t *coin);
+
+Now there's only one pointer passed on the stack which is
+better, for large structs.
+
+Inside that function, to access (read/set) the values of
+the fields we might have code like:
+
+
+		if (coin->ciphersuite==CS2014COIN_CS_0) {
+			printf("Default Cipersuite\n");
+		}
+
+There's also an *important* difference in passing
+things or pointers to things to functions. Since
+C passes everything *by value*, you have to 
+pass a pointer to that thing if the function
+you're calling
+needs to modify the value of an input.
+(To make a parameter an in/out parameter in 
+e.g. doxygen terms.)
+
+I like [this](https://denniskubes.com/2012/08/20/is-c-pass-by-value-or-reference/)
+description of how C does pass by value.
+
+But again, you might or might not want to use
+this particular struct in doing assignment 3, I mainly
+included it to have this discussion of *pass
+by value* and *pass by reference*.
 
 ## What's here?
 
