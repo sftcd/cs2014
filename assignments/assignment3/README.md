@@ -2,7 +2,9 @@
 
 Your assignment is to write code that creates bitcoin-like values 
 that meet the spec below and that are verified by 
-the code you're given here.
+the code you're given here. What we'll be doing is actually more
+like a [hashcash proof-of-work](https://www.bitcoinmining.com/what-is-hashcash/)
+rather than anything to do with the bitcoin blockchain.
 
 We'll re-use the [mbed TLS](https://tls.mbed.org/kb)
 package for the verifier code. You pretty much have to do the same for the coin making
