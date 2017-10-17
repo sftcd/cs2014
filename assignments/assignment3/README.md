@@ -247,7 +247,7 @@ so you don't have to use it.)
 But we'll look at it now anyway...
 
 		/*!
-		 * @breief our basic cs2094 coin type
+		 * @brief our basic cs2094 coin type
 		 * 
 		 * This structure describes a cs2014 coin.
 		 * Fields are flattened as usual, lengths use network byte order.
