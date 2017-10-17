@@ -235,6 +235,12 @@ Here's a few hints to help you with your mining code:
 - Understanding the verification code will help you write the mining
   code, so don't ignore that. You can run it and debug it using the
   sample coin.
+- Once you have a working coin miner, then you should be able to use
+  the [check-timing.sh](./check-timing.sh) shell script to see if 
+  your performance, (in terms of iterations of attempted proof-of-work),
+  is roughly similar to openssl's sha256 (in hashes per second) 
+  on your development box. They should be close - less than an order 
+  of magnitude apart.
 
 ## A typedef for our coins...
 
@@ -340,6 +346,7 @@ The files in this assignment directory you should see now are:
 - [cs2014coin-util.c](cs2014coin-check.c) - some API utilities
 - [cs2014coin-check.c](cs2014coin-check.c) - the API implementation code for coin checking
 - [cs2014coin-make.c](cs2014coin-make.c) - a stub of the API implementation code for making coins - you'll write the code for this
+- [check-time.sh](./check-time.sh) - a script to see how fast/slow we are vs. openssl
 - [Makefile](Makefile)  - the Makefile to builld the above and link in the mbed TLS library
 - [../assignment2/mbedtls-2.6.0](../assignment2/mbedtls-2.6.0/) - the directory with the mbed TLS stuff
 - [../assignment2/mbedtls-2.6.0-apache.tgz](https://tls.mbed.org/download/start/mbedtls-2.6.0-apache.tgz)- the tarball you downloaded
