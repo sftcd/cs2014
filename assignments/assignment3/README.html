@@ -260,13 +260,13 @@ code is easier to maintain etc. which is a good thing (tm). </p>
 <p>If I wanted to pass a value like mycoin (say after it's been
 fully populated) to some function, <code>print_coin()</code> then I
 might declare that function like this:</p>
-<pre><code>    void print_coin (cs2014couin_t coin);
+<pre><code>    void print_coin (cs2014coin_t coin);
 </code></pre>
 <p>That's a little inefficient as the full structure is passed
 on the stack. So we much more commonly pass a pointer to
 the structure and hence would have a function like this 
 instead:</p>
-<pre><code>    void print_coin (cs2014couin_t *coin);
+<pre><code>    void print_coin (cs2014coin_t *coin);
 </code></pre>
 <p>Now there's only one pointer passed on the stack which is
 better, for large structs.</p>

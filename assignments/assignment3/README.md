@@ -292,14 +292,14 @@ If I wanted to pass a value like mycoin (say after it's been
 fully populated) to some function, ```print_coin()``` then I
 might declare that function like this:
 
-		void print_coin (cs2014couin_t coin);
+		void print_coin (cs2014coin_t coin);
 
 That's a little inefficient as the full structure is passed
 on the stack. So we much more commonly pass a pointer to
 the structure and hence would have a function like this 
 instead:
 
-		void print_coin (cs2014couin_t *coin);
+		void print_coin (cs2014coin_t *coin);
 
 Now there's only one pointer passed on the stack which is
 better, for large structs.
