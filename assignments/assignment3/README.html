@@ -211,6 +211,12 @@ using the <a href="./cs2014coin-make.c">cs2014coin-make.c</a> file and just add 
 <li>Understanding the verification code will help you write the mining
   code, so don't ignore that. You can run it and debug it using the
   sample coin.</li>
+<li>Once you have a working coin miner, then you should be able to use
+  the <a href="./check-timing.sh">check-timing.sh</a> shell script to see if 
+  your performance, (in terms of iterations of attempted proof-of-work),
+  is roughly similar to openssl's sha256 (in hashes per second) 
+  on your development box. They should be close - less than an order 
+  of magnitude apart.</li>
 </ul>
 <h2>A typedef for our coins...</h2>
 <p>The <a href="./cs2014coin.h">cs2014coin.h</a> header file defines the API you
@@ -300,6 +306,7 @@ by value</em> and <em>pass by reference</em>.</p>
 <li><a href="cs2014coin-check.c">cs2014coin-util.c</a> - some API utilities</li>
 <li><a href="cs2014coin-check.c">cs2014coin-check.c</a> - the API implementation code for coin checking</li>
 <li><a href="cs2014coin-make.c">cs2014coin-make.c</a> - a stub of the API implementation code for making coins - you'll write the code for this</li>
+<li><a href="./check-time.sh">check-time.sh</a> - a script to see how fast/slow we are vs. openssl</li>
 <li><a href="Makefile">Makefile</a>  - the Makefile to builld the above and link in the mbed TLS library</li>
 <li><a href="../assignment2/mbedtls-2.6.0/">../assignment2/mbedtls-2.6.0</a> - the directory with the mbed TLS stuff</li>
 <li><a href="https://tls.mbed.org/download/start/mbedtls-2.6.0-apache.tgz">../assignment2/mbedtls-2.6.0-apache.tgz</a>- the tarball you downloaded</li>
