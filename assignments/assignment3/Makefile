@@ -68,6 +68,15 @@ all: $(program_NAME)
 $(program_NAME): $(program_OBJS)
 	$(CC) $(program_OBJS) $(LDFLAGS) -o $(program_NAME)
 
+doc: $(program_NAME) rnd-dox refman.pdf
+
+refman.pdf:
+	doxygen rnd-dox
+	cd latex;make;cp refman.pdf ..
+
+rnd-dox:
+	doxygen -g rnd-dox
+
 clean:
 	@- $(RM) $(program_NAME)
 	@- $(RM) $(program_OBJS)
@@ -76,6 +85,8 @@ distclean: clean
 
 reallyclean: clean
 	@- $(RM) README.html
+	@- $(RM) refman.pdf
+	@- $(RM) -rf latex html
 
 %.html: %.md
 	$(MDCMD) $(MDOPTS) $(@) $(<) 

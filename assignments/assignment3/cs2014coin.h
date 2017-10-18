@@ -57,16 +57,25 @@
  *
  */
 typedef struct cs2014coin_t_defn {
-	int ciphersuite; /// specifies all algorithms 
-	int bits; /// specifies the zero-bit run length needed in the hashval
-	int keylen; /// length of the public key
-	unsigned char *keyval; /// public key value
-	int noncelen; /// length of nonce
+	/// specifies all algorithms 
+	int ciphersuite; 
+	/// specifies the zero-bit run length needed in the hashval
+	int bits; 
+	/// length of the public key
+	int keylen; 
+	/// public key value
+	unsigned char *keyval; 
+	/// length of nonce
+	int noncelen; 
 	unsigned char *nonceval;
-	int hashlen; /// length of hashval
-	unsigned char *hashval; /// hash value with 'bits' of the LSBs having a value of zero 
-	int siglen; /// signature length
-	unsigned char *sigval; /// signature value
+	/// length of hashval
+	int hashlen; 
+	/// hash value with 'bits' of the LSBs having a value of zero 
+	unsigned char *hashval; 
+	/// signature length
+	int siglen; 
+	/// signature value
+	unsigned char *sigval; 
 } cs2014coin_t;
 
 # define CS2014COIN_CS_0 0 /// ciphersuite zero, ecdsa/p256/sha256/
@@ -85,7 +94,7 @@ const char *cs2014coin_err(int errno);
  * @param bits specifies how many bits need to be zero in the hash-output
  * @param buf is an allocated buffer for the coid
  * @param buflen is an in/out parameter reflecting the buffer-size/actual-coin-size 
- * @return the random byte
+ * @return zero for success, non-zero for fail (note: success != good coin!)
  *
  * Make me a coin of the required quality/strength
  *
@@ -98,7 +107,7 @@ int cs2014coin_make(int bits, unsigned char *buf, int *buflen);
  * @param buf is an allocated buffer for the coid
  * @param buflen specifies the input coin size
  * @param res contains the result of checking the coin
- * @return the random byte
+ * @return zero for success, non-zero for fail (note: success != good coin!)
  *
  * Make me a coin of the required quality/strength
  *

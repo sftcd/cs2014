@@ -34,13 +34,17 @@
 #ifndef CS2014COIN_INT_H_INCLUDED
 #define CS2014COIN_INT_H_INCLUDED
 
-#undef CC_DEBUG 			/// turns on some debug printing
-#undef CC_DEBUG_EXTRA 		/// turns on loadsa debugging
+/// turns on some debug printing
+#undef CC_DEBUG 			
 
-#define CC_BUFSIZ 16000 /// we'll use this on stack to save coding mallocs etc
+/// turns on loadsa debugging
+#undef CC_DEBUG_EXTRA 		
 
-#define CC_DEFERR "Bummer, no idea what went wrong there" /// a generic error
-#define CC_GENERR "Some kind of fairly generic error happened" /// another generic error
+/// we'll use this on stack to save coding mallocs etc
+#define CC_BUFSIZ 16000 
+
+#define CC_DEFERR "Bummer, no idea what went wrong there" ///< a generic error
+#define CC_GENERR "Some kind of fairly generic error happened" ///< another generic error
 
 // constants for each error string index in the errstrs array (except the first!)
 #define CC_TOOLONG 			1 /// input is too long 

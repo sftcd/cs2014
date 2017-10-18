@@ -80,7 +80,7 @@ int lc_memcmp (const void *a, const void *b, size_t size) {
  * @param buf is an allocated buffer for the coid
  * @param buflen specifies the input coin size
  * @param res contains the result of checking the coin
- * @return the random byte
+ * @return zero for success, non-zero for fail (note: success != good coin!)
  *
  * Check a coin of the required quality/strength
  * Note we attempt to be roughly constant time here, just for fun
