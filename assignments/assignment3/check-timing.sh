@@ -78,7 +78,9 @@ echo "Average of $average iterations at difficulty $bits over $goodruns runs"
 
 # reported as n.nn seconds, the last sed loses the decimal point
 # so we're measuring in milli seconds for now 
-totalwalltime=`cat $timef |  awk '{ sum += $1; n++ } END { if (n > 0) print sum ; }' | sed -e 's/\.//'`
+# need to zap leading zeros otherwise the times-10 below will assume the input
+# was octal (sheesh!)
+totalwalltime=`cat $timef |  awk '{ sum += $1; n++ } END { if (n > 0) print sum ; }' | sed -e 's/\.//' | sed -e 's/^0*//'`
 (( totalwalltime *= 10 ))
 (( overalliters = total + badtotal ))
 (( hps = 1000*overalliters / totalwalltime ))
