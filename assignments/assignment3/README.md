@@ -279,8 +279,7 @@ But we'll look at it now anyway...
 		} cs2014coin_t;
 		
 
-If I wanted to use that in some code, then I'd declare a variable
-```mycoin``` like this:
+If I wanted to use that in some code, then I'd declare a variable ```mycoin``` like this:
 
 		cs2014coin_t mycoin;
 
