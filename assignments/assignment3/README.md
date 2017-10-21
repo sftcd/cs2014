@@ -280,7 +280,7 @@ But we'll look at it now anyway...
 		
 
 If I wanted to use that in some code, then I'd declare a variable
-```foo``` like this:
+```mycoin``` like this:
 
 		cs2014coin_t mycoin;
 
