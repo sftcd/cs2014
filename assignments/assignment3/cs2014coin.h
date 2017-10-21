@@ -107,7 +107,7 @@ int cs2014coin_make(int bits, unsigned char *buf, int *buflen);
  * @param buf is an allocated buffer for the coid
  * @param buflen specifies the input coin size
  * @param res contains the result of checking the coin
- * @return zero for success, non-zero for fail (note: success != good coin!)
+ * @return zero for success, non-zero for fail 
  *
  * Make me a coin of the required quality/strength
  *

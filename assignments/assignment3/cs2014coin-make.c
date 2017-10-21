@@ -42,7 +42,7 @@
  * @param bits specifies how many bits need to be zero in the hash-output
  * @param buf is an allocated buffer for the coid
  * @param buflen is an in/out parameter reflecting the buffer-size/actual-coin-size 
- * @return the random byte
+ * @return zero for success, non-zero for fail 
  *
  * Make me a coin of the required quality/strength
  *
