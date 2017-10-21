@@ -23,8 +23,12 @@
 #set -x
 
 # do N runs of coin making and report average
+# note that the luckier you are in finding a proof-of-work, the
+# worse the timing will seem - with fewer hash iterations, the
+# key generation and signing time becomes more significant
 
-NRUNS=10 # no idea how many needed for good average 
+DOOPENSSL="yes" # default to do openssl
+NRUNS=100 # no idea how many needed for good average 
 bits=17 # default
 # temp place to keep timing info
 timef=`mktemp /tmp/nruns.timesXXXX`
@@ -32,7 +36,6 @@ timef=`mktemp /tmp/nruns.timesXXXX`
 NOW=`date -u +%Y%m%d-%H%M%S`
 
 CMD=./cs2014-coin
-
 CARGS="-m -b $bits"
 
 if [[ ! -f $timef ]]
@@ -85,16 +88,18 @@ totalwalltime=`cat $timef |  awk '{ sum += $1; n++ } END { if (n > 0) print sum 
 (( overalliters = total + badtotal ))
 (( hps = 1000*overalliters / totalwalltime ))
 
-echo "Timing vs. openssl's sha256 (on 256 byte blocks)"
-
 echo "Wall time: $totalwalltime (ms) Ovarall iterations (incl. fails): $overalliters"
-
 echo "Our iterations per second: $hps"
 
-# time openssl
-ohps=`openssl speed sha256 -mr 2>&1 | head -6 | tail -1  | awk -F':' '{print $2/$4}'`
+if [[ $DOOPENSSL == "yes" ]]
+then
 
-echo "Openssl's sha256 hashes per second: $ohps" 
+	echo "Timing vs. openssl's sha256 (on 256 byte blocks)"
+
+	# time openssl
+	ohps=`openssl speed sha256 -mr 2>&1 | head -6 | tail -1  | awk -F':' '{print $2/$4}'`
+	echo "Openssl's sha256 hashes per second: $ohps" 
+fi
 
 # clean up
 rm -f $timef
