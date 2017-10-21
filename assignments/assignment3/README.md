@@ -286,7 +286,7 @@ If I wanted to use that in some code, then I'd declare a variable
 
 And I can access (read/set) the field values like this:
 
-		mycoin.ciphresuite==CS2014COIN_CS_0;
+		mycoin.ciphersuite==CS2014COIN_CS_0;
 
 When I declare such a variable on the stack it'll consume a pile
 of memory ( 6 ints and 4 pointers, so maybe ~48 bytes total or
