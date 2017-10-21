@@ -92,7 +92,7 @@ const char *cs2014coin_err(int errno);
 /*!
  * @brief make a coin
  * @param bits specifies how many bits need to be zero in the hash-output
- * @param buf is an allocated buffer for the coid
+ * @param buf is an allocated buffer for the coin
  * @param buflen is an in/out parameter reflecting the buffer-size/actual-coin-size 
  * @return zero for success, non-zero for fail (note: success != good coin!)
  *
@@ -104,7 +104,7 @@ int cs2014coin_make(int bits, unsigned char *buf, int *buflen);
 /*!
  * @brief check a coin
  * @param bits specifies how many bits need to be zero in the hash-output
- * @param buf is an allocated buffer for the coid
+ * @param buf is an allocated buffer for the coin
  * @param buflen specifies the input coin size
  * @param res contains the result of checking the coin
  * @return zero for success, non-zero for fail 

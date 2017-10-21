@@ -40,7 +40,7 @@
 /*!
  * @brief make a coin
  * @param bits specifies how many bits need to be zero in the hash-output
- * @param buf is an allocated buffer for the coid
+ * @param buf is an allocated buffer for the coin
  * @param buflen is an in/out parameter reflecting the buffer-size/actual-coin-size 
  * @return zero for success, non-zero for fail 
  *

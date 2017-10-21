@@ -34,24 +34,39 @@
 #ifndef CS2014COIN_INT_H_INCLUDED
 #define CS2014COIN_INT_H_INCLUDED
 
-/// turns on some debug printing
-#undef CC_DEBUG 			
-
-/// turns on loadsa debugging
-#undef CC_DEBUG_EXTRA 		
-
-/// we'll use this on stack to save coding mallocs etc
-#define CC_BUFSIZ 16000 
+#define CC_BUFSIZ 16000 ///< we'll use this on stack to save coding mallocs etc
 
 #define CC_DEFERR "Bummer, no idea what went wrong there" ///< a generic error
 #define CC_GENERR "Some kind of fairly generic error happened" ///< another generic error
 
 // constants for each error string index in the errstrs array (except the first!)
-#define CC_TOOLONG 			1 /// input is too long 
-#define CC_DRBGCRAP 		2 /// can't initiate DRBG
-#define CC_KEYGENFAIL 		3 /// key generator failed
-#define CC_ITERS 			4 /// an error to use if we've iterated too much searching for a coin
-#define CC_BADCIPHERSUITE 	5 /// an unknown ciphersuite
+#define CC_TOOLONG 			1 ///< input is too long 
+#define CC_DRBGCRAP 		2 ///< can't initiate DRBG
+#define CC_KEYGENFAIL 		3 ///< key generator failed
+#define CC_ITERS 			4 ///< an error to use if we've iterated too much searching for a coin
+#define CC_BADCIPHERSUITE 	5 ///< an unknown ciphersuite
+
+/// this form of macro is only there to keep doxygen happy
+/// what we (normally) want is to undef CC_DEBUG, but
+/// the bare under confuses doxygen
+#define NO_CC_DEBUG 			///< turns off debug printing
+#ifdef NO_CC_DEBUG
+#undef CC_DEBUG 			///< turns on some debug printing
+#else /* NO_CC_DEBUG */
+#define CC_DEBUG 			///< turns on some debug printing
+#endif /* NO_CC_DEBUG */
+
+/// this form of macro is only there to keep doxygen happy
+/// what we (normally) want is to undef CC_DEBUG_EXTRA, but
+/// the bare under confuses doxygen
+#define NO_CC_DEBUG_EXTRA 		///< turns off loadsa debugging
+#ifdef NO_CC_DEBUG_EXTRA
+#undef CC_DEBUG_EXTRA 		///< turns on loadsa debugging
+#else /* NO_CC_DEBUG_EXTRA */
+#define CC_DEBUG_EXTRA 		///< turns on loadsa debugging
+#endif /* NO_CC_DEBUG_EXTRA */
+
+
 
 /// an array of speciic strings - CC_foo #define'd values are index the strings in this array 
 extern const char *errstrs[];

@@ -77,7 +77,7 @@ int lc_memcmp (const void *a, const void *b, size_t size) {
 /*!
  * @brief check a coin
  * @param bits specifies how many bits need to be zero in the hash-output
- * @param buf is an allocated buffer for the coid
+ * @param buf is an allocated buffer for the coin
  * @param buflen specifies the input coin size
  * @param res contains the result of checking the coin
  * @return zero for success, non-zero for fail (note: success != good coin!)

@@ -1,5 +1,5 @@
 /*!
- * @file cs2014coin-err.c
+ * @file cs2014coin-util.c
  * @brief This is the implementation of utilities for cs2014 coins
  *
  * It should go without saying that these coins are for play:-)
@@ -91,6 +91,12 @@ void dumpbuf(char *msg, unsigned char *buffer, int buflen)
  * @return 1 if those N bits are all zero, 0 otherwise
  *
  * be better if this were more efficient
+ * also be better if this were constant time
+ * so in real-world code we ought probably have
+ * two versions of this one, for coin checking that's
+ * constant time, but doesn't need to be too efficient
+ * and one for mining that doesn't need to be constant
+ * time but does need max efficiency
  */
 int zero_bits(int bits,unsigned char *buf,int buflen)
 {
