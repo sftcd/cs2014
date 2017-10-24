@@ -359,6 +359,7 @@ The files in this assignment directory you should see now are:
 - [cs2014coin-check.c](cs2014coin-check.c) - the API implementation code for coin checking
 - [cs2014coin-make.c](cs2014coin-make.c) - a stub of the API implementation code for making coins - you'll write the code for this
 - [check-timing.sh](./check-timing.sh) - a script to see how fast/slow we are vs. openssl
+- [keyplay.sh](./keyplay.sh) - a script to show the command line calls to generate an ec key and export the public part
 - [Makefile](Makefile)  - the Makefile to builld the above and link in the mbed TLS library
 - [refman.pdf](./refman.pdf) - the Doxygen PDF documentation for this project
 - [../assignment2/mbedtls-2.6.0](../assignment2/mbedtls-2.6.0/) - the directory with the mbed TLS stuff

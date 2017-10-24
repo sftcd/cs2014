@@ -251,8 +251,7 @@ so you don't have to use it.)</p>
         unsigned char *sigval; /// signature value
     } cs2014coin_t;
 </code></pre>
-<p>If I wanted to use that in some code, then I'd declare a variable
-<code>mycoin</code> like this:</p>
+<p>If I wanted to use that in some code, then I'd declare a variable <code>mycoin</code> like this:</p>
 <pre><code>    cs2014coin_t mycoin;
 </code></pre>
 <p>And I can access (read/set) the field values like this:</p>
@@ -318,6 +317,7 @@ by value</em> and <em>pass by reference</em>.</p>
 <li><a href="cs2014coin-check.c">cs2014coin-check.c</a> - the API implementation code for coin checking</li>
 <li><a href="cs2014coin-make.c">cs2014coin-make.c</a> - a stub of the API implementation code for making coins - you'll write the code for this</li>
 <li><a href="./check-timing.sh">check-timing.sh</a> - a script to see how fast/slow we are vs. openssl</li>
+<li><a href="./keyplay.sh">keyplay.sh</a> - a script to show the command line calls to generate an ec key and export the public part</li>
 <li><a href="Makefile">Makefile</a>  - the Makefile to builld the above and link in the mbed TLS library</li>
 <li><a href="./refman.pdf">refman.pdf</a> - the Doxygen PDF documentation for this project</li>
 <li><a href="../assignment2/mbedtls-2.6.0/">../assignment2/mbedtls-2.6.0</a> - the directory with the mbed TLS stuff</li>
