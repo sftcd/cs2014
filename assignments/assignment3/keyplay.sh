@@ -44,8 +44,25 @@ $MBDIR/programs/pkey/gen_key type=ec filename=$TDIR/ec.priv
 # export the public key as it'd be in a coin
 $MBDIR/programs/pkey/key_app_writer mode=private filename=$TDIR/ec.priv output_mode=public output_file=$TDIR/ec.pub output_format=der
 
+# export the public key in PEM format as verify needs
+$MBDIR/programs/pkey/key_app_writer mode=private filename=$TDIR/ec.priv output_mode=public output_file=$TDIR/ec.pem output_format=pem
+
 # hexdump the public key
 hd $TDIR/ec.pub
+
+cd $TDIR
+
+# create file to sign
+echo "I am a file. A nice file" >file.txt
+
+# sign that
+$MBDIR/programs/pkey/pk_sign ec.priv file.txt
+
+# verify that
+$MBDIR/programs/pkey/pk_verify ec.pem file.txt
+
+# go back where we came
+cd -
 
 
 # clean up
