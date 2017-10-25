@@ -222,6 +222,10 @@ Here's a few hints to help you with your mining code:
 	- ```mbedtls_pk_sign```
 - There are also various ```mbedtls_*_init``` and ```mbedtls_*_setup``` functions related to
   the above that you'll need to call to get those to work properly.
+- When you've generated a key then to get the DER of the public key, you'll
+  want to use ```mbedtls_pk_write_pubkey_der()```, but that function is
+  pretty odd - it puts the bytes on the right of the buffer you provide it
+  with!
 - Using network byte order means calls to ```htonl``` and ```ntohl``` are needed,
   in case the miner's and verifier's machines have different endianness.
 - The ```hexdump``` (aka ```hd```) tool will help you see what you're putting

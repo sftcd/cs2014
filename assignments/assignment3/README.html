@@ -198,6 +198,10 @@ using the <a href="./cs2014coin-make.c">cs2014coin-make.c</a> file and just add 
 </li>
 <li>There are also various <code>mbedtls_*_init</code> and <code>mbedtls_*_setup</code> functions related to
   the above that you'll need to call to get those to work properly.</li>
+<li>When you've generated a key then to get the DER of the public key, you'll
+  want to use <code>mbedtls_pk_write_pubkey_der()</code>, but that function is
+  pretty odd - it puts the bytes on the right of the buffer you provide it
+  with!</li>
 <li>Using network byte order means calls to <code>htonl</code> and <code>ntohl</code> are needed,
   in case the miner's and verifier's machines have different endianness.</li>
 <li>The <code>hexdump</code> (aka <code>hd</code>) tool will help you see what you're putting
