@@ -133,7 +133,7 @@ format/API to any shiny new format/API. (See issues with
 ### Cryptographic inputs/outputs
 
 - Bytes 0..241 inclusive are input to the Proof-of-Work (PoW) hash (which uses SHA256).
-	- when calculating PoW hash set: the PoW hash len to 32 (0x390) and  the last 32 bytes to 0x00 in input
+	- when calculating PoW hash set: the PoW hash len to 32 (0x20) and  the last 32 bytes to 0x00 in input
 - Bytes 0..241 inclusive are input to the signature 
 	- but this time with the real PoW hash value and not zeros
 - Bytes 242..end are the signature length and value
