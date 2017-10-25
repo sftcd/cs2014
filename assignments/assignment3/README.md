@@ -216,6 +216,8 @@ Here's a few hints to help you with your mining code:
   with!
 - I goofed on the PoW hash input length! see correct stuff above
 
+Older hints:
+
 - There are examples in ```$BUILD/mbedtls-2.6.0/programs/pkey/``` that should 
   help you figure out how to use the mbed TLS APIs.
   (But you've a bunch of stuff to figure out too!)
