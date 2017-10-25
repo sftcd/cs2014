@@ -111,9 +111,14 @@ format/API to any shiny new format/API. (See issues with
 <a href="https://cryptosense.com/why-pkcs1v1-5-encryption-should-be-put-out-of-our-misery/">PKCS#1v1.5</a>.)</p>
 <h3>Cryptographic inputs/outputs</h3>
 <ul>
-<li>Bytes 0..205 inclusive are input to the Proof-of-Work (PoW) hash (which uses SHA256).</li>
-<li>Bytes 206..241 inclusive are the PoW length and hash value</li>
-<li>Bytes 0..241 inclusive are input to the signature </li>
+<li>Bytes 0..241 inclusive are input to the Proof-of-Work (PoW) hash (which uses SHA256).<ul>
+<li>when calculating PoW hash set the last 36 bytes to 0x00 in input</li>
+</ul>
+</li>
+<li>Bytes 0..241 inclusive are input to the signature <ul>
+<li>but this time with the real PoW hash value and not zeros</li>
+</ul>
+</li>
 <li>Bytes 242..end are the signature length and value</li>
 </ul>
 <h3>Example (again)</h3>
@@ -183,10 +188,19 @@ using the <a href="./cs2014coin-make.c">cs2014coin-make.c</a> file and just add 
 <h3>Some hints...</h3>
 <p>Here's a few hints to help you with your mining code:</p>
 <ul>
-<li>There are examples in <code>$BUILD/mbedtls-2.6.0/programs/pkey/</code> that should 
+<li>When you've generated a key then to get the DER of the public key, you'll
+  want to use <code>mbedtls_pk_write_pubkey_der()</code>, but that function is
+  pretty odd - it puts the bytes on the right of the buffer you provide it
+  with!</li>
+<li>
+<p>I goofed on the PoW hash input length! see correct stuff above</p>
+</li>
+<li>
+<p>There are examples in <code>$BUILD/mbedtls-2.6.0/programs/pkey/</code> that should 
   help you figure out how to use the mbed TLS APIs.
   (But you've a bunch of stuff to figure out too!)
-  Don't only stare at that code - build, run and test it too.</li>
+  Don't only stare at that code - build, run and test it too.</p>
+</li>
 <li>mbed TLS functions you will likely want to use will include:<ul>
 <li><code>mbedtls_ctr_drbg_seed</code></li>
 <li><code>mbedtls_ecp_gen_key</code></li>
@@ -198,10 +212,6 @@ using the <a href="./cs2014coin-make.c">cs2014coin-make.c</a> file and just add 
 </li>
 <li>There are also various <code>mbedtls_*_init</code> and <code>mbedtls_*_setup</code> functions related to
   the above that you'll need to call to get those to work properly.</li>
-<li>When you've generated a key then to get the DER of the public key, you'll
-  want to use <code>mbedtls_pk_write_pubkey_der()</code>, but that function is
-  pretty odd - it puts the bytes on the right of the buffer you provide it
-  with!</li>
 <li>Using network byte order means calls to <code>htonl</code> and <code>ntohl</code> are needed,
   in case the miner's and verifier's machines have different endianness.</li>
 <li>The <code>hexdump</code> (aka <code>hd</code>) tool will help you see what you're putting

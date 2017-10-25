@@ -132,9 +132,10 @@ format/API to any shiny new format/API. (See issues with
 
 ### Cryptographic inputs/outputs
 
-- Bytes 0..205 inclusive are input to the Proof-of-Work (PoW) hash (which uses SHA256).
-- Bytes 206..241 inclusive are the PoW length and hash value
+- Bytes 0..241 inclusive are input to the Proof-of-Work (PoW) hash (which uses SHA256).
+	- when calculating PoW hash set the last 36 bytes to 0x00 in input
 - Bytes 0..241 inclusive are input to the signature 
+	- but this time with the real PoW hash value and not zeros
 - Bytes 242..end are the signature length and value
 
 ### Example (again)
@@ -209,6 +210,12 @@ using the [cs2014coin-make.c](./cs2014coin-make.c) file and just add your code t
 
 Here's a few hints to help you with your mining code:
 
+- When you've generated a key then to get the DER of the public key, you'll
+  want to use ```mbedtls_pk_write_pubkey_der()```, but that function is
+  pretty odd - it puts the bytes on the right of the buffer you provide it
+  with!
+- I goofed on the PoW hash input length! see correct stuff above
+
 - There are examples in ```$BUILD/mbedtls-2.6.0/programs/pkey/``` that should 
   help you figure out how to use the mbed TLS APIs.
   (But you've a bunch of stuff to figure out too!)
@@ -222,10 +229,6 @@ Here's a few hints to help you with your mining code:
 	- ```mbedtls_pk_sign```
 - There are also various ```mbedtls_*_init``` and ```mbedtls_*_setup``` functions related to
   the above that you'll need to call to get those to work properly.
-- When you've generated a key then to get the DER of the public key, you'll
-  want to use ```mbedtls_pk_write_pubkey_der()```, but that function is
-  pretty odd - it puts the bytes on the right of the buffer you provide it
-  with!
 - Using network byte order means calls to ```htonl``` and ```ntohl``` are needed,
   in case the miner's and verifier's machines have different endianness.
 - The ```hexdump``` (aka ```hd```) tool will help you see what you're putting
