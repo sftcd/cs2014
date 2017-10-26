@@ -43,7 +43,7 @@ written some notably good code.)
 
 In addition (just for the coding fun:-) we require each coin to be digitally
 signed using the Elliptic Curve Digital Signature Algorithm (ECDSA) with the
-p256 NIST curve. (That's the default when you generate an Elliptic Curve key
+p521 NIST curve. (That's the default when you generate an Elliptic Curve key
 pair, so you won't need to understand any details of ECDSA:-) Our coins
 therefore also include the public key needed to verify the coin signature in
 the signed data. 
@@ -97,7 +97,7 @@ The fields in a CS2014 coin are:
 <tr><td>0</td><td>Ciphersuite</td><td>4</td><td>Specifies all cryptographic algorithms - value for now fixed at zero</td></tr>
 <tr><td>4</td><td>Bits</td><td>4</td><td>Specifies difficulty</td></tr>
 <tr><td>8</td><td>Public Key length</td><td>4</td><td>Specifies length of public key</td></tr>
-<tr><td>12</td><td>Public Key</td><td>158</td><td>Public key value (fixed for p256 curve)</td></tr>
+<tr><td>12</td><td>Public Key</td><td>158</td><td>Public key value (fixed for p521 curve)</td></tr>
 <tr><td>170</td><td>Nonce len</td><td>4</td><td>length of nonce</td></tr>
 <tr><td>174</td><td>Nonce</td><td>32</td><td>nonce used to generate PoW hash</td></tr>
 <tr><td>206</td><td>PoW Hash len</td><td>4</td><td>length of proof-of-work hash</td></tr>
@@ -109,7 +109,7 @@ The fields in a CS2014 coin are:
 </table>
 
 The ciphersuite value of zero means: "use SHA256 for the proof-of-work and use
-ECDSA with NIST p256 for the public key and signature." The ciphersuite concept
+ECDSA with NIST p521 for the public key and signature." The ciphersuite concept
 is used in TLS and various other cryptographic protocols.
 
 All length fields and the bits field are in [network byte order](https://en.wikipedia.org/wiki/Network_byte_order).
@@ -210,6 +210,8 @@ using the [cs2014coin-make.c](./cs2014coin-make.c) file and just add your code t
 
 Here's a few hints to help you with your mining code:
 
+- And it turns out that mbed TLS defaults to using the NIST p521 curve and
+  not (as I thought) the p256 curve. Apologies for that.
 - When you've generated a key then to get the DER of the public key, you'll
   want to use ```mbedtls_pk_write_pubkey_der()```, but that function is
   pretty odd - it puts the bytes on the right of the buffer you provide it
