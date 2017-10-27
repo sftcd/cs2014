@@ -210,6 +210,11 @@ using the [cs2014coin-make.c](./cs2014coin-make.c) file and just add your code t
 
 Here's a few hints to help you with your mining code:
 
+- It may not be obvious that you have to hash the to-be-signed coin
+  in your code before calling ```mbedtls_pk_sign``` - that's just
+  how the mbed TLS API works. Look at the ```cs2014coin-check.c```
+  file to see how to hash before verifying, and do similarly in
+  your code before signing.
 - And it turns out that mbed TLS defaults to using the NIST p521 curve and
   not (as I thought) the p256 curve. Apologies for that.
 - When you've generated a key then to get the DER of the public key, you'll
