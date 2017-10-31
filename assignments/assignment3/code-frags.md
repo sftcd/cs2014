@@ -10,8 +10,8 @@ someone else to write your code - it'd be easy to end up
 failing the exam if you did that.
 
 Remember: our overall goal here is NOT that you all learn how to
-write any old C code, but that you learn how to code *well* 
-in C.
+write any old C code that passes the submitty marking, but that 
+you learn how to code *well* in C.
 
 If you have submitted already and are at a 20/20 score:
 
@@ -20,8 +20,10 @@ If you have submitted already and are at a 20/20 score:
   the ways described here
 - and you could also try make your code 3x faster! (So far,
   I've not seen anyone figure that out.)
-- and please do help out others who're finding this
-  harder (and thanks for the help already given)
+- please do help out others who're finding this
+  trickier - you never know when you might need them
+  to help you with something else (and thanks for the help 
+  already given)
 
 If you're not yet @ 20/20 then consider these as more hints
 and good advice.
@@ -34,8 +36,8 @@ and didn't do it myself, but we really should.
 
 The reason we should is in case that information
 changes over time, e.g. if we move from a SHA-256
-PoW hash to a SHA-512 PoW hashm, then things will
-be different and we could make our code more
+PoW hash to a SHA-512 PoW hash, then things will
+be different and we could make our code a bit more
 future-proof by having e.g. 
 
 		#define POWHASHALG "sha256"
@@ -44,7 +46,7 @@ future-proof by having e.g.
 For this assignment, you can reasonably argue though
 that mostly, that's not needed. In a real-world bit
 of coding, it would definitely be needed.
-(That's one reason for the ```ciphesuite``` construct,
+(That's one reason for the ```ciphersuite``` construct,
 as it munges down a bunch of extensibility issues
 into one thing which can be easier to handle, if
 one can avoid a combinatoric explosion of suites.)
@@ -61,7 +63,7 @@ one can avoid a combinatoric explosion of suites.)
 
 ##Random or incrementing nonce...
 
-Either is fine, but incrementing should be a good bit quicker
+Either works, but incrementing should be a good bit quicker
 and you were asked to think about performance.
 
 ##Yay! Recursion!

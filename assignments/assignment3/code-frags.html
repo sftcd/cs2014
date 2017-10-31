@@ -7,8 +7,8 @@ great. But please don't write someone else's code or allow
 someone else to write your code - it'd be easy to end up 
 failing the exam if you did that.</p>
 <p>Remember: our overall goal here is NOT that you all learn how to
-write any old C code, but that you learn how to code <em>well</em> 
-in C.</p>
+write any old C code that passes the submitty marking, but that 
+you learn how to code <em>well</em> in C.</p>
 <p>If you have submitted already and are at a 20/20 score:</p>
 <ul>
 <li>you do not NEED to do anything</li>
@@ -16,8 +16,10 @@ in C.</p>
   the ways described here</li>
 <li>and you could also try make your code 3x faster! (So far,
   I've not seen anyone figure that out.)</li>
-<li>and please do help out others who're finding this
-  harder (and thanks for the help already given)</li>
+<li>please do help out others who're finding this
+  trickier - you never know when you might need them
+  to help you with something else (and thanks for the help 
+  already given)</li>
 </ul>
 <p>If you're not yet @ 20/20 then consider these as more hints
 and good advice.</p>
@@ -27,8 +29,8 @@ lengths we're using. I fully admit that is tedious
 and didn't do it myself, but we really should.</p>
 <p>The reason we should is in case that information
 changes over time, e.g. if we move from a SHA-256
-PoW hash to a SHA-512 PoW hashm, then things will
-be different and we could make our code more
+PoW hash to a SHA-512 PoW hash, then things will
+be different and we could make our code a bit more
 future-proof by having e.g. </p>
 <pre><code>    #define POWHASHALG "sha256"
     #define POWHASHLEN 32
@@ -36,7 +38,7 @@ future-proof by having e.g. </p>
 <p>For this assignment, you can reasonably argue though
 that mostly, that's not needed. In a real-world bit
 of coding, it would definitely be needed.
-(That's one reason for the <code>ciphesuite</code> construct,
+(That's one reason for the <code>ciphersuite</code> construct,
 as it munges down a bunch of extensibility issues
 into one thing which can be easier to handle, if
 one can avoid a combinatoric explosion of suites.)</p>
@@ -51,7 +53,7 @@ one can avoid a combinatoric explosion of suites.)</p>
 <li>the char variant is worse - try with bits == -1 to see</li>
 </ul>
 <h2>Random or incrementing nonce...</h2>
-<p>Either is fine, but incrementing should be a good bit quicker
+<p>Either works, but incrementing should be a good bit quicker
 and you were asked to think about performance.</p>
 <h2>Yay! Recursion!</h2>
 <p>If you handle the nonce by incrementing then you have a
