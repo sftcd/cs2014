@@ -144,7 +144,7 @@ Getting rid of unused code is a good thing:
   		mbedtls_aes_context aes_ctx;
 		mbedtls_aes_init( &aes_ctx );
 
-In one case, the above two lines were the only ones
+In that case, the above two lines were the only ones
 that referred to ```aes_ctx``` ever - which is not
 a shock as we're not encrypting anything today:-)
 
@@ -189,8 +189,7 @@ But, to be sure, one would have to delve deep into the
 calls to see if in fact the two RNG streams are really
 independent or not. (I didn't do that yet.)
 
-
-#eMemory is not in such short supply...
+##Memory is not in such short supply...
 
 I've seen a bunch of these...
 		
