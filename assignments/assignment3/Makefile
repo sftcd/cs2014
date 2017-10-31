@@ -56,7 +56,7 @@ LDFLAGS += $(foreach library,$(program_LIBRARIES),-l$(library))
 
 all: cs2014-coin
 
-html: README.html
+html: README.html code-frags.html
 
 # PHONY targets mean there'll be no trouble even if have a file called "clean" etc.
 .PHONY: all clean distclean

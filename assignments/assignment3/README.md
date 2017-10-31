@@ -380,6 +380,8 @@ The files in this assignment directory you should see now are:
 - [refman.pdf](./refman.pdf) - the Doxygen PDF documentation for this project
 - [../assignment2/mbedtls-2.6.0](../assignment2/mbedtls-2.6.0/) - the directory with the mbed TLS stuff
 - [../assignment2/mbedtls-2.6.0-apache.tgz](https://tls.mbed.org/download/start/mbedtls-2.6.0-apache.tgz)- the tarball you downloaded
+- [code-frags.html](code-frags.html) - HTML about some of the code we've written for this assignment
+- [code-frags.md](code-frags.md) - markdown about some of the code we've written for this assignment
 - [README.html](README.html) - this HTML file
 - [README.md](README.md) - the markdown source for this HTML file
 
@@ -418,7 +420,7 @@ sometime:-)
 
 ## Deadline
 
-The deadline for submission of this assignment is 2017-10-30
+The deadline for submission of this assignment is 2017-11-06
 
 ## Submission
 
