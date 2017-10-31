@@ -124,7 +124,7 @@ compiler optimisation on.</p>
 <pre><code>    mbedtls_aes_context aes_ctx;
     mbedtls_aes_init( &amp;aes_ctx );
 </code></pre>
-<p>In one case, the above two lines were the only ones
+<p>In that case, the above two lines were the only ones
 that referred to <code>aes_ctx</code> ever - which is not
 a shock as we're not encrypting anything today:-)</p>
 <h2>Indent your code properly!!!</h2>
@@ -159,7 +159,7 @@ generated before generating the nonce.</p>
 <p>But, to be sure, one would have to delve deep into the
 calls to see if in fact the two RNG streams are really
 independent or not. (I didn't do that yet.)</p>
-<h1>eMemory is not in such short supply...</h1>
+<h2>Memory is not in such short supply...</h2>
 <p>I've seen a bunch of these...</p>
 <pre><code>    unsigned char buffer[242];
 </code></pre>
