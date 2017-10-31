@@ -391,7 +391,6 @@ Instead do this...
 				// if so, break out of loop
 			// if not, incremement hash 
 			increment_byte(powbuf+offset,32,31);
-			incr_nonce(powbuf+offset)
 		}
 		// if we need our coin struct to be up to date then...
 		memcpy(coin.nonce,powbuf+offset,32);
