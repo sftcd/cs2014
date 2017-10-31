@@ -340,6 +340,7 @@ not good code.
 Problems with such intermediate files:
 
 - Maybe machine has no filesystem (portability)
+- You don't know the ```$CWD``` where you'll be so you may not have write access (bug)
 - Maybe filesystem is full (failure)
 - Files (in that case) weren't unlinked/deleted after use (untidy, maybe unsafe)
 - Speed (filesystem could be remote/NFS!)
