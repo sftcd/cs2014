@@ -110,7 +110,7 @@ nice opportunity to use recursion. One of you did...</p>
 </code></pre>
 <p>One person stumbled onto a more efficient way than
 mine. (But I claim I was playing with the code then:-)
-The following </p>
+The following should work:</p>
 <pre><code>    // initialise nonceptr and nonceint to something
     nonceint++;
     memcpy(nonceptr, &amp;nonceint, 4);
@@ -118,7 +118,7 @@ The following </p>
 <p>So long as you have the MAXITER guard that should be ok.
 Not sure of the actual performance difference vs. 
 calling a function, but be interesting to check, with
-compiler optimisatio on.</p>
+compiler optimisation on.</p>
 <h2>There's no need for useless code....</h2>
 <p>Getting rid of unused code is a good thing:</p>
 <pre><code>    mbedtls_aes_context aes_ctx;

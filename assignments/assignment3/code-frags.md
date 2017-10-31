@@ -126,7 +126,7 @@ My own flavour of that is:
 
 One person stumbled onto a more efficient way than
 mine. (But I claim I was playing with the code then:-)
-The following 
+The following should work:
 
 		// initialise nonceptr and nonceint to something
 		nonceint++;
@@ -135,7 +135,7 @@ The following
 So long as you have the MAXITER guard that should be ok.
 Not sure of the actual performance difference vs. 
 calling a function, but be interesting to check, with
-compiler optimisatio on.
+compiler optimisation on.
 
 ##There's no need for useless code....
 
