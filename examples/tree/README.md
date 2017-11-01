@@ -61,8 +61,6 @@ which is copied in this repo in ```$REPO/examples/tree/tree-1.7.0/```
 We'll look at that both before and after running ```make```.
 Note that we lose the colours here, in a shell you'd see those.
 
-FIXME: make this display correctly in FF - works for Chromium, opera and vi but not FF.
-
 ### The output of ```tree``` in it's source directory
 		
 		.
@@ -188,9 +186,33 @@ To build the ```tree``` binary, go into the source directory and run ```make```.
 		
 		1 directory, 26 files
 
-## [```tree.h```](./tree-1.7.0/tree.h)
 
-FIXME: install cloc (or similar) and count LOC
+## Counting lines of code
+
+```cloc``` is a utility that counts various lines of code. I wouldn't take it too
+seriously (not all lines of code are equal) but it does give an overall feel for
+the size of a project and the kinds of source file inovlved.
+
+		user@host:~/code/cs2014/examples/tree/tree1.7.0$ cloc .
+      		18 text files.
+      		14 unique files.                              
+       		6 files ignored.
+		
+		github.com/AlDanial/cloc v 1.70  T=0.07 s (163.3 files/s, 54907.2 lines/s)
+		-------------------------------------------------------------------------------
+		Language                     files          blank        comment           code
+		-------------------------------------------------------------------------------
+		C                                8            325            320           2737
+		Forth                            1             13              8            214
+		C/C++ Header                     1             18             36            137
+		DTD                              1              1              0            116
+		make                             1             22             59             30
+		-------------------------------------------------------------------------------
+		SUM:                            12            379            423           3234
+		-------------------------------------------------------------------------------
+
+
+## [```tree.h```](./tree-1.7.0/tree.h)
 
 There's only 1 header file that has all the definitions and function prototypes used.
 One could argue that one header file per C file might be better, but for a codebase
@@ -232,6 +254,12 @@ boils down to...
 This is saying, that an instance of the ```_info``` struct, can
 contain an array of pointers to other instances of ```_info```
 structs. Just as we'd expect, for a tree!
+
+There's a lot of coding history about processing linked lists.
+It's a fairly typical standard exam question:-)
+
+This [tutorial](http://www.c4learn.com/data-structure/introduction-to-linked-list-c-programming/)
+on linked lists isn't bad.
 
 ### Function pointers
 
