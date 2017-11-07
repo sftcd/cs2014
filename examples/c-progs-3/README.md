@@ -21,6 +21,9 @@ goes well):
 - README.html - the html version of README.md
 - sizes - the binary for sizes.c
 
+## A useful link...
+
+This page describes [memory layout](http://www.geeksforgeeks.org/memory-layout-of-c-program/) for 'C' programs nicely.
 
 ## A program to play with structures a bit...
 
