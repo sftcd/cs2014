@@ -1,0 +1,371 @@
+/*!
+ * @file cs2014coin-make.c
+ * @brief This is the implementation of the cs2014 coin maker
+ *
+ * It should go without saying that these coins are for play:-)
+ * 
+ * This is part of CS2014
+ *	https://down.dsg.cs.tcd.ie/cs2014/examples/c-progs-2/README.html
+ *
+ * Building this in debug mode ("-g") costs a few percent in performance
+ * vs. compiling with "-O3" or "-Ofast" to allow the compiler do it's 
+ * best optimisation
+ */
+
+/* 
+ * Copyright (c) 2017 stephen.farrell@cs.tcd.ie
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ *
+ */
+
+#include <string.h>
+
+#include <arpa/inet.h> /// for htonl
+
+#include "cs2014coin.h"
+#include "cs2014coin-int.h"
+
+#include "mbedtls/config.h"
+#include "mbedtls/platform.h"
+#include "mbedtls/error.h"
+#include "mbedtls/pk.h"
+#include "mbedtls/ecdsa.h"
+#include "mbedtls/error.h"
+#include "mbedtls/entropy.h"
+#include "mbedtls/ctr_drbg.h"
+
+/*!
+ * @brief increment nonce by one, wrap around if needed
+ * @param ptr is a pointer to just beyond the end of the nonce
+ * @param guard_ptr is a pointer to the LHS of the buffer, beyond which we mustn't go
+ * @return void, we make it work:-)
+ *
+ * This'll incrememnt the nonce starting from the end of the
+ * buffer and walking backwards as incremented bytes wrap
+ * around. We never fail here and do want go faster stripes.
+ * If you provide bad input, bad things may happen!
+ * We do depend here on the limit on iterations in the calling
+ * code.
+ * We'll recurse - stack hit in 1/256 calls not too bad
+ * for this.
+ * Guard pointer will be hit with probability ~2^248
+ * But if it were (e.g. by a bad caller) then we'd be
+ * sad and scribble on memory so let's not do that.
+ * Note that if guard pointer is hit, then we'll return
+ * an unmodified buffer (well, 2nd time), so this code
+ * depends on the higher layer CS2014COIN_MAXITER limit
+ * being enforced.
+ */
+void incr_nonce(unsigned char *ptr, unsigned char* guard_ptr)
+{
+	if ((ptr-1)==guard_ptr) return;
+	unsigned char ch=*(ptr-1);
+	if (ch==255) {
+		incr_nonce(ptr-1,guard_ptr);
+		*(ptr-1)=0;
+	} else {
+		*(ptr-1)=(ch+1);
+	}
+	return;
+}
+
+/*!
+ * @brief make a coin
+ * @param bits specifies how many bits need to be zero in the hash-output
+ * @param buf is an allocated buffer for the coid
+ * @param buflen is an in/out parameter reflecting the buffer-size/actual-coin-size 
+ * @return the random byte
+ *
+ * Make me a coin of the required quality/strength
+ *
+ */
+int cs2014coin_make(int bits, unsigned char *buf, int *buflen)
+{
+	// various vars as copied from mbedtls-2.6.0/programs/pkey/gen_key.c
+	int rv;
+	mbedtls_entropy_context entropy;
+	mbedtls_ctr_drbg_context ctr_drbg;
+	const char *pers = "cs2014-coin";
+	mbedtls_pk_context key;
+	int pubkeylen=CC_BUFSIZ;
+	unsigned char pubkey[CC_BUFSIZ];
+	unsigned char *pubkeyp;
+	cs2014coin_t thecoin;
+	int done=0;
+	unsigned char hashbuf[CC_BUFSIZ];
+	unsigned char noncebuf[CC_BUFSIZ];
+	mbedtls_md_context_t sha_ctx;
+	int hilen;
+	unsigned char hival[CC_BUFSIZ];
+	unsigned char *bp; // general pointer into buffer
+	unsigned char *np; // pointer just beyond end of nonce in hashed input
+	int nonce_iterations=0; /// used while guessing 
+	unsigned long htonlout;
+	unsigned char sigbuf[CC_BUFSIZ];
+	size_t siglen;
+
+	// init some vars
+	mbedtls_pk_init( &key );
+	mbedtls_ctr_drbg_init( &ctr_drbg );
+	mbedtls_entropy_init( &entropy );
+
+	// seed randomness
+	if( mbedtls_ctr_drbg_seed( &ctr_drbg, mbedtls_entropy_func, &entropy,
+							   (const unsigned char *) pers,
+							   strlen( pers )) != 0 ) {
+		return(CC_DRBGCRAP);
+	}
+
+	// setup for, and then generate, a key pair
+	if (mbedtls_pk_setup( &key, mbedtls_pk_info_from_type( MBEDTLS_PK_ECKEY ) ) != 0 ) {
+		return(CC_KEYGENFAIL);
+	}
+	if (mbedtls_ecp_gen_key( mbedtls_ecp_curve_list()->grp_id, mbedtls_pk_ec( key ),
+						  mbedtls_ctr_drbg_random, &ctr_drbg) != 0 ) {
+		return(CC_KEYGENFAIL);
+	}
+	// put public key in buffer
+	memset(pubkey,0xAA,pubkeylen);
+	// this function is odd - it puts the bytes on the right of the buffer
+		rv=mbedtls_pk_write_pubkey_der( &key, pubkey, pubkeylen );
+		if( rv < 0 ) {
+		return(CC_KEYGENFAIL);
+	}
+	pubkeylen=rv;
+	pubkeyp=pubkey+CC_BUFSIZ-pubkeylen;
+#ifdef CC_DEBUG_EXTRA
+	{
+		dumpbuf("pubkey",pubkeyp,pubkeylen);
+	}
+#endif
+
+	memset(&thecoin,0,sizeof(thecoin));
+	thecoin.ciphersuite=CS2014COIN_CS_0;
+	thecoin.bits=bits;
+	thecoin.keylen=pubkeylen;
+	thecoin.keyval=pubkeyp;
+	thecoin.noncelen=32;
+	// first nonce random
+	if (mbedtls_entropy_func( &entropy, noncebuf, thecoin.noncelen) != 0 ) {
+		return(CC_KEYGENFAIL);
+	}
+#ifdef CC_DEBUG_EXTRA
+	{
+		dumpbuf("nonce",noncebuf,thecoin.noncelen);
+	}
+#endif
+	thecoin.nonceval=noncebuf;
+	thecoin.hashlen=32;   /// TODO: Find mbedtls constant for that
+
+	// prepare hash input
+	hilen=0;
+	bp=hival;
+	// hand encoding, sure why not
+	memset(bp,0,CC_BUFSIZ);
+	htonlout=htonl(thecoin.ciphersuite); memcpy(bp,&htonlout,4); hilen += 4; bp=hival+hilen;
+	htonlout=htonl(thecoin.bits); memcpy(bp,&htonlout,4); hilen += 4; bp=hival+hilen;
+	htonlout=htonl(thecoin.keylen); memcpy(bp,&htonlout,4); hilen += 4; bp=hival+hilen;
+	memcpy(bp,thecoin.keyval,thecoin.keylen); hilen += thecoin.keylen; bp=hival+hilen;
+	htonlout=htonl(thecoin.noncelen); memcpy(bp,&htonlout,4); hilen += 4; bp=hival+hilen;
+	memcpy(bp,thecoin.nonceval,thecoin.noncelen); hilen += thecoin.noncelen; bp=hival+hilen;
+	np=bp; // remember where end of nonce is at (just before this pointer)
+	htonlout=htonl(thecoin.hashlen); memcpy(bp,&htonlout,4); hilen += 4; bp=hival+hilen;
+	// add zero bytes for where hash will be, those are included in hash calc
+	memset(bp,0,32); hilen+=32;
+#ifdef CC_DEBUG
+	printf("start of PoW hash is at %d\n",hilen);
+#endif
+
+	mbedtls_md_init( &sha_ctx );
+	rv = mbedtls_md_setup( &sha_ctx, mbedtls_md_info_from_type( MBEDTLS_MD_SHA256 ), 1 );
+	if (rv!=0) {
+		return(CC_KEYGENFAIL);
+	}
+
+#undef FULLHASH
+#ifdef FULLHASH
+
+	// mine the bugger
+	while (!done) {
+		// add nonce
+
+		incr_nonce(np,hival);
+
+#ifdef CC_DEBUG_EXTRA
+		dumpbuf("incrememted nonce",np-32,32);
+		dumpbuf("pre-coin",hival,hilen);
+#endif
+		// hash hival to hashbuf
+		mbedtls_md_starts( &sha_ctx );
+		mbedtls_md_update( &sha_ctx, (unsigned char *) hival, hilen );
+		mbedtls_md_finish( &sha_ctx, hashbuf );
+#ifdef CC_DEBUG_EXTRA
+		dumpbuf("hashout",hashbuf,32);
+#endif
+		// check output
+		if (zero_bits(bits,hashbuf,32)) {
+			done=1;
+		}
+		// check if we should continue
+#ifdef CS2014COIN_PROGRESS
+		if (!(nonce_iterations%1024)) { printf("."); fflush(stdout);}
+#endif
+		if (!done && ++nonce_iterations>=CS2014COIN_MAXITER) break;
+	}
+
+#else /* NOT FULLHASH */
+
+	{
+
+		// attempted speed up, hash the 1st 192 (=64*3)
+		// octets outside the loop
+		// therefore we only need to modify the last (len-192)
+		// octets of the nonce with v. v. high probability 
+		// this try is to send those octets into the 
+		// sha_ctx each time 
+		// end result here: about 3x speed up!
+	
+		// Note: There seems to be a bug in mbed TLS this seems to work
+		// if the initial hash input is n*64 only, the cloning idea
+		// failed if I only input the last 4 bytes in the final
+		// update - likely only part of the internal structure is
+		// cloned and not the outstanding bytes to feed into the
+		// internal sha256 loop
+
+		mbedtls_md_context_t sha_ctx_cp;
+		mbedtls_md_init( &sha_ctx_cp );
+		mbedtls_md_setup( &sha_ctx_cp, mbedtls_md_info_from_type( MBEDTLS_MD_SHA256 ), 1 );
+// Weird one: This only works if hilen-LASTERS %64 == 0 (hence 192 bytes initially hashed)
+// Another program works fine regardless
+#define LASTERS 50
+#ifdef LASTERS
+		mbedtls_md_starts( &sha_ctx );
+		mbedtls_md_update( &sha_ctx, (unsigned char *) hival, hilen-LASTERS );
+#else
+		mbedtls_md_starts( &sha_ctx );
+		mbedtls_md_update( &sha_ctx, (unsigned char *) hival, 192 );
+#endif
+
+		// mine the bugger
+// we either call the incremennt function or else increment inline
+// only makes about a 1% difference it seems
+#define FUNC_INCR
+#ifndef FUNC_INCR
+		int nonceint=(int)*(np-4);
+#endif
+		while (!done) {
+			// add nonce
+
+#ifdef FUNC_INCR
+			incr_nonce(np,hival);
+#else
+			nonceint++;
+			memcpy(np-4,&nonceint,4);
+#endif
+
+#ifdef CC_DEBUG_EXTRA
+			dumpbuf("incrememted nonce",np-32,32);
+			dumpbuf("pre-coin",hival,hilen);
+#endif
+			// hash hival to hashbuf
+			mbedtls_md_clone( &sha_ctx_cp, &sha_ctx);
+#ifdef LASTERS
+			mbedtls_md_update( &sha_ctx_cp, (unsigned char *) hival+(hilen-LASTERS),LASTERS );
+#else
+			mbedtls_md_update( &sha_ctx_cp, (unsigned char *) hival+192,hilen-192 );
+#endif
+			mbedtls_md_finish( &sha_ctx_cp, hashbuf );
+
+#ifdef CC_DEBUG_EXTRA
+			dumpbuf("hashout",hashbuf,32);
+			// do hash from scratch, with all-new context, as a test of our optimisation
+			{
+				unsigned char hb2[CC_BUFSIZ];
+				mbedtls_md_context_t sha_ctx_cp2;
+				mbedtls_md_init( &sha_ctx_cp2 );
+				rv = mbedtls_md_setup( &sha_ctx_cp2, mbedtls_md_info_from_type( MBEDTLS_MD_SHA256 ), 1 );
+				if (rv!=0) {
+					return(CC_KEYGENFAIL);
+				}
+				// hash hival to hashbuf
+				mbedtls_md_starts( &sha_ctx_cp2 );
+				mbedtls_md_update( &sha_ctx_cp2, (unsigned char *) hival, hilen );
+				mbedtls_md_finish( &sha_ctx_cp2, hb2 );
+				dumpbuf("hashout2",hb2,32);
+				mbedtls_md_free( &sha_ctx_cp2 );
+			}
+#endif
+			// check output
+			if (zero_bits(bits,hashbuf,32)) {
+				done=1;
+			}
+			// check if we should continue
+#ifdef CS2014COIN_PROGRESS
+			if (!(nonce_iterations%1024)) { printf("."); fflush(stdout);}
+#endif
+			if (!done && ++nonce_iterations>=CS2014COIN_MAXITER) break;
+		}
+
+		mbedtls_md_free(&sha_ctx_cp);
+	}
+
+#endif /* NOT FULLHASH */
+
+#ifdef CS2014COIN_PROGRESS
+	printf("\nMining took %d iterations\n",nonce_iterations);fflush(stdout);
+#endif
+	if (!done) {
+		return(CC_ITERS);
+	}
+	memcpy(hival+hilen-32,hashbuf,32);
+
+	// finally, sign the bugger
+	mbedtls_md_starts( &sha_ctx );
+	mbedtls_md_update( &sha_ctx, (unsigned char *) hival, hilen );
+	mbedtls_md_finish( &sha_ctx, hashbuf );
+
+	siglen=CC_BUFSIZ;
+	rv = mbedtls_pk_sign( &key, MBEDTLS_MD_SHA256, hashbuf, 0, sigbuf, &siglen,
+						 mbedtls_ctr_drbg_random, &ctr_drbg ) ;
+	if (rv!=0) {
+		return(CC_KEYGENFAIL);
+	}
+	bp=hival+hilen;
+	htonlout=htonl(siglen); memcpy(bp,&htonlout,4); hilen += 4; bp=hival+hilen;
+	memcpy(bp,sigbuf,siglen); hilen+=siglen;
+#ifdef CC_DEBUG
+	printf("\nFinal coin after %d iterations with %d bits zero'd\n",nonce_iterations,bits);
+	dumpbuf("final-coin",hival,hilen);
+#endif
+
+	// free up stuff
+	mbedtls_md_free(&sha_ctx);
+	mbedtls_pk_free(&key);
+
+	if (*buflen<hilen) {
+		// crap, faller at the last!!
+		return(CC_BUF2SMALL);
+	}
+	memcpy(buf,hival,hilen);
+	*buflen=hilen;
+	return(0);
+}
+
+
