@@ -96,8 +96,8 @@ And April 8th 2016 was indeed a Friday.
 Before you start you'll need to be able to compile and run your
 local copy of ```tree```. Once that's done then I suggest...
 
-- Learing how the ```listdir``` function pointers work.
-- Figure out how the command line arguments are handled.
+- Learning how the ```listdir``` function pointers work.
+- Figuring out how the command line arguments are handled.
 - Copying from one of the other function pointer
   implementations into your new ```cs2014.c``` file that has the
   implementation you want to use when ```-Z``` is provided on the
@@ -111,6 +111,8 @@ local copy of ```tree```. Once that's done then I suggest...
   can figure out how to check the modification time of files
   and directories, and how to get the "HAPPY FRIDAY!!! "
   string into the right place in the output.
+- The space at the end of "HAPPY FRIDAY!!! " is significant
+  and needs to be included.
 - Lastly, it is the *modification time* of the file/directory
   in which you are interested, not any of the other timestamps
   associated with files.
