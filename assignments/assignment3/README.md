@@ -1,5 +1,8 @@
 # CS2014 2017 Assignment3 - Moar crypto, of the play-coin variety
 
+20171120 update: I've added my solution's [code](./cs2014coin-make.c.sf-solution)
+to the repo in case it's useful for reference.
+
 Your assignment is to write code that creates bitcoin-like values 
 that meet the spec below and that are verified by 
 the code you're given here. What we'll be doing is actually more
@@ -374,6 +377,7 @@ The files in this assignment directory you should see now are:
 - [cs2014coin-util.c](cs2014coin-check.c) - some API utilities
 - [cs2014coin-check.c](cs2014coin-check.c) - the API implementation code for coin checking
 - [cs2014coin-make.c](cs2014coin-make.c) - a stub of the API implementation code for making coins - you'll write the code for this
+- [cs2014coin-make.c.sf-solution](cs2014coin-make.c.sf-solution) - SF's implementation code for making coins 
 - [check-timing.sh](./check-timing.sh) - a script to see how fast/slow we are vs. openssl
 - [keyplay.sh](./keyplay.sh) - a script to show the command line calls to generate an ec key and export the public part
 - [Makefile](Makefile)  - the Makefile to builld the above and link in the mbed TLS library
