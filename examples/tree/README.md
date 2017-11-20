@@ -258,8 +258,12 @@ structs. Just as we'd expect, for a tree!
 There's a lot of coding history about processing linked lists.
 It's a fairly typical standard exam question:-)
 
+### Two useful links...
+
 This [tutorial](http://www.c4learn.com/data-structure/introduction-to-linked-list-c-programming/)
 on linked lists isn't bad.
+
+This page describes [memory layout](http://www.geeksforgeeks.org/memory-layout-of-c-program/) for 'C' programs nicely.
 
 ### Function pointers
 
