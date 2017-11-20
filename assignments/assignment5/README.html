@@ -1,0 +1,122 @@
+<p><meta charset="utf-8" /></p>
+<h1>CS2014 2017 Assignment5 - We all like Fridays</h1>
+<p>The <code>tree</code> program lists files in directories
+recursively with one line per file/directory. We
+looked at that as one of our <a href="../../examples/tree/README.html">examples</a>.</p>
+<p>Your assignment is to modify the tree program so that when provided with
+a new <code>-Z</code> command line argument, it prepends the string
+"HAPPY FRIDAY!!! " whenever a file or directory was last modified on a Friday
+in the local timezone, and to do that by adding another function pointer for
+the happy-friday variant of <code>listdir</code> in a new source file called 
+<code>cs2014.c</code>.</p>
+<p>You will also need to modify the <code>Makefile</code> and the <code>tree.h</code> and
+<code>tree.c</code> source files to get this to work.</p>
+<p>You should submit the three source files: <code>cs2014.c</code>, <code>tree.h</code> 
+and <code>tree.c</code>. You should NOT submit your <code>Makefile</code>.</p>
+<p>Other than the above additions, all existing functionality MUST
+be maintained.</p>
+<p>The coding required for this assignment is fairly easy but this will
+be the first time you modify a Makefile, create a new source file, 
+and use function pointers, so that adds up to a reasonable bit of
+work.</p>
+<h2>To setup a working environment...</h2>
+<p>Assuming your working directory will be <code>~/code/cs2014/assignments/assignment5</code>
+then copy the <code>tree-1.7.0</code> directory to there and then make your changes
+inside the <code>tree-1.7.0</code> directory.</p>
+<h2>Sample output</h2>
+<p>The following shows the output when the new <code>-Z</code> argument
+is not provided:</p>
+<pre><code>    .
+    ├── ietf95-sf-sched.pdf
+    ├── saag
+    │   ├── agenda.txt
+    │   ├── fgont-predictable-numeric-ids.odp
+    │   ├── fgont-predictable-numeric-ids.pdf
+    │   ├── fgont-saag-predictable-numeric-ids.pdf
+    │   ├── IETF_saag_eap-noob_2016-04-07.pdf
+    │   ├── IETF_saag_eap_noob_2016-04-07.pptx
+    │   ├── IoT-saag.pdf
+    │   ├── minutes.txt
+    │   ├── SAAG-IETF95.pdf
+    │   ├── SAAG-IETF95.pptx
+    │   ├── saag-rsalz.pdf
+    │   ├── saag-rsalz.pptx
+    │   └── saag-vcelak-nsec5.pdf
+    ├── secdir
+    │   └── agenda.txt
+    └── wrap-up-notes.txt
+
+    2 directories, 16 files
+</code></pre>
+<p>And if we run <code>tree -Z</code> in the same directory we
+see:</p>
+<pre><code>    .
+    ├── ietf95-sf-sched.pdf
+    ├── saag
+    │   ├── agenda.txt
+    │   ├── fgont-predictable-numeric-ids.odp
+    │   ├── fgont-predictable-numeric-ids.pdf
+    │   ├── fgont-saag-predictable-numeric-ids.pdf
+    │   ├── IETF_saag_eap-noob_2016-04-07.pdf
+    │   ├── IETF_saag_eap_noob_2016-04-07.pptx
+    │   ├── IoT-saag.pdf
+    │   ├── minutes.txt
+    │   ├── SAAG-IETF95.pdf
+    │   ├── SAAG-IETF95.pptx
+    │   ├── saag-rsalz.pdf
+    │   ├── saag-rsalz.pptx
+    │   └── saag-vcelak-nsec5.pdf
+    ├── secdir
+    │   └── agenda.txt
+    └── HAPPY FRIDAY!!! wrap-up-notes.txt
+
+    2 directories, 16 files
+</code></pre>
+<p>And <code>ls -lrt wrap-up-notes.txt</code> gives us:</p>
+<pre><code>    -rw-rw-r-- 1 stephen stephen    68 Apr  8  2016 wrap-up-notes.txt
+</code></pre>
+<p>And April 8th 2016 was indeed a Friday.</p>
+<h3>Some hints...</h3>
+<p>Before you start you'll need to be able to compile and run your
+local copy of <code>tree</code>. Once that's done then I suggest...</p>
+<ul>
+<li>Learing how the <code>listdir</code> function pointers work.</li>
+<li>Figure out how the command line arguments are handled.</li>
+<li>Copying from one of the other function pointer
+  implementations into your new <code>cs2014.c</code> file that has the
+  implementation you want to use when <code>-Z</code> is provided on the
+  command line. </li>
+<li>You'll modify the Makefile to include that new source and then
+  will have to do some renaming and make other tweaks to 
+  <code>tree.h</code> and <code>tree.c</code> to get <code>-Z</code> to trigger
+  your new code.</li>
+<li>Once you can provide the <code>-Z</code> command line argument to 
+  call your new <code>listdir</code> implementation then you
+  can figure out how to check the modification time of files
+  and directories, and how to get the "HAPPY FRIDAY!!! "
+  string into the right place in the output.</li>
+<li>Lastly, it is the <em>modification time</em> of the file/directory
+  in which you are interested, not any of the other timestamps
+  associated with files.</li>
+</ul>
+<p>Note that you can make the changes in any way you like so
+long as you meet the specification above, but following the
+hints above ought be near the easiest path to success.</p>
+<h2>What's here?</h2>
+<p>The files in this assignment directory you should see now are:</p>
+<ul>
+<li><a href="Makefile">Makefile</a>  - the Makefile to builld the above and link in the mbed TLS library</li>
+<li><a href="README.html">README.html</a> - this HTML file</li>
+<li><a href="README.md">README.md</a> - the markdown source for this HTML file</li>
+</ul>
+<h2>Deadline</h2>
+<p>The deadline for submission of this assignment is 2017-11-27</p>
+<h2>Submission</h2>
+<p>For this assignment you should submit three source files:</p>
+<ul>
+<li>tree.h</li>
+<li>tree.c</li>
+<li>cs2014.c </li>
+</ul>
+<p>To submit your assignment use 
+<a href="https://cs2014.scss.tcd.ie/">https://cs2014.scss.tcd.ie/</a> as usual.</p>

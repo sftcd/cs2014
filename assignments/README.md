@@ -48,5 +48,14 @@ programs. Details [here](assignment2/README.html)
 Your goal here is to write code to mine a bitcoin-like
 thing Details [here](assignment3/README.html)
 
+## Assignment four
+
+This is a dummy you should ignore.
+
+## Assignment five
+
+You goal [here](assignment5/README.html) is to make clear 
+that Fridays are good.
+
 
 
