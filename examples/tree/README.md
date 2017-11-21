@@ -283,7 +283,8 @@ calling code doesn't need to branch based on the command line
 arguments, so saving code.
 
 This mechanism can be a bit opaque though, so is likely best
-avoided by you, for now. It's fairly often used when encoding
+avoided by you, for now. (Unless some cruel person forces you to
+do it for an assignment:-) Function pointers are fairly often used when encoding
 and decoding structured data that has some built-in extensibility
 mechanism, such as when dealing with various protocols.
 
