@@ -265,6 +265,7 @@ on linked lists isn't bad.
 
 This page describes [memory layout](http://www.geeksforgeeks.org/memory-layout-of-c-program/) for 'C' programs nicely.
 
+
 ### Function pointers
 
 [```tree.c```](./tree-1.7.0/tree.c) contains the following:
