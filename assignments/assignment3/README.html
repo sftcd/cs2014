@@ -197,11 +197,27 @@ using the <a href="./cs2014coin-make.c">cs2014coin-make.c</a> file and just add 
   your code before signing.</li>
 <li>And it turns out that mbed TLS defaults to using the NIST p521 curve and
   not (as I thought) the p256 curve. Apologies for that.</li>
-<li>When you've generated a key then to get the DER of the public key, you'll
+<li>
+<p>When you've generated a key then to get the DER of the public key, you'll
   want to use <code>mbedtls_pk_write_pubkey_der()</code>, but that function is
   pretty odd - it puts the bytes on the right of the buffer you provide it
-  with!</li>
-<li>I goofed on the PoW hash input length! see correct stuff above</li>
+  with!</p>
+<ul>
+<li>I asked a few folks about this and got a explanation. It's an
+  IMO badly chosen optimisation due to length handling inside the
+  DER encoded ASN.1 structures. Basically, when constructing the
+  encoding, if you know the length of the data to the right of 
+  "here" in the final buffer, then it's
+  easy to encode the length representation you want to put "here"
+  but if you try to do that left to right, it's harder. So they
+  do it right to left.</li>
+<li>There are some sample encoded values <a href="https://blog.engelke.com/2014/10/17/parsing-ber-and-der-encoded-asn-1-objects/">here</a>
+  that should help explain.</li>
+</ul>
+</li>
+<li>
+<p>I goofed on the PoW hash input length! see correct stuff above</p>
+</li>
 </ul>
 <p>Older hints:</p>
 <ul>

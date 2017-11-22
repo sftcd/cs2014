@@ -224,6 +224,17 @@ Here's a few hints to help you with your mining code:
   want to use ```mbedtls_pk_write_pubkey_der()```, but that function is
   pretty odd - it puts the bytes on the right of the buffer you provide it
   with!
+	- I asked a few folks about this and got a explanation. It's an
+	  IMO badly chosen optimisation due to length handling inside the
+	  DER encoded ASN.1 structures. Basically, when constructing the
+	  encoding, if you know the length of the data to the right of 
+	  "here" in the final buffer, then it's
+	  easy to encode the length representation you want to put "here"
+	  but if you try to do that left to right, it's harder. So they
+	  do it right to left.
+	- There are some sample encoded values [here](https://blog.engelke.com/2014/10/17/parsing-ber-and-der-encoded-asn-1-objects/)
+	  that should help explain.
+	  
 - I goofed on the PoW hash input length! see correct stuff above
 
 Older hints:
