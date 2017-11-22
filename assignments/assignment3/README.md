@@ -224,7 +224,7 @@ Here's a few hints to help you with your mining code:
   want to use ```mbedtls_pk_write_pubkey_der()```, but that function is
   pretty odd - it puts the bytes on the right of the buffer you provide it
   with!
-	- I asked a few folks about this and got a explanation. It's an
+	- I asked a few folks about this and got an explanation. It's an
 	  IMO badly chosen optimisation due to length handling inside the
 	  DER encoded ASN.1 structures. Basically, when constructing the
 	  encoding, if you know the length of the data to the right of 
