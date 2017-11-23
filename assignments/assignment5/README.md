@@ -123,7 +123,7 @@ hints above ought be near the easiest path to success.
 
 ## Acks
 
-Thanks to David Kilroy for the [PR](https://github.com/sftcd/cs2014/pull/1) with the 
+Thanks to Sean Hassett for the [PR](https://github.com/sftcd/cs2014/pull/1) with the 
 [create_test_files.sh](create_test_files.sh) script.
 
 ## What's here?
