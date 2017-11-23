@@ -121,6 +121,11 @@ Note that you can make the changes in any way you like so
 long as you meet the specification above, but following the
 hints above ought be near the easiest path to success.
 
+## Acks
+
+Thanks to David Kilroy for the [PR](https://github.com/sftcd/cs2014/pull/1) with the 
+[create_test_files.sh](create_test_files.sh) script.
+
 ## What's here?
 
 The files in this assignment directory you should see now are:
@@ -128,6 +133,7 @@ The files in this assignment directory you should see now are:
 - [Makefile](Makefile)  - the Makefile to builld the above and link in the mbed TLS library
 - [README.html](README.html) - this HTML file
 - [README.md](README.md) - the markdown source for this HTML file
+- [create_test_files.sh](create_test_files.sh) - a small script to create empty files
 
 ## Deadline
 
