@@ -9,6 +9,7 @@ the canonical URL for this is
 <li>README.html - this file, in HTML format (<code>'make html'</code> to update that from .md)</li>
 <li><a href="Makefile">Makefile</a> - to build the example and HTML (there's a clean target too)</li>
 <li><a href="hw.cpp">hw.cpp</a> - a version of hello world</li>
+<li><a href="ref.cpp">ref.cpp</a> - a crappy C++ trick to avoid</li>
 </ul>
 <p>After running <code>'make'</code> then these files will be produced (if all
 goes well):</p>
@@ -34,18 +35,8 @@ some history, if you're interested.</p>
 <pre><code>    #include &lt;iostream&gt;
     using namespace std;
 </code></pre>
-<p>'C++' header files also traditionally (and usefully) use the <code>.h</code>
-file extension, and <code>make</code> and Makefiles know how to handle that. </p>
-<p>If you wanted to write and include your own header file, say called
-<code>myownheaderfile.h</code> then you'd probably have that in the same
-directory as <code>hw.c</code> and would use quote characters instead of
-angle brackets to signal the preprocessor to look in the current
-directory like this:</p>
-<pre><code>    #include "myownheaderfile.h"
-</code></pre>
-<p>Note that, in contrast to C language statements we don't end the
-preprocessor directives with a semi-colon (since the preprocessor
-directive ins't a C language statement). </p>
+<p>'C++' header files can also use use the <code>.h</code>
+file extension, and <code>make</code> and Makefiles know how to handle all that. </p>
 <p>Anyway, on we go...</p>
 <pre><code>    int main()
     {
@@ -65,8 +56,8 @@ means "add a new line when printing."</p>
 integer result we better do that to be nice and tidy:</p>
 <pre><code>        return(0);
 </code></pre>
-<h3>Noteworthy:</h3>
+<h3>C++ Details:</h3>
 <ul>
-<li>some <a href="https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-s096-introduction-to-c-and-c-january-iap-2013/lectures-and-assignments/">slideware</a></li>
 <li>A nicely terse <a href="http://joule.bu.edu/~hazen/progr/cppcen.html">tutorial</a>, so good I have a <a href="cppcen.html">local copy</a> </li>
+<li>some <a href="https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-s096-introduction-to-c-and-c-january-iap-2013/lectures-and-assignments/">slideware</a></li>
 </ul>

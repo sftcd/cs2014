@@ -12,6 +12,7 @@ the canonical URL for this is
 - README.html - this file, in HTML format (```'make html'``` to update that from .md)
 - [Makefile](Makefile) - to build the example and HTML (there's a clean target too)
 - [hw.cpp](hw.cpp) - a version of hello world
+- [ref.cpp](ref.cpp) - a crappy C++ trick to avoid
 
 After running ```'make'``` then these files will be produced (if all
 goes well):
@@ -41,20 +42,8 @@ Let's go through it line-by-line since there are so few lines...
 		#include <iostream>
 		using namespace std;
 
-'C++' header files also traditionally (and usefully) use the ```.h```
-file extension, and ```make``` and Makefiles know how to handle that. 
-
-If you wanted to write and include your own header file, say called
-```myownheaderfile.h``` then you'd probably have that in the same
-directory as ```hw.c``` and would use quote characters instead of
-angle brackets to signal the preprocessor to look in the current
-directory like this:
-
-		#include "myownheaderfile.h"
-
-Note that, in contrast to C language statements we don't end the
-preprocessor directives with a semi-colon (since the preprocessor
-directive ins't a C language statement). 
+'C++' header files can also use use the ```.h```
+file extension, and ```make``` and Makefiles know how to handle all that. 
 
 Anyway, on we go...
 
@@ -81,10 +70,10 @@ integer result we better do that to be nice and tidy:
 			return(0);
 
 
-###Noteworthy:
+###C++ Details:
 
-- some [slideware](https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-s096-introduction-to-c-and-c-january-iap-2013/lectures-and-assignments/)
 - A nicely terse [tutorial](http://joule.bu.edu/~hazen/progr/cppcen.html), so good I have a [local copy](cppcen.html) 
+- some [slideware](https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-s096-introduction-to-c-and-c-january-iap-2013/lectures-and-assignments/)
 
 
 
