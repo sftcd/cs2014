@@ -1,0 +1,56 @@
+\hypertarget{cs2014coin-make_8c}{}\section{cs2014coin-\/make.c File Reference}
+\label{cs2014coin-make_8c}\index{cs2014coin-\/make.\+c@{cs2014coin-\/make.\+c}}
+
+
+This is the implementation of the cs2014 coin maker.  
+
+
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}cs2014coin.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}cs2014coin-\/int.\+h\char`\"{}}\newline
+Include dependency graph for cs2014coin-\/make.c\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{cs2014coin-make_8c__incl}
+\end{center}
+\end{figure}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{cs2014coin-make_8c_a71eabb5a75b43b92f05f52bff713e429}{cs2014coin\+\_\+make} (int bits, unsigned char $\ast$buf, int $\ast$buflen)
+\begin{DoxyCompactList}\small\item\em make a coin \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This is the implementation of the cs2014 coin maker. 
+
+It should go without saying that these coins are for play\+:-\/)
+
+This is part of C\+S2014 \href{https://down.dsg.cs.tcd.ie/cs2014/examples/c-progs-2/README.html}{\tt https\+://down.\+dsg.\+cs.\+tcd.\+ie/cs2014/examples/c-\/progs-\/2/\+R\+E\+A\+D\+M\+E.\+html} 
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{cs2014coin-make_8c_a71eabb5a75b43b92f05f52bff713e429}\label{cs2014coin-make_8c_a71eabb5a75b43b92f05f52bff713e429}} 
+\index{cs2014coin-\/make.\+c@{cs2014coin-\/make.\+c}!cs2014coin\+\_\+make@{cs2014coin\+\_\+make}}
+\index{cs2014coin\+\_\+make@{cs2014coin\+\_\+make}!cs2014coin-\/make.\+c@{cs2014coin-\/make.\+c}}
+\subsubsection{\texorpdfstring{cs2014coin\+\_\+make()}{cs2014coin\_make()}}
+{\footnotesize\ttfamily int cs2014coin\+\_\+make (\begin{DoxyParamCaption}\item[{int}]{bits,  }\item[{unsigned char $\ast$}]{buf,  }\item[{int $\ast$}]{buflen }\end{DoxyParamCaption})}
+
+
+
+make a coin 
+
+
+\begin{DoxyParams}{Parameters}
+{\em bits} & specifies how many bits need to be zero in the hash-\/output \\
+\hline
+{\em buf} & is an allocated buffer for the coin \\
+\hline
+{\em buflen} & is an in/out parameter reflecting the buffer-\/size/actual-\/coin-\/size \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+zero for success, non-\/zero for fail
+\end{DoxyReturn}
+Make me a coin of the required quality/strength 

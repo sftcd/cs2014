@@ -6,29 +6,20 @@ MDCMD=markdown_py
 MDOPTS=-f
 
 # debug version
-CC=gcc -g
+CC=g++ -g -fsanitize=address
 
 # non-debug version
-#CC=gcc
+#CC=g++
 
-all: html 
-
-doc: refman.pdf
-
-refman.pdf: 
-	doxygen str-dox
-	cd latex;make;cp refman.pdf ..
-
-str-dox:
-	doxygen -g str-dox
+all: html hw ref 
 
 html: README.html
 
 clean:
-	@rm -rf latex html 
+	@rm -f a.out hw ref
 
 reallyclean: clean
-	@rm -f README.html str-dox refman.pdf
+	@rm -f README.html
 
 %.html: %.md
 	$(MDCMD) $(MDOPTS) $(@) $(<) 

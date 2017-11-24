@@ -29,7 +29,7 @@ rnd-dox:
 html: README.html
 
 clean:
-	@rm -f rbtest rndbytes.o 
+	@rm -f rbtest rnd-options rndbytes.o 
 	@rm -rf latex html
 
 reallyclean: clean

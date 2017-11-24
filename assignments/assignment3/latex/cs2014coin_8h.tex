@@ -1,0 +1,175 @@
+\hypertarget{cs2014coin_8h}{}\section{cs2014coin.\+h File Reference}
+\label{cs2014coin_8h}\index{cs2014coin.\+h@{cs2014coin.\+h}}
+
+
+This is the external i/f for the cs2014 coin example.  
+
+
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{cs2014coin_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structcs2014coin__t__defn}{cs2014coin\+\_\+t\+\_\+defn}
+\begin{DoxyCompactList}\small\item\em our basic cs2094 coin type \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{cs2014coin_8h_a8626eb8e0b824c47a00ed9dfb411763c}\label{cs2014coin_8h_a8626eb8e0b824c47a00ed9dfb411763c}} 
+\#define {\bfseries C\+S2014\+C\+O\+I\+N\+\_\+\+B\+U\+F\+S\+I\+ZE}~1024
+\item 
+\mbox{\Hypertarget{cs2014coin_8h_abc0ab920e51b69083b4a29ab8813dd9d}\label{cs2014coin_8h_abc0ab920e51b69083b4a29ab8813dd9d}} 
+\#define {\bfseries C\+S2014\+C\+O\+I\+N\+\_\+\+P\+R\+O\+G\+R\+E\+SS}
+\item 
+\mbox{\Hypertarget{cs2014coin_8h_a960fed81511c80d2f7fc0e7e999a27a7}\label{cs2014coin_8h_a960fed81511c80d2f7fc0e7e999a27a7}} 
+\#define {\bfseries C\+S2014\+C\+O\+I\+N\+\_\+\+G\+O\+OD}~0
+\item 
+\mbox{\Hypertarget{cs2014coin_8h_a2f8ba6442a275cba66d527bb610f4589}\label{cs2014coin_8h_a2f8ba6442a275cba66d527bb610f4589}} 
+\#define {\bfseries C\+S2014\+C\+O\+I\+N\+\_\+\+B\+AD}~1
+\item 
+\mbox{\Hypertarget{cs2014coin_8h_a5364e9ad0c03c30ff9f8ab7a81f52078}\label{cs2014coin_8h_a5364e9ad0c03c30ff9f8ab7a81f52078}} 
+\#define {\bfseries C\+S2014\+C\+O\+I\+N\+\_\+\+G\+E\+N\+E\+RR}~-\/1
+\item 
+\mbox{\Hypertarget{cs2014coin_8h_a20da7173260bf769bcafbb06c7b119b4}\label{cs2014coin_8h_a20da7173260bf769bcafbb06c7b119b4}} 
+\#define {\bfseries C\+S2014\+C\+O\+I\+N\+\_\+\+M\+A\+X\+I\+T\+ER}~1024$\ast$1024
+\item 
+\mbox{\Hypertarget{cs2014coin_8h_a325f4a58f8c9840992edfa4972f90bef}\label{cs2014coin_8h_a325f4a58f8c9840992edfa4972f90bef}} 
+\#define {\bfseries C\+S2014\+C\+O\+I\+N\+\_\+\+C\+S\+\_\+0}~0
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \hyperlink{structcs2014coin__t__defn}{cs2014coin\+\_\+t\+\_\+defn} \hyperlink{cs2014coin_8h_a7ac320e3e2bce433242b9358c51a34c8}{cs2014coin\+\_\+t}
+\begin{DoxyCompactList}\small\item\em our basic cs2094 coin type \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+const char $\ast$ \hyperlink{cs2014coin_8h_af955b20ed8c88563e864ecca0b2e538e}{cs2014coin\+\_\+err} (int errno)
+\begin{DoxyCompactList}\small\item\em return out best guess error string \end{DoxyCompactList}\item 
+int \hyperlink{cs2014coin_8h_a71eabb5a75b43b92f05f52bff713e429}{cs2014coin\+\_\+make} (int bits, unsigned char $\ast$buf, int $\ast$buflen)
+\begin{DoxyCompactList}\small\item\em make a coin \end{DoxyCompactList}\item 
+int \hyperlink{cs2014coin_8h_ae7d692031170a392c66b9810c65a79a3}{cs2014coin\+\_\+check} (int bits, unsigned char $\ast$buf, int buflen, int $\ast$res)
+\begin{DoxyCompactList}\small\item\em check a coin \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This is the external i/f for the cs2014 coin example. 
+
+It should go without saying that these coins are for play\+:-\/)
+
+This is part of C\+S2014 \href{https://down.dsg.cs.tcd.ie/cs2014/examples/c-progs-2/README.html}{\tt https\+://down.\+dsg.\+cs.\+tcd.\+ie/cs2014/examples/c-\/progs-\/2/\+R\+E\+A\+D\+M\+E.\+html} 
+
+\subsection{Typedef Documentation}
+\mbox{\Hypertarget{cs2014coin_8h_a7ac320e3e2bce433242b9358c51a34c8}\label{cs2014coin_8h_a7ac320e3e2bce433242b9358c51a34c8}} 
+\index{cs2014coin.\+h@{cs2014coin.\+h}!cs2014coin\+\_\+t@{cs2014coin\+\_\+t}}
+\index{cs2014coin\+\_\+t@{cs2014coin\+\_\+t}!cs2014coin.\+h@{cs2014coin.\+h}}
+\subsubsection{\texorpdfstring{cs2014coin\+\_\+t}{cs2014coin\_t}}
+{\footnotesize\ttfamily typedef struct \hyperlink{structcs2014coin__t__defn}{cs2014coin\+\_\+t\+\_\+defn}  \hyperlink{cs2014coin_8h_a7ac320e3e2bce433242b9358c51a34c8}{cs2014coin\+\_\+t}}
+
+
+
+our basic cs2094 coin type 
+
+This structure describes a cs2014 coin. Fields are flattened as usual, lengths use network byte order. The hash is over the fields that preceed it in the struct. The rightmost \textquotesingle{}bits\textquotesingle{} bits of the hash value must be zero. The signature is over the fields that proceed it in the struct. All length fields, except \textquotesingle{}bits\textquotesingle{} are in octets 
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{cs2014coin_8h_ae7d692031170a392c66b9810c65a79a3}\label{cs2014coin_8h_ae7d692031170a392c66b9810c65a79a3}} 
+\index{cs2014coin.\+h@{cs2014coin.\+h}!cs2014coin\+\_\+check@{cs2014coin\+\_\+check}}
+\index{cs2014coin\+\_\+check@{cs2014coin\+\_\+check}!cs2014coin.\+h@{cs2014coin.\+h}}
+\subsubsection{\texorpdfstring{cs2014coin\+\_\+check()}{cs2014coin\_check()}}
+{\footnotesize\ttfamily int cs2014coin\+\_\+check (\begin{DoxyParamCaption}\item[{int}]{bits,  }\item[{unsigned char $\ast$}]{buf,  }\item[{int}]{buflen,  }\item[{int $\ast$}]{res }\end{DoxyParamCaption})}
+
+
+
+check a coin 
+
+
+\begin{DoxyParams}{Parameters}
+{\em bits} & specifies how many bits need to be zero in the hash-\/output \\
+\hline
+{\em buf} & is an allocated buffer for the coin \\
+\hline
+{\em buflen} & specifies the input coin size \\
+\hline
+{\em res} & contains the result of checking the coin \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+zero for success, non-\/zero for fail
+\end{DoxyReturn}
+Make me a coin of the required quality/strength
+
+
+\begin{DoxyParams}{Parameters}
+{\em bits} & specifies how many bits need to be zero in the hash-\/output \\
+\hline
+{\em buf} & is an allocated buffer for the coin \\
+\hline
+{\em buflen} & specifies the input coin size \\
+\hline
+{\em res} & contains the result of checking the coin \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+zero for success, non-\/zero for fail (note\+: success != good coin!)
+\end{DoxyReturn}
+Check a coin of the required quality/strength Note we attempt to be roughly constant time here, just for fun But, if this were called on recovered plaintext, that might be significant! See \href{https://cryptocoding.net/index.php/Coding_rules}{\tt https\+://cryptocoding.\+net/index.\+php/\+Coding\+\_\+rules} T\+O\+DO\+: have a dummy public key ready for this so we do sig check of some sort \mbox{\Hypertarget{cs2014coin_8h_af955b20ed8c88563e864ecca0b2e538e}\label{cs2014coin_8h_af955b20ed8c88563e864ecca0b2e538e}} 
+\index{cs2014coin.\+h@{cs2014coin.\+h}!cs2014coin\+\_\+err@{cs2014coin\+\_\+err}}
+\index{cs2014coin\+\_\+err@{cs2014coin\+\_\+err}!cs2014coin.\+h@{cs2014coin.\+h}}
+\subsubsection{\texorpdfstring{cs2014coin\+\_\+err()}{cs2014coin\_err()}}
+{\footnotesize\ttfamily const char$\ast$ cs2014coin\+\_\+err (\begin{DoxyParamCaption}\item[{int}]{errno }\end{DoxyParamCaption})}
+
+
+
+return out best guess error string 
+
+
+\begin{DoxyParams}{Parameters}
+{\em errno} & is an errno, presumably returned from somewhere else in this A\+PI \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+error string (a const)
+\end{DoxyReturn}
+Error string handler. Good to use unique error numbers for all different conditions \mbox{\Hypertarget{cs2014coin_8h_a71eabb5a75b43b92f05f52bff713e429}\label{cs2014coin_8h_a71eabb5a75b43b92f05f52bff713e429}} 
+\index{cs2014coin.\+h@{cs2014coin.\+h}!cs2014coin\+\_\+make@{cs2014coin\+\_\+make}}
+\index{cs2014coin\+\_\+make@{cs2014coin\+\_\+make}!cs2014coin.\+h@{cs2014coin.\+h}}
+\subsubsection{\texorpdfstring{cs2014coin\+\_\+make()}{cs2014coin\_make()}}
+{\footnotesize\ttfamily int cs2014coin\+\_\+make (\begin{DoxyParamCaption}\item[{int}]{bits,  }\item[{unsigned char $\ast$}]{buf,  }\item[{int $\ast$}]{buflen }\end{DoxyParamCaption})}
+
+
+
+make a coin 
+
+
+\begin{DoxyParams}{Parameters}
+{\em bits} & specifies how many bits need to be zero in the hash-\/output \\
+\hline
+{\em buf} & is an allocated buffer for the coin \\
+\hline
+{\em buflen} & is an in/out parameter reflecting the buffer-\/size/actual-\/coin-\/size \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+zero for success, non-\/zero for fail (note\+: success != good coin!)
+\end{DoxyReturn}
+Make me a coin of the required quality/strength
+
+
+\begin{DoxyParams}{Parameters}
+{\em bits} & specifies how many bits need to be zero in the hash-\/output \\
+\hline
+{\em buf} & is an allocated buffer for the coin \\
+\hline
+{\em buflen} & is an in/out parameter reflecting the buffer-\/size/actual-\/coin-\/size \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+zero for success, non-\/zero for fail
+\end{DoxyReturn}
+Make me a coin of the required quality/strength 

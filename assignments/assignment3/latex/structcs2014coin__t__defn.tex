@@ -1,0 +1,54 @@
+\hypertarget{structcs2014coin__t__defn}{}\section{cs2014coin\+\_\+t\+\_\+defn Struct Reference}
+\label{structcs2014coin__t__defn}\index{cs2014coin\+\_\+t\+\_\+defn@{cs2014coin\+\_\+t\+\_\+defn}}
+
+
+our basic cs2094 coin type  
+
+
+
+
+{\ttfamily \#include $<$cs2014coin.\+h$>$}
+
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structcs2014coin__t__defn_a0a3f3ed501a085bbc195882ce031a0af}\label{structcs2014coin__t__defn_a0a3f3ed501a085bbc195882ce031a0af}} 
+int \hyperlink{structcs2014coin__t__defn_a0a3f3ed501a085bbc195882ce031a0af}{ciphersuite}
+\begin{DoxyCompactList}\small\item\em specifies all algorithms \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structcs2014coin__t__defn_abb73ecea0a002525acb824f17978725c}\label{structcs2014coin__t__defn_abb73ecea0a002525acb824f17978725c}} 
+int \hyperlink{structcs2014coin__t__defn_abb73ecea0a002525acb824f17978725c}{bits}
+\begin{DoxyCompactList}\small\item\em specifies the zero-\/bit run length needed in the hashval \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structcs2014coin__t__defn_a451ffb33473c5af67e64fde5f991bdfa}\label{structcs2014coin__t__defn_a451ffb33473c5af67e64fde5f991bdfa}} 
+int \hyperlink{structcs2014coin__t__defn_a451ffb33473c5af67e64fde5f991bdfa}{keylen}
+\begin{DoxyCompactList}\small\item\em length of the public key \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structcs2014coin__t__defn_af77bb1c315c160ac696ad26e7d4c74b4}\label{structcs2014coin__t__defn_af77bb1c315c160ac696ad26e7d4c74b4}} 
+unsigned char $\ast$ \hyperlink{structcs2014coin__t__defn_af77bb1c315c160ac696ad26e7d4c74b4}{keyval}
+\begin{DoxyCompactList}\small\item\em public key value \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structcs2014coin__t__defn_a5d529f678ef0f035ca32dff4665da144}\label{structcs2014coin__t__defn_a5d529f678ef0f035ca32dff4665da144}} 
+int \hyperlink{structcs2014coin__t__defn_a5d529f678ef0f035ca32dff4665da144}{noncelen}
+\begin{DoxyCompactList}\small\item\em length of nonce \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structcs2014coin__t__defn_add7ffdae6b0118288b17915fdbf683f0}\label{structcs2014coin__t__defn_add7ffdae6b0118288b17915fdbf683f0}} 
+unsigned char $\ast$ {\bfseries nonceval}
+\item 
+\mbox{\Hypertarget{structcs2014coin__t__defn_a211e649505f46b21df016560bc3436db}\label{structcs2014coin__t__defn_a211e649505f46b21df016560bc3436db}} 
+int \hyperlink{structcs2014coin__t__defn_a211e649505f46b21df016560bc3436db}{hashlen}
+\begin{DoxyCompactList}\small\item\em length of hashval \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structcs2014coin__t__defn_a09793a60685db1da70a2286fc8b830d0}\label{structcs2014coin__t__defn_a09793a60685db1da70a2286fc8b830d0}} 
+unsigned char $\ast$ \hyperlink{structcs2014coin__t__defn_a09793a60685db1da70a2286fc8b830d0}{hashval}
+\begin{DoxyCompactList}\small\item\em hash value with \textquotesingle{}bits\textquotesingle{} of the L\+S\+Bs having a value of zero \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structcs2014coin__t__defn_a05de8a4c54de475945bc4611b8cd743b}\label{structcs2014coin__t__defn_a05de8a4c54de475945bc4611b8cd743b}} 
+int \hyperlink{structcs2014coin__t__defn_a05de8a4c54de475945bc4611b8cd743b}{siglen}
+\begin{DoxyCompactList}\small\item\em signature length \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structcs2014coin__t__defn_a7f4784554e4643461c6d78775703318f}\label{structcs2014coin__t__defn_a7f4784554e4643461c6d78775703318f}} 
+unsigned char $\ast$ \hyperlink{structcs2014coin__t__defn_a7f4784554e4643461c6d78775703318f}{sigval}
+\begin{DoxyCompactList}\small\item\em signature value \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+our basic cs2094 coin type 
+
+This structure describes a cs2014 coin. Fields are flattened as usual, lengths use network byte order. The hash is over the fields that preceed it in the struct. The rightmost \textquotesingle{}bits\textquotesingle{} bits of the hash value must be zero. The signature is over the fields that proceed it in the struct. All length fields, except \textquotesingle{}bits\textquotesingle{} are in octets 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{cs2014coin_8h}{cs2014coin.\+h}\end{DoxyCompactItemize}

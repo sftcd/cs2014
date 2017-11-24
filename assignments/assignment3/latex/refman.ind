@@ -1,0 +1,78 @@
+\begin{theindex}
+
+  \item {cs2014coin-\/check.\+c}, \hyperpage{15}
+    \subitem {cs2014coin\+\_\+check}, \hyperpage{16}
+    \subitem {lc\+\_\+memcmp}, \hyperpage{16}
+  \item {cs2014coin-\/int.\+h}, \hyperpage{17}
+    \subitem {dumpbuf}, \hyperpage{18}
+    \subitem {errstrs}, \hyperpage{20}
+    \subitem {N\+O\+\_\+\+C\+C\+\_\+\+D\+E\+B\+U\+G\+\_\+\+E\+X\+T\+RA}, 
+		\hyperpage{18}
+    \subitem {N\+O\+\_\+\+C\+C\+\_\+\+D\+E\+B\+UG}, \hyperpage{18}
+    \subitem {zero\+\_\+bits}, \hyperpage{19}
+  \item {cs2014coin-\/main.\+c}, \hyperpage{20}
+    \subitem {M\+A\+X\+Z\+E\+R\+O\+B\+I\+TS}, \hyperpage{21}
+    \subitem {main}, \hyperpage{21}
+  \item {cs2014coin-\/make.\+c}, \hyperpage{22}
+    \subitem {cs2014coin\+\_\+make}, \hyperpage{22}
+  \item {cs2014coin-\/util.\+c}, \hyperpage{23}
+    \subitem {cs2014coin\+\_\+err}, \hyperpage{24}
+    \subitem {dumpbuf}, \hyperpage{24}
+    \subitem {errstrs}, \hyperpage{25}
+    \subitem {zero\+\_\+bits}, \hyperpage{25}
+  \item {cs2014coin.\+h}, \hyperpage{26}
+    \subitem {cs2014coin\+\_\+check}, \hyperpage{27}
+    \subitem {cs2014coin\+\_\+err}, \hyperpage{29}
+    \subitem {cs2014coin\+\_\+make}, \hyperpage{29}
+    \subitem {cs2014coin\+\_\+t}, \hyperpage{27}
+  \item {cs2014coin\+\_\+check}
+    \subitem {cs2014coin-\/check.\+c}, \hyperpage{16}
+    \subitem {cs2014coin.\+h}, \hyperpage{27}
+  \item {cs2014coin\+\_\+err}
+    \subitem {cs2014coin-\/util.\+c}, \hyperpage{24}
+    \subitem {cs2014coin.\+h}, \hyperpage{29}
+  \item {cs2014coin\+\_\+make}
+    \subitem {cs2014coin-\/make.\+c}, \hyperpage{22}
+    \subitem {cs2014coin.\+h}, \hyperpage{29}
+  \item {cs2014coin\+\_\+t}
+    \subitem {cs2014coin.\+h}, \hyperpage{27}
+  \item {cs2014coin\+\_\+t\+\_\+defn}, \hyperpage{13}
+
+  \indexspace
+
+  \item {dumpbuf}
+    \subitem {cs2014coin-\/int.\+h}, \hyperpage{18}
+    \subitem {cs2014coin-\/util.\+c}, \hyperpage{24}
+
+  \indexspace
+
+  \item {errstrs}
+    \subitem {cs2014coin-\/int.\+h}, \hyperpage{20}
+    \subitem {cs2014coin-\/util.\+c}, \hyperpage{25}
+
+  \indexspace
+
+  \item {lc\+\_\+memcmp}
+    \subitem {cs2014coin-\/check.\+c}, \hyperpage{16}
+
+  \indexspace
+
+  \item {M\+A\+X\+Z\+E\+R\+O\+B\+I\+TS}
+    \subitem {cs2014coin-\/main.\+c}, \hyperpage{21}
+  \item {main}
+    \subitem {cs2014coin-\/main.\+c}, \hyperpage{21}
+
+  \indexspace
+
+  \item {N\+O\+\_\+\+C\+C\+\_\+\+D\+E\+B\+U\+G\+\_\+\+E\+X\+T\+RA}
+    \subitem {cs2014coin-\/int.\+h}, \hyperpage{18}
+  \item {N\+O\+\_\+\+C\+C\+\_\+\+D\+E\+B\+UG}
+    \subitem {cs2014coin-\/int.\+h}, \hyperpage{18}
+
+  \indexspace
+
+  \item {zero\+\_\+bits}
+    \subitem {cs2014coin-\/int.\+h}, \hyperpage{19}
+    \subitem {cs2014coin-\/util.\+c}, \hyperpage{25}
+
+\end{theindex}

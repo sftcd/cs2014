@@ -1,0 +1,2520 @@
+<HTML>
+
+<HEAD>
+<TITLE>C++ tutorial for C users</TITLE>
+<META NAME="Author" CONTENT="Eric Brasseur">
+<meta name="date" content="19980223">
+<META NAME="Description" CONTENT="Quick C++ tutorial for C programmers.">
+
+
+</HEAD>
+
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#000000"  VLINK="#000000">
+
+
+<b><h1>C++ tutorial for C users</h1></b>
+
+<p><br><br>
+
+This text enunciates and illustrates features and basic principles of C++. It is aimed at experienced C users who wish to learn C++. It can also be interesting for C++ users who leaved out some possibilities of the language.
+<p>
+
+<br><br><br><br><br>
+
+<ul>
+<ul>
+<ol>
+<li><a href="#l1">A new way to include libraries</a><p>
+<li><a href="#l2"><b>//</b> for one-line remarks</a><p>
+<li><a href="#l3">Console input and output streams</a><p>
+<li><a href="#l4">Variable declarations can be put inside the code without using hooks</a><p>
+<li><a href="#l5">Variables can be initialised by a calculation involving other variables</a><p>
+<li><a href="#l6">Variables can be declared inside a <b>for</b> loop declaration</a><p>
+<li><a href="#l7">Global variables can be accessed even if a local variables has the same name</a><p>
+<li><a href="#l8">It is possible to declare a REFERENCE towards another variable</a><p>
+<li><a href="#l9">Namespaces can be declared</a><p>
+<li><a href="#l10">A function can be declared <b>inline</b></a><p>
+<li><a href="#l11">The <b>exception</b> structure has been added</a><p>
+<li><a href="#l12">A functions can have default parameters</a><p>
+<li><a href="#l13">PARAMETERS OVERLOAD: several functions can be declared with the same name provided there is a difference in their parameters list</a><p>
+<li><a href="#l14">The symbolic operators (<b>+ - * /</b> ...) can be defined for new data types</a><p>
+<li><a href="#l15">Different functions for different data types will automatically be generated provided you define a <b>template</b> function</a><p>
+<li><a href="#l16">The keywords <b>new</b> and <b>delete</b> are much better to allocate and deallocate memory</a><p>
+<li><a href="#l17">A <b>class</b> is a struct upon which you can define METHODS</a><p>
+<li><a href="#l18">The CONSTRUCTOR and the DESTRUCTOR can be used to initialise and destroy an instance of a class</a><p>
+<li><a href="#l19">The COPY CONSTRUCTOR allows to define an appropriate <b>=</b> operator</a><p>
+<li><a href="#l20">The method bodies can be defined below the class definition</a><p>
+<li><a href="#l21">The keyword <b>this</b> is a pointer towards the instance a method is acting upon</a><p>
+<li><a href="#l22">Arrays of instances can be declared</a><p>
+<li><a href="#l23">An example of complete class declaration</a><p>
+<li><a href="#l24"><b>static</b> variables inside a class definition</a><p>
+<li><a href="#l25"><b>const</b> variables inside a class definition</a><p>
+<li><a href="#l26">A class can be DERIVED from another class</a><p>
+<li><a href="#l27">If a method is declared <b>virtual</b> the program will always first check the type of an instance that is pointed to and will use the appropriate method.</a><p>
+<li><a href="#l28">A class can be derived from more than one base class</a><p>
+<li><a href="#l29">Class derivation allows to write generic methods</a><p>
+<li><a href="#l30">ENCAPSULATION: <b>public</b>, <b>protected</b> and <b>private</b></a><p>
+<li><a href="#l31">Brief examples of file I/O</a><p>
+<li><a href="#l32">Character arrays can be used like files</a><p>
+<li><a href="#l33">An example of formated output</a><p>
+</ol>
+</ul>
+</ul>
+
+<br><br><br><br><br>
+
+
+<br><br><font size=+4 color=#0F0000>1.&nbsp;</font><br><br>
+<a name="l1">There</a> is a new way to include libraries (though the old method still works).
+The <b>.h</b> extension is no more written and the names of standard
+C libraries are written beginning with a <b>c</b>.
+In order for the program to use the libraries correctly <b>using namespace std;</b>
+has to be added:
+<p>
+
+<b><br><pre>
+
+#include &lt;iostream&gt;
+#include &lt;cmath&gt;
+using namespace std;
+
+int main ()
+{
+   double a;
+
+   a = 1.2;
+   a = sin (a);
+
+   cout &lt;&lt; a;
+
+   return 0;
+}
+
+</pre><br><br></b>
+
+
+<br><br><font size=+4 color=#0F0000>2.&nbsp;</font><br><br>
+<a name="l2">You</a> can use <b>/ /</b> to type a remark:
+<p>
+
+<b><br><pre>
+
+#include &lt;iostream&gt;          // The iostream library is often used.
+using namespace std;         // Using the standard library namespace.
+
+int main ()                  // The program's main routine.
+{
+   double a;                 // Declaration of variable a.
+
+   a = 456;
+   a = a + a * 21.5 / 100;   // A calculation.
+
+   cout &lt;&lt; a;                // Display the content of a.
+
+   return 0;                 // Program end.
+}
+
+</pre><br><br></b>
+
+
+<br><br><font size=+4 color=#0F0000>3.&nbsp;</font><br><br>
+<a name="l3">Input</a> from keyboard and output to screen can be performed through <b>cout&nbsp;&lt;&lt;</b> and <b>cin&nbsp;&gt;&gt;</b>:
+<p>
+
+<b><br><pre>
+
+#include &lt;iostream&gt;
+using namespace std;
+
+void main()
+{
+   int a;                       // a is an integer variable
+   char s [100];                // s points to a sring of 99 characters
+
+   cout &lt;&lt; "This is a sample program." &lt;&lt; endl;
+
+   cout &lt;&lt; endl;                // Line feed (end of line)
+
+   cout &lt;&lt; "Type your age&nbsp;: ";
+   cin &gt;&gt; a;
+
+   cout &lt;&lt; "Type your name: ";
+   cin &gt;&gt; s;
+
+   cout &lt;&lt; endl;
+
+   cout &lt;&lt; "Hello " &lt;&lt; s &lt;&lt; " you're " &lt;&lt; a &lt;&lt; " old." &lt;&lt; endl;
+   cout &lt;&lt; endl &lt;&lt; endl &lt;&lt; "Bye!" &lt;&lt; endl;
+
+   return 0;
+}
+
+</pre><br><br></b>
+
+
+<!--A reader told me one standard way to end a program
+that uses cout
+is to put a <b>system ("PAUSE")</b> command
+before the final <b>return 0</b>. Could he please tell
+me more about it since this does not work on my
+system. He didn't leave me his e-mail address.
+<p><br>-->
+
+
+<br><br><font size=+4 color=#0F0000>4.&nbsp;</font><br><br>
+<a name="l4">Variables</a> can be declared everywhere inside the code without using hooks:
+<p>
+
+<b><br><pre>
+
+#include &lt;iostream&gt;
+using namespace std;
+
+int main ()
+{
+   double a;
+
+   cout &lt;&lt; "Hello, this is a test program." &lt;&lt; endl;
+
+   cout &lt;&lt; "Type parameter a: ";
+   cin &gt;&gt; a;
+                                                                                                 </a><p>
+   a = (a + 1) / 2;
+
+   double c;
+
+   c = a * 5 + 1;
+
+   cout &lt;&lt; "c contains     &nbsp;: " &lt;&lt; c &lt;&lt; endl;
+
+   int i, j;
+
+   i = 0;
+   j = i + 1;
+
+   cout &lt;&lt; "j contains     &nbsp;: " &lt;&lt; j &lt;&lt; endl;
+
+   return 0;
+}
+
+</pre><br><br></b>
+
+<br><br><font size=+4 color=#0F0000>5.&nbsp;</font><br><br>
+<a name="l5">A</a> variable can be initialised by a calculation involving other variables:
+<p>
+
+<b><br><pre>
+
+#include &lt;iostream&gt;
+using namespace std;
+
+int main ()
+{
+   double a = 12 * 3.25;
+   double b = a + 1.112;
+
+   cout &lt;&lt; "a contains&nbsp;: " &lt;&lt; a &lt;&lt; endl;
+   cout &lt;&lt; "b contains: " &lt;&lt; b &lt;&lt; endl;
+
+   a = a * 2 + b;
+
+   double c = a + b * a;
+
+   cout &lt;&lt; "c contains: " &lt;&lt; c &lt;&lt; endl;
+
+   return 0;
+}
+
+</pre><br><br></b>
+
+
+Like in C, variables can be encapsulated between hooks:
+<p>
+
+<b><br><pre>
+
+#include &lt;iostream&gt;
+using namespace std;
+
+int main ()
+{
+   double a;
+
+   cout &lt;&lt; "Type a number: ";
+   cin &gt;&gt; a;
+
+   {
+      int a = 1;
+      a = a * 10 + 4;
+      cout &lt;&lt; "Local number: " &lt;&lt; a &lt;&lt; endl;
+   }
+
+   cout &lt;&lt; "You typed: " &lt;&lt; a &lt;&lt; endl;
+
+   return 0;
+}
+
+</pre><br><br></b>
+
+
+<br><br><font size=+4 color=#0F0000>6.&nbsp;</font><br><br>
+<name="l6">C++</a> allows to declare a variable inside the for loop declaration. It's like if the variable had been declared just before the loop:
+<p>
+
+<b><br><pre>
+
+#include &lt;iostream&gt;
+using namespace std;
+
+int main ()
+{
+   for (int i = 0; i &lt; 4; i++)
+   {
+      cout &lt;&lt; i &lt;&lt; endl;
+   }
+
+   cout &lt;&lt; "i contains: " &lt;&lt; i &lt;&lt; endl;
+
+   for (i = 0; i &lt; 4; i++)
+   {
+      for (int i = 0; i &lt; 4; i++)        // we're between
+      {                                  // previous for's hooks
+         cout &lt;&lt; i;
+      }
+      cout &lt;&lt; endl;
+   }
+
+   return 0;
+}
+
+</pre><br><br></b>
+
+
+<br><br><font size=+4 color=#0F0000>7.&nbsp;</font><br><br>
+<a name="l7">A</a> global variable can be accessed even if another variable with the same name has been declared inside the function:
+<p>
+
+<b><br><pre>
+
+#include &lt;iostream&gt;
+using namespace std;
+
+double a = 128;
+
+int main ()
+{
+   double a = 256;
+
+   cout &lt;&lt; "Local a: " &lt;&lt; a &lt;&lt; endl;
+   cout &lt;&lt; "Global a: " &lt;&lt;::a &lt;&lt; endl;
+
+   return 0;
+}
+
+</pre><br><br></b>
+
+
+<br><br><font size=+4 color=#0F0000>8.&nbsp;</font><br><br>
+<a name="l8">It</a> is possible to make one variable be another:
+<p>
+
+<b><br><pre>
+
+#include &lt;iostream&gt;
+using namespace std;
+
+int main ()
+{
+   double a = 3.1415927;
+
+   double &b = a;                            // b IS a
+
+   b = 89;
+
+   cout &lt;&lt; "a contains: " &lt;&lt; a &lt;&lt; endl;     // Displays 89.
+
+   return 0;
+}
+
+</pre><br><br></b>
+
+
+(If you are used at pointers and absolutely want to know what happens, simply think double <b>&amp;b&nbsp;=&nbsp;a</b> is translated to double <b>*b&nbsp;=&nbsp;&amp;a</b> and all subsequent <b>b</b> are replaced by <b>*b</b>.)
+</p>
+
+The value of REFERENCE <b>b</b> cannot be changed after its declaration. For example you cannot  write, a few lines further, <b>&amp;b&nbsp;=&nbsp;c</b> expecting now <b>b</b> IS <b>c</b>. It won't work.
+<p>
+
+Everything is said on the declaration line of <b>b</b>. Reference <b>b</b> and variable <b>a</b> are married on that line and nothing will separate them.
+<p>
+
+References can be used to allow a function to modify a calling variable:
+<p>
+
+<b><br><pre>
+
+#include &lt;iostream&gt;
+using namespace std;
+
+void change (double &r, double s)
+{
+   r = 100;
+   s = 200;
+}
+
+int main ()
+{
+   double k, m;
+
+   k = 3;
+   m = 4;
+
+   change (k, m);
+
+   cout &lt;&lt; k &lt;&lt; ", " &lt;&lt; m &lt;&lt; endl;        // Displays 100, 4.
+
+   return 0;
+}
+
+</pre><br><br></b>
+
+
+If you are used at pointers in C and wonder how exactly the program above works, here is how the C++ compiler translates it (those who are not used at pointers, please skip this ugly piece of code):
+<p>
+
+<b><br><pre>
+
+#include &lt;iostream&gt;
+using namespace std;
+
+void change (double *r, double s)
+{
+   *r = 100;
+   s = 200;
+}
+
+int main ()
+{
+   double k, m;
+
+   k = 3;
+   m = 4;
+
+   change (&k, m);
+
+   cout &lt;&lt; k &lt;&lt; ", " &lt;&lt; m &lt;&lt; endl;        // Displays 100, 4.
+
+   return 0;
+}
+
+</pre><br><br></b>
+
+
+A reference can be used to let a function return a variable:
+<p>
+
+<b><br><pre>
+
+#include &lt;iostream&gt;
+using namespace std;
+
+double &biggest (double &r, double &s)
+{
+   if (r &gt; s) return r;
+   else       return s;
+}
+
+int main ()
+{
+   double k = 3;
+   double m = 7;
+
+   cout &lt;&lt; "k: " &lt;&lt; k &lt;&lt; endl;
+   cout &lt;&lt; "m: " &lt;&lt; m &lt;&lt; endl;
+   cout &lt;&lt; endl;
+
+   biggest (k, m) = 10;
+
+   cout &lt;&lt; "k: " &lt;&lt; k &lt;&lt; endl;
+   cout &lt;&lt; "m: " &lt;&lt; m &lt;&lt; endl;
+   cout &lt;&lt; endl;
+
+   biggest (k, m) ++;
+
+   cout &lt;&lt; "k: " &lt;&lt; k &lt;&lt; endl;
+   cout &lt;&lt; "m: " &lt;&lt; m &lt;&lt; endl;
+   cout &lt;&lt; endl;
+
+   return 0;
+}
+
+</pre><br><br></b>
+
+
+Again, provided you're used at pointer arithmetics and if you wonder how the program above works, just think the compiler translated it into the following standard C program:
+<p>
+
+<b><br><pre>
+
+#include &lt;iostream&gt;
+using namespace std;
+
+double *biggest (double *r, double *r)
+{
+   if (*r &gt; *s) return r;
+   else         return s;
+}
+
+int main ()
+{
+   double k = 3;
+   double m = 7;
+
+   cout &lt;&lt; "k: " &lt;&lt; k &lt;&lt; endl;
+   cout &lt;&lt; "m: " &lt;&lt; m &lt;&lt; endl;
+   cout &lt;&lt; endl;
+
+   (*(biggest (&k, &m))) = 10;
+
+   cout &lt;&lt; "k: " &lt;&lt; k &lt;&lt; endl;
+   cout &lt;&lt; "m: " &lt;&lt; m &lt;&lt; endl;
+   cout &lt;&lt; endl;
+
+   (*(biggest (&k, &m))) ++;
+
+   cout &lt;&lt; "k: " &lt;&lt; k &lt;&lt; endl;
+   cout &lt;&lt; "m: " &lt;&lt; m &lt;&lt; endl;
+   cout &lt;&lt; endl;
+
+   return 0;
+}
+
+</pre><br><br></b>
+
+
+To end with, for people who have to deal with pointers yet do not like it, references are very useful to un-pointer variables:
+<p>
+
+<b><br><pre>
+
+#include &lt;iostream&gt;
+using namespace std;
+
+double *silly_function ()    // This function returns a pointer to a double
+{
+   static double r = 342;
+   return &r;
+}
+
+int main ()
+{
+   double *a;
+
+   a = silly_function();
+
+   double &b = *a;          // Now b IS the double towards which a points!
+
+   b += 1;                  // Great!
+   b = b * b;               // No need to write *a everywhere!
+   b += 4;
+
+   cout &lt;&lt; "Content of *a, b, r: " &lt;&lt; b &lt;&lt; endl;
+
+   return 0;
+}
+
+</pre><br><br></b>
+
+
+<br><br><font size=+4 color=#0F0000>9.&nbsp;</font><br><br>
+<a name="l9">Namespaces</a> can be declared.
+The variables declared within a namespace can be used thanks to the <b>::</b> operator:
+<p>
+
+<b><br><pre>
+
+#include &lt;iostream&gt;
+#include &lt;cmath&gt;
+using namespace std;
+
+namespace first
+{
+   int a;
+   int b;
+}
+
+namespace second
+{
+   double a;
+   double b;
+}
+
+int main ()
+{
+   first::a = 2;
+   first::b = 5;
+
+   second::a = 6.453;
+   second::b = 4.1e4;
+
+   cout << first::a + second::a << endl;
+   cout << first::b + second::b << endl;
+
+   return 0;
+}
+
+</pre><br><br></b>
+
+
+<br><br><font size=+4 color=#0F0000>10.&nbsp;</font><br><br>
+<a name="l10">If</a> they contain just simple lines of code, use no for loops or the like, C++ functions can be declared <b>inline</b>. This means their code will be inserted right everywhere the function is used. That's somehow like a macro. Main advantage is the program will be faster. A little drawback is it will be bigger, because the full code of the function was inserted everywhere
+it is used:
+<p>
+
+<b><br><pre>
+
+#include &lt;iostream&gt;
+#include &lt;cmath&gt;
+using namespace std;
+
+inline double hypothenuse (double a, double b)
+{
+   return sqrt (a * a + b * b);
+}
+
+int main ()
+{
+   double k = 6, m = 9;
+
+   // Next two lines produce exactly the same code:
+
+   cout &lt;&lt; hypothenuse (k, m) &lt;&lt; endl;
+   cout &lt;&lt; sqrt (k * k + m * m) &lt;&lt; endl;
+
+   return 0;
+}
+
+</pre><br><br></b>
+
+
+<br><br><font size=+4 color=#0F0000>11.&nbsp;</font><br><br>
+<a name="l11">You</a> know the classical structures of C: <b>for</b>, <b>if</b>, <b>do</b>, <b>while</b>, <b>switch</b>... C++ adds one more structure named EXCEPTION:
+<p>
+
+<b><br><pre>
+
+#include &lt;iostream&gt;
+#include &lt;cmath&gt;
+using namespace std;
+
+int main ()
+{
+   int a, b;
+
+   cout &lt;&lt; "Type a number: ";
+   cin &gt;&gt; a;
+   cout &lt;&lt; endl;
+
+   try
+   {
+      if (a &gt; 100) throw 100;
+      if (a &lt; 10)  throw 10;
+      throw a / 3;
+   }
+   catch (int result)
+   {
+      cout &lt;&lt; "Result is: " &lt;&lt; result &lt;&lt; endl;
+      b = result + 1;
+   }
+
+   cout &lt;&lt; "b contains: " &lt;&lt; b &lt;&lt; endl;
+
+   cout &lt;&lt; endl;
+
+   // another example of exception use:
+
+   char zero[] = "zero";
+   char pair[] = "pair";
+   char notprime[] = "not prime";
+   char prime[] = "prime";
+
+   try
+   {
+      if (a == 0) throw zero;
+      if ((a / 2) * 2 == a) throw pair;
+      for (int i = 3; i <= sqrt (a); i++)
+      {
+         if ((a / i) * i == a) throw notprime;
+      }
+      throw prime;
+   }
+   catch (char *conclusion)
+   {
+      cout &lt;&lt; "The number you typed is "&lt;&lt; conclusion &lt;&lt; endl;
+   }
+
+   cout &lt;&lt; endl;
+
+   return 0;
+}
+
+</pre><br><br></b>
+
+
+<br><br><font size=+4 color=#0F0000>12.&nbsp;</font><br><br>
+<a name="l12">It</a> is possible to define default parameters for functions:
+<p>
+
+<b><br><pre>
+
+#include &lt;iostream&gt;
+using namespace std;
+
+double test (double a, double b = 7)
+{
+   return a - b;
+}
+
+int main ()
+{
+   cout &lt;&lt; test (14, 5) &lt;&lt; endl;
+   cout &lt;&lt; test (14) &lt;&lt; endl;
+
+   return 0;
+}
+
+</pre><br><br></b>
+
+
+<br><br><font size=+4 color=#0F0000>13.&nbsp;</font><br><br>
+<a name="l13">One</a> important advantage of C++ is the OPERATOR OVERLOAD. Different functions can have the same name provided something allows to distinguish between them: number of parameters, type of parameters...
+<p>
+
+<b><br><pre>
+
+#include &lt;iostream&gt;
+using namespace std;
+
+double test (double a, double b)
+{
+   return a + b;
+}
+
+int test (int a, int b)
+{
+   return a - b;
+}
+
+int main ()
+{
+   double   m = 7,  n = 4;
+   int      k = 5,  p = 3;
+
+   cout &lt;&lt; test(m, n) &lt;&lt; " , " &lt;&lt; test(k, p) &lt;&lt; endl;
+
+   return 0;
+}
+
+</pre><br><br></b>
+
+
+<br><br><font size=+4 color=#0F0000>14.&nbsp;</font><br><br>
+<a name="l14">The</a> operators overload can be used to define the basic symbolic operators for new sorts of parameters:
+<p>
+
+<b><br><pre>
+
+#include &lt;iostream&gt;
+using namespace std;
+
+struct vector
+{
+   double x;
+   double y;
+};
+
+vector operator * (double a, vector b)
+{
+   vector r;
+
+   r.x = a * b.x;
+   r.y = a * b.y;
+
+   return r;
+}
+
+int main ()
+{
+   vector k, m;              // No need to type "struct vector"
+
+   k.x =  2;                 // Keep cool, soon you'll be able
+   k.y = -1;                 // to write k = vector (45, -4).
+
+   m = 3.1415927 * k;        // Magic!
+
+   cout &lt;&lt; "(" &lt;&lt; m.x &lt;&lt; ", " &lt;&lt; m.y &lt;&lt; ")" &lt;&lt; endl;
+
+   return 0;
+}
+
+</pre><br><br></b>
+
+
+Besides multiplication, 43 other basic C++ operators can be overloaded, including <b>+=</b>, <b>++</b>, the array <b>[]</b>, and so on...
+<p>
+
+The operation <b>cout&nbsp;&lt;&lt;</b> is an overload of the binary shift of integers. That way the <b>&lt;&lt;</b> operator is used a completely different way. It is possible to overload the <b>&lt;&lt;</b> operator for the output of vectors:
+<p>
+
+<b><br><pre>
+
+#include &lt;iostream&gt;
+using namespace std;
+
+struct vector
+{
+   double x;
+   double y;
+};
+
+ostream& operator &lt;&lt; (ostream& o, vector a)
+{
+   o &lt;&lt; "(" &lt;&lt; a.x &lt;&lt; ", " &lt;&lt; a.y &lt;&lt; ")";
+   return o;
+}
+
+int main ()
+{
+   vector a;
+
+   a.x = 35;
+   a.y = 23;
+
+   cout &lt;&lt; a &lt;&lt; endl;
+
+   return 0;
+}
+
+</pre><br><br></b>
+
+
+<br><br><font size=+4 color=#0F0000>15.&nbsp;</font><br><br>
+<a name="l15">Tired</a> of defining five times the same function? One definition for <b>int</b> type parameters, one definition for <b>double</b> type parameters, one definition for <b>float</b> type parameters...  Didn't you forget one type? What if a new data type is used? No problem: the C++ compiler is capable of generating automatically every version of the function that is necessary! Just tell him how the function looks like by declaring a <b>template</b> function:
+<p>
+
+
+<b><br><pre>
+
+#include &lt;iostream&gt;
+using namespace std;
+
+template &lt;class ttype&gt
+ttype min (ttype a, ttype b)
+{
+   ttype r;
+
+   r = a;
+   if (b &lt; a) r = b;
+
+   return r;
+}
+
+int main ()
+{
+   int i1, i2, i3;
+
+   i1 = 34;
+   i2 = 6;
+   i3 = min (i1, i2);
+   cout &lt;&lt; "Most little: " &lt;&lt; i3 &lt;&lt; endl;
+
+   double d1, d2, d3;
+
+   d1 = 7.9;
+   d2 = 32.1;
+   d3 = min (d1, d2);
+   cout &lt;&lt; "Most little: " &lt;&lt; d3 &lt;&lt; endl;
+
+   cout &lt;&lt; "Most little: " &lt;&lt; min (d3, 3.5) &lt;&lt; endl;
+
+   return 0;
+}
+
+</pre><br><br></b>
+
+
+The function <b>min</b> is used three times in above program yet the C++ compiler generates only two versions of it: <b>int&nbsp;min&nbsp;(int&nbsp;a,&nbsp;int&nbsp;b)</b> and <b>double&nbsp;min&nbsp;(double&nbsp;a,&nbsp;double&nbsp;b)</b>. That does the job for the whole program.
+<p>
+
+Would you have tried something like calculating <b>min&nbsp;(i1,&nbsp;d1)</b> the compiler would have reported that as an error. Indeed the template tells both parameters are of the same type.
+<p>
+
+You can use a random number of different template data types in a template definition. And not all parameter types must be templates, some of them  can be of standard types or user defined (<b>char</b>, <b>int</b>, <b>double</b>...). Here is an example where the <b>min</b> function takes parameters of any, possibly different, types and outputs a value that has the type of the first parameter:
+<p>
+
+
+<b><br><pre>
+
+#include &lt;iostream&gt;
+using namespace std;
+
+template &lt;class type1, class type2&gt;
+type1 min (type1 a, type2 b)
+{
+   type1 r, b_converted;
+   r = a;
+   b_converted = (type1) b;
+   if (b_converted &lt; a) r = b_converted;
+   return r;
+}
+
+int main ()
+{
+   int i;
+   double d;
+
+   i = 45;
+   d = 7.41;
+
+   cout &lt;&lt; "Most little: " &lt;&lt; min (i, d) &lt;&lt; endl;
+   cout &lt;&lt; "Most little: " &lt;&lt; min (d, i) &lt;&lt; endl;
+   cout &lt;&lt; "Most little: " &lt;&lt; min ('A', i) &lt;&lt; endl;
+
+   return 0;
+}
+
+</pre><br><br></b>
+
+
+<br><br><font size=+4 color=#0F0000>16.&nbsp;</font><br><br>
+<a name="l16">The</a> keywords <b>new</b> and <b>delete</b> can be used to allocate and deallocate memory. They are much more sweet than the functions <b>malloc</b> and <b>free</b> from standard C. <b>new []</b> and <b>delete []</b> are used for arrays:
+<p>
+
+<b><br><pre>
+
+#include &lt;iostream&gt;
+#include &lt;cstring&gt;
+using namespace std;
+
+int main ()
+{
+   double *d;                         // d is a variable whose purpose
+                                      // is to contain the address of a
+                                      // zone where a double is located
+
+
+   d = new double;                    // new allocates a zone of memory
+                                      // large enough to contain a double
+                                      // and returns its address.
+                                      // That address is stored in d.
+
+   *d = 45.3;                         // The number 45.3 is stored
+                                      // inside the memory zone
+                                      // whose address is given by d.
+
+   cout &lt;&lt; "Type a number: ";
+   cin &gt;&gt; *d;
+
+   *d = *d + 5;
+
+   cout &lt;&lt; "Result: " &lt;&lt; *d &lt;&lt; endl;
+
+   delete d;                          // delete deallocates the
+                                      // zone of memory whose address
+                                      // is given by pointer d.
+                                      // Now we can no more use that zone.
+
+
+   d = new double[15];                // allocates a zone for an array
+                                      // of 15 doubles. Note each 15
+                                      // double will be constructed.
+                                      // This is pointless here but it
+                                      // is vital when using a data type
+                                      // that needs its constructor be
+                                      // used for each instance.
+
+   d[0] = 4456;
+   d[1] = d[0] + 567;
+
+   cout &lt;&lt; "Content of d[1]: " &lt;&lt; d[1] &lt;&lt; endl;
+
+   delete [] d;                       // delete [] will deallocate the
+                                      // memory zone. Note each 15
+                                      // double will be destructed.
+                                      // This is pointless here but it
+                                      // is vital when using a data type
+                                      // that needs its destructor be
+                                      // used for each instance (the ~
+                                      // method). Using delete without
+                                      // the [] would deallocate the
+                                      // memory zone without destructing
+                                      // each of the 15 instances. That
+                                      // would cause memory leakage.
+
+   int n = 30;
+
+   d = new double[n];                 // new can be used to allocate an
+                                      // array of random size.
+   for (int i = 0; i &lt; n; i++)
+   {
+      d[i] = i;
+   }
+
+   delete [] d;
+
+
+   char *s;
+
+   s = new char[100];
+
+   strcpy (s, "Hello!");
+
+   cout &lt;&lt; s &lt;&lt; endl;
+
+   delete [] s;
+
+   return 0;
+}
+
+</pre><br><br></b>
+
+
+<br><br><font size=+4 color=#0F0000>17.&nbsp;</font><br><br>
+<a name="l17">What</a> is a <b>class</b>? Well, that's a struct yet with more possibilities. METHODS can be defined. They are C++ functions dedicated to the class. Here is an example of such a class definition:
+<p>
+
+<b><br><pre>
+
+#include &lt;iostream&gt;
+using namespace std;
+
+class vector
+{
+public:
+
+   double x;
+   double y;
+
+   double surface ()
+   {
+      double s;
+      s = x * y;
+      if (s &lt; 0) s = -s;
+      return s;
+   }
+};
+
+int main ()
+{
+   vector a;
+
+   a.x = 3;
+   a.y = 4;
+
+   cout &lt;&lt; "The surface of a: " &lt;&lt; a.surface() &lt;&lt; endl;
+
+   return 0;
+}
+
+</pre><br><br></b>
+
+
+In the example above, <b>a</b> is an INSTANCE of the class "vector".
+<p>
+
+Just like a function, a method can be an overload of any C++ operator, have any number of parameters (yet one parameter is always implicit: the instance it acts upon), return any type of parameter, or return no parameter at all.
+<p>
+
+A method is allowed to change the variables of the instance it is acting upon:
+<p>
+
+<b><br><pre>
+
+#include &lt;iostream&gt;
+using namespace std;
+
+class vector
+{
+public:
+
+   double x;
+   double y;
+
+   vector its_oposite()
+   {
+      vector r;
+
+      r.x = -x;
+      r.y = -y;
+
+      return r;
+   }
+
+   void be_oposited()
+   {
+      x = -x;
+      y = -y;
+   }
+
+   void be_calculated (double a, double b, double c, double d)
+   {
+      x = a - c;
+      y = b - d;
+   }
+
+   vector operator * (double a)
+   {
+      vector r;
+
+      r.x = x * a;
+      r.y = y * a;
+
+      return r;
+   }
+};
+
+int main ()
+{
+   vector a, b;
+
+   a.x = 3;
+   b.y = 5;
+
+   b = a.its_oposite();
+
+   cout &lt;&lt; "Vector a: " &lt;&lt; a.x &lt;&lt; ", " &lt;&lt; a.y &lt;&lt; endl;
+   cout &lt;&lt; "Vector b: " &lt;&lt; b.x &lt;&lt; ", " &lt;&lt; b.y &lt;&lt; endl;
+
+   b.be_oposited();
+   cout &lt;&lt; "Vector b: " &lt;&lt; b.x &lt;&lt; ", " &lt;&lt; b.y &lt;&lt; endl;
+
+   a.be_calculated (7, 8, 3, 2);
+   cout &lt;&lt; "Vector a: " &lt;&lt; a.x &lt;&lt; ", " &lt;&lt; a.y &lt;&lt; endl;
+
+   a = b * 2;
+   cout &lt;&lt; "Vector a: " &lt;&lt; a.x &lt;&lt; ", " &lt;&lt; a.y &lt;&lt; endl;
+
+   a = b.its_oposite() * 2;
+   cout &lt;&lt; "Vector a: " &lt;&lt; a.x &lt;&lt; ", " &lt;&lt; a.y &lt;&lt; endl;
+
+   cout &lt;&lt; "x of oposite of a: " &lt;&lt; a.its_oposite().x &lt;&lt; endl;
+
+   return 0;
+}
+
+</pre><br><br></b>
+
+
+
+<br><br><font size=+4 color=#0F0000>18.&nbsp;</font><br><br>
+<a name="l18">Very</a> special and essential methods are the CONSTRUCTOR and DESTRUCTOR. They are automatically called whenever an instance of a class is created or destroyed (variable declaration, end of program, <b>new</b>, <b>delete</b>...).
+<p>
+
+The constructor will initialize the variables of the instance, do some calculation, allocate some memory for the instance, output some text... whatever is needed.
+<p>
+
+Here is an example of a class definition with two overloaded constructors:
+<p>
+
+<b><br><pre>
+
+#include &lt;iostream&gt;
+using namespace std;
+
+class vector
+{
+public:
+
+   double x;
+   double y;
+
+   vector ()                     // same name as class
+   {
+      x = 0;
+      y = 0;
+   }
+
+   vector (double a, double b)
+   {
+      x = a;
+      y = b;
+   }
+
+};
+
+int main ()
+{
+   vector k;                     // vector () is called
+
+   cout &lt;&lt; "vector k: " &lt;&lt; k.x &lt;&lt; ", " &lt;&lt; k.y &lt;&lt; endl &lt;&lt; endl;
+
+   vector m (45, 2);             // vector (double, double) is called
+
+   cout &lt;&lt; "vector m: " &lt;&lt; m.x &lt;&lt; ", " &lt;&lt; m.y &lt;&lt; endl &lt;&lt; endl;
+
+   k = vector (23, 2);           // vector created, copied to k, then erased
+
+   cout &lt;&lt; "vector k: " &lt;&lt; k.x &lt;&lt; ", " &lt;&lt; k.y &lt;&lt; endl &lt;&lt; endl;
+
+   return 0;
+}
+
+</pre><br><br></b>
+
+
+It is a good practice to try not to overload the constructors. Best is to declare only one constructor and give it default parameters wherever possible:
+<p>
+
+<b><br><pre>
+
+#include &lt;iostream&gt;
+using namespace std;
+
+class vector
+{
+public:
+
+   double x;
+   double y;
+
+   vector (double a = 0, double b = 0)
+   {
+      x = a;
+      y = b;
+   }
+};
+
+int main ()
+{
+   vector k;
+   cout &lt;&lt; "vector k: " &lt;&lt; k.x &lt;&lt; ", " &lt;&lt; k.y &lt;&lt; endl &lt;&lt; endl;
+
+   vector m (45, 2);
+   cout &lt;&lt; "vector m: " &lt;&lt; m.x &lt;&lt; ", " &lt;&lt; m.y &lt;&lt; endl &lt;&lt; endl;
+
+   vector p (3);
+   cout &lt;&lt; "vector p: " &lt;&lt; p.x &lt;&lt; ", " &lt;&lt; p.y &lt;&lt; endl &lt;&lt; endl;
+
+   return 0;
+}
+
+</pre><br><br></b>
+
+
+The destructor is often not necessary. You can use it to do some calculation whenever an instance is destroyed or output some text for debugging. But if variables of the instance point towards some allocated memory then the role of the destructor is essential: it must free that memory! Here is an example of such an application:
+<p>
+
+<b><br><pre>
+
+#include &lt;iostream&gt;
+#include &lt;cstring&gt;
+using namespace std;
+
+class person
+{
+public:
+
+   char *name;
+   int age;
+
+   person (char *n = "no name", int a = 0)
+   {
+      name = new char[100];                 // better than malloc!
+      strcpy (name, n);
+      age = a;
+      cout &lt;&lt; "Instance initialized, 100 bytes allocated" &lt;&lt; endl;
+   }
+
+   ~person ()                               // The destructor
+   {
+      delete name;                          // instead of free!
+      cout &lt;&lt; "Instance going to be deleted, 100 bytes freed" &lt;&lt; endl;
+   }
+};
+
+int main ()
+{
+    cout &lt;&lt; "Hello!" &lt;&lt; endl &lt;&lt; endl;
+
+    person a;
+    cout &lt;&lt; a.name &lt;&lt; ", age " &lt;&lt; a.age &lt;&lt; endl &lt;&lt; endl;
+
+    person b ("John");
+    cout &lt;&lt; b.name &lt;&lt; ", age " &lt;&lt; b.age &lt;&lt; endl &lt;&lt; endl;
+
+    b.age = 21;
+    cout &lt;&lt; b.name &lt;&lt; ", age " &lt;&lt; b.age &lt;&lt; endl &lt;&lt; endl;
+
+    person c ("Miki", 45);
+    cout &lt;&lt; c.name &lt;&lt; ", age " &lt;&lt; c.age &lt;&lt; endl &lt;&lt; endl;
+
+    cout &lt;&lt; "Bye!" &lt;&lt; endl &lt;&lt; endl;
+
+   return 0;
+}
+
+</pre><br><br></b>
+
+
+Here is a short example of an array class definition. A method that is an overload of the <b>[]</b> operator and that outputs a reference (<b>&</b>) is used in order to generate an error if it is tried to access outside the limits of an array:
+<p>
+
+<b><br><pre>
+
+#include &lt;iostream&gt;
+#include &lt;cstdlib&gt;
+using namespace std;
+
+class array
+{
+public:
+   int size;
+   double *data;
+
+   array (int s)
+   {
+      size = s;
+      data = new double [s];
+   }
+
+   ~array ()
+   {
+      delete [] data;
+   }
+
+   double &operator [] (int i)
+   {
+      if (i &lt; 0 || i >= size)
+      {
+         cerr &lt;&lt; endl &lt;&lt; "Out of bounds" &lt;&lt; endl;
+         exit (EXIT_FAILURE);
+      }
+      else return data [i];
+   }
+};
+
+int main ()
+{
+   array t (5);
+
+   t[0] = 45;                       // OK
+   t[4] = t[0] + 6;                 // OK
+   cout &lt;&lt; t[4] &lt;&lt; endl;            // OK
+
+   t[10] = 7;                       // error!
+
+   return 0;
+}
+
+</pre><br><br></b>
+
+
+
+<br><br><font size=+4 color=#0F0000>19.&nbsp;</font><br><br>
+<a name="l19">If</a> you cast an object like a vector, everything will happen all right. For example if vector <b>k</b> contains <b>(4,&nbsp;7)</b>, after the cast <b>m&nbsp;=&nbsp;k</b> the vector <b>m</b> will contain <b>(4,&nbsp;7)</b> too. Now suppose you're playing with objects like the person class above. If you cast such person object <b>p</b>, <b>r</b> by writing <b>p&nbsp;=&nbsp;r</b> it is necesary that some function does the necessary work to make <b>p</b> be a correct copy of <b>r</b>. Otherwise the result will be catastrophic; a mess of pointers and lost data. The method that will do that job is the COPY CONSTRUCTOR:
+<p>
+
+<b><br><pre>
+
+#include &lt;iostream&gt;
+#include &lt;cstring&gt;
+using namespace std;
+
+class person
+{
+public:
+
+   char *name;
+   int age;
+
+   person (char *n = "no name", int a = 0)
+   {
+      name = new char[100];
+      strcpy (name, n);
+      age = a;
+   }
+
+   person (person &s)               // The COPY CONSTRUCTOR
+   {
+      strcpy (name, s.name);
+      age = s.age;
+   }
+
+   ~person ()
+   {
+      delete [] name;
+   }
+};
+
+int main ()
+{
+   person p;
+   cout &lt;&lt; p.name &lt;&lt; ", age " &lt;&lt; p.age &lt;&lt; endl &lt;&lt; endl;
+
+   person k ("John", 56);
+   cout &lt;&lt; k.name &lt;&lt; ", age " &lt;&lt; k.age &lt;&lt; endl &lt;&lt; endl;
+
+   p = k;
+   cout &lt;&lt; p.name &lt;&lt; ", age " &lt;&lt; p.age &lt;&lt; endl &lt;&lt; endl;
+
+   p = person ("Bob", 10);
+   cout &lt;&lt; p.name &lt;&lt; ", age " &lt;&lt; p.age &lt;&lt; endl &lt;&lt; endl;
+
+   return 0;
+}
+
+</pre><br><br></b>
+
+
+The copy constructor also allows your program to make copies of instances when doing calculations. It is a key method. During calculations instances are created to hold intermediate results. They are modified, casted and destroyed without you being aware.
+<p>
+
+In all the examples above the methods are defined inside the class definition. That makes them automatically be inline methods.
+<p>
+
+<br><br><br>
+<br><br><font size=+4 color=#0F0000>20.&nbsp;</font><br><br>
+<a name="l20">If</a> a method cannot be inline, if you do not want it to be inline or if you want the class definition contain the minimum of information, then you must just put the prototype of the method inside the class and define the method below the class:
+<p>
+
+<b><br><pre>
+
+#include &lt;iostream&gt;
+using namespace std;
+
+class vector
+{
+public:
+
+   double x;
+   double y;
+
+   double surface();         // The ; and no {} shows it is a prototype
+};
+
+double vector::surface()
+{
+   double s = 0;
+
+   for (double i = 0; i &lt; x; i++)
+   {
+      s = s + y;
+   }
+
+   return s;
+}
+
+int main ()
+{
+   vector k;
+
+   k.x = 4;
+   k.y = 5;
+
+   cout &lt;&lt; "Surface: " &lt;&lt; k.surface() &lt;&lt; endl;
+
+   return 0;
+}
+
+</pre><br><br></b>
+
+
+<br><br><font size=+4 color=#0F0000>21.&nbsp;</font><br><br>
+<a name="l21">When</a> a method is applied to an instance, that method may use the instance's variables, modify them... But sometimes it is necessary to know the address of the instance. No problem, the keyword &quot;<b>this</b>&quot; is intended therefore:
+<p>
+
+<b><br><pre>
+
+#include &lt;iostream&gt;
+#include &lt;cmath&gt;
+using namespace std;
+
+class vector
+{
+public:
+
+   double x;
+   double y;
+
+   vector (double a = 0, double b = 0)
+   {
+      x = a;
+      y = b;
+   }
+
+   double module()
+   {
+      return sqrt (x * x + y * y);
+   }
+
+   void set_length (double a = 1)
+   {
+      double length;
+
+      length = this->module();
+
+      x = x / length * a;
+      y = y / length * a;
+   }
+};
+
+int main ()
+{
+   vector c (3, 5);
+
+   cout &lt;&lt; "The module of vector c: " &lt;&lt; c.module() &lt;&lt; endl;
+
+   c.set_length(2);            // Transforms c in a vector of size 2.
+
+   cout &lt;&lt; "The module of vector c: " &lt;&lt; c.module() &lt;&lt; endl;
+
+   c.set_length();             // Transforms b in an unitary vector.
+
+   cout &lt;&lt; "The module of vector c: " &lt;&lt; c.module() &lt;&lt; endl;
+
+   return 0;
+}
+
+</pre><br><br></b>
+
+
+<br><br><font size=+4 color=#0F0000>22.&nbsp;</font><br><br>
+<a name="l22">Of</a> course it is possible to declare arrays of objects:
+<p>
+
+<b><br><pre>
+
+#include &lt;iostream&gt;
+#include &lt;cmath&gt;
+using namespace std;
+
+class vector
+{
+public:
+
+   double x;
+   double y;
+
+   vector (double a = 0, double b = 0)
+   {
+      x = a;
+      y = b;
+   }
+
+   double module ()
+   {
+      return sqrt (x * x + y * y);
+   }
+};
+
+int main ()
+{
+   vector s[1000];
+
+   vector t[3] = {vector(4, 5), vector(5, 5), vector(2, 4)};
+
+   s[23] = t[2];
+
+   cout &lt;&lt; t[0].module() &lt;&lt; endl;
+
+   return 0;
+}
+
+</pre><br><br></b>
+
+
+<br><br><font size=+4 color=#0F0000>23.&nbsp;</font><br><br>
+<a name="l23">Here</a> is an example of a full class declaration:
+<p>
+
+<b><br><pre>
+
+#include &lt;iostream&gt;
+#include &lt;cmath&gt;
+using namespace std;
+
+class vector
+{
+public:
+
+   double x;
+   double y;
+
+   vector (double = 0, double = 0);
+
+   vector operator + (vector);
+   vector operator - (vector);
+   vector operator - ();
+   vector operator * (double a);
+   double module();
+   void set_length (double = 1);
+};
+
+vector::vector (double a, double b)
+{
+   x = a;
+   y = b;
+}
+
+vector vector::operator + (vector a)
+{
+   return vector (x + a.x, y + a.y);
+}
+
+vector vector::operator - (vector a)
+{
+   return vector (x - a.x, y - a.y);
+}
+
+vector vector::operator - ()
+{
+   return vector (-x, -y);
+}
+
+vector vector::operator * (double a)
+{
+   return vector (x * a, y * a);
+}
+
+double vector::module()
+{
+   return sqrt (x * x + y * y);
+}
+
+void vector::set_length (double a)
+{
+   double length = this->module();
+
+   x = x / length * a;
+   y = y / length * a;
+}
+
+ostream& operator &lt;&lt; (ostream& o, vector a)
+{
+   o &lt;&lt; "(" &lt;&lt; a.x &lt;&lt; ", " &lt;&lt; a.y &lt;&lt; ")";
+   return o;
+}
+
+int main ()
+{
+   vector a;
+   vector b;
+   vector c (3, 5);
+
+   a = c * 3;
+   a = b + c;
+   c = b - c + a + (b - a) * 7;
+   c = -c;
+
+   cout &lt;&lt; "The module of vector c: " &lt;&lt; c.module() &lt;&lt; endl;
+
+   cout &lt;&lt; "The content of vector a: " &lt;&lt; a &lt;&lt; endl;
+   cout &lt;&lt; "The oposite of vector a: " &lt;&lt; -a &lt;&lt; endl;
+
+   c.set_length(2);            // Transforms c in a vector of size 2.
+
+   a = vector (56, -3);
+   b = vector (7, c.y);
+
+   b.set_length();             // Transforms b in an unitary vector.
+
+   cout &lt;&lt; "The content of vector b: " &lt;&lt; b &lt;&lt; endl;
+
+   double k;
+   k = vector(1, 1).module();  // k will contain 1.4142.
+   cout &lt;&lt; "k contains: " &lt;&lt; k &lt;&lt; endl;
+
+   return 0;
+}
+
+</pre><br><br></b>
+
+
+It is also possible to define the sum of vectors without mentioning it inside the vector class definition. Then it will not be a method of the class vector. Just a function that uses vectors:
+<p>
+
+<b><br><pre>
+
+vector operator + (vector a, vector b)
+{
+   return vector (a.x + b.x, a.y + b.y);
+}
+
+</pre><br><br></b>
+
+
+In the example above of a full class definition, the multiplication of a vector by a double is defined. Suppose we want the multiplication of a double by a vector be defined too. Then we must write an isolated  function outside the class:
+<p>
+
+<b><br><pre>
+
+vector operator * (double a, vector b)
+{
+   return vector (a * b.x, a * b.y);
+}
+
+</pre><br><br></b>
+
+
+Of course the keywords <b>new</b> and <b>delete</b> work for class instances too. What's more, <b>new</b> automatically calls the constructor in order to initialize the objects, and <b>delete</b> automatically calls the destructor before deallocating the zone of memory the instance variables take:
+<p>
+
+<b><br><pre>
+
+#include &lt;iostream&gt;
+#include &lt;cmath&gt;
+using namespace std;
+
+class vector
+{
+public:
+
+   double x;
+   double y;
+
+   vector (double = 0, double = 0);
+
+   vector operator + (vector);
+   vector operator - (vector);
+   vector operator - ();
+   vector operator * (double);
+   double module();
+   void set_length (double = 1);
+};
+
+vector::vector (double a, double b)
+{
+   x = a;
+   y = b;
+}
+
+vector vector::operator + (vector a)
+{
+   return vector (x + a.x, y + a.y);
+}
+
+vector vector::operator - (vector a)
+{
+   return vector (x - a.x, y - a.y);
+}
+
+vector vector::operator - ()
+{
+    return vector (-x, -y);
+
+}
+
+vector vector::operator * (double a)
+{
+    return vector (a * x, a * y);
+}
+
+double vector::module()
+{
+   return sqrt (x * x + y * y);
+}
+
+void vector::set_length (double a)
+{
+   vector &the_vector = *this;
+
+   double length = the_vector.module();
+
+   x = x / length * a;
+   y = y / length * a;
+}
+
+ostream& operator &lt;&lt; (ostream& o, vector a)
+{
+   o &lt;&lt; "(" &lt;&lt; a.x &lt;&lt; ", " &lt;&lt; a.y &lt;&lt; ")";
+   return o;
+}
+
+int main ()
+{
+   vector c (3, 5);
+
+   vector *r;                  // r is a pointer to a vector.
+
+   r = new vector;             // new allocates the memory necessary
+   cout &lt;&lt; *r &lt;&lt; endl;         // to hold a vectors' variable,
+                               // calls the constructor who will
+                               // initialize it to 0, 0. Then finally
+                               // new returns the address of the vector.
+
+   r->x = 94;
+   r->y = 345;
+   cout &lt;&lt; *r &lt;&lt; endl;
+
+   *r = vector (94, 343);
+   cout &lt;&lt; *r &lt;&lt; endl;
+
+   *r = *r - c;
+   r->set_length(3);
+   cout &lt;&lt; *r &lt;&lt; endl;
+
+   *r = (-c * 3  +  -*r * 4) * 5;
+   cout &lt;&lt; *r &lt;&lt; endl;
+
+   delete r;                   // Calls the vector destructor then
+                               // frees the memory.
+
+   r = &c;                     // r points towards vector c
+   cout &lt;&lt; *r &lt;&lt; endl;
+
+   r = new vector (78, 345);   // Creates a new vector.
+   cout &lt;&lt; *r &lt;&lt; endl;         // The constructor will initialise
+                               // the vector's x and y at 78 and 345
+
+   cout &lt;&lt; "x component of r: " &lt;&lt; r->x &lt;&lt; endl;
+   cout &lt;&lt; "x component of r: " &lt;&lt; (*r).x &lt;&lt; endl;
+
+   delete r;
+
+   r = new vector[4];          // creates an array of 4 vectors
+
+   r[3] = vector (4, 5);
+   cout &lt;&lt; r[3].module() &lt;&lt; endl;
+
+   delete [] r;                // deletes the array
+
+   int n = 5;
+   r = new vector[n];          // Cute!
+
+   r[1] = vector (432, 3);
+   cout &lt;&lt; r[1] &lt;&lt; endl;
+
+   delete [] r;
+
+   return 0;
+}
+
+</pre><br><br></b>
+
+
+<br><br><font size=+4 color=#0F0000>24.&nbsp;</font><br><br>
+<a name="l24">A</a> class' variable can be declared <b>static</b>. Then only one instance of that variable exists, shared by all instances of the class. It must be initialised outside the class declaration&nbsp;:
+<p>
+
+<b><br><pre>
+
+#include &lt;iostream&gt;
+using namespace std;
+
+class vector
+{
+public:
+
+   double x;
+   double y;
+   static int count;
+
+   vector (double a = 0, double b = 0)
+   {
+      x = a;
+      y = b;
+      count++;
+   }
+
+   ~vector()
+   {
+      count--;
+   }
+};
+
+int vector::count = 0;
+
+int main ()
+{
+   cout &lt;&lt; "Number of vectors:" &lt;&lt; endl;
+
+   vector a;
+   cout &lt;&lt; vector::count &lt;&lt; endl;
+
+   vector b;
+   cout &lt;&lt; vector::count  &lt;&lt; endl;
+
+   vector *r, *u;
+
+   r = new vector;
+   cout &lt;&lt; vector::count &lt;&lt; endl;
+
+   u = new vector;
+   cout &lt;&lt; a.count &lt;&lt; endl;
+
+   delete r;
+   cout &lt;&lt; vector::count &lt;&lt; endl;
+
+   delete u;
+   cout &lt;&lt; b.count &lt;&lt; endl;
+
+   return 0;
+}
+
+</pre><br><br></b>
+
+
+<br><br><font size=+4 color=#0F0000>25.&nbsp;</font><br><br>
+<a name="l25">A</a> class variable can also be <b>const</b>ant. That's just like static, except it is alocated a value inside the class declaration and that value may not be modified:
+<p>
+
+<b><br><pre>
+
+#include &lt;iostream&gt;
+using namespace std;
+
+class vector
+{
+public:
+
+   double x;
+   double y;
+   const double pi = 3.1415927;
+
+   vector (double a = 0, double b = 0)
+   {
+      x = a;
+      y = b;
+   }
+
+   double cilinder_volume ()
+   {
+      return x * x / 4 * pi * y;
+   }
+};
+
+int main()
+{
+   cout &lt;&lt; "The value of pi: " &lt;&lt; vector::pi &lt;&lt; endl &lt;&lt; endl;
+
+   vector k (3, 4);
+
+   cout &lt;&lt; "Result: " &lt;&lt; k.cilinder_volume() &lt;&lt; endl;
+
+   return 0;
+}
+
+</pre><br><br></b>
+
+
+<br><br><font size=+4 color=#0F0000>26.&nbsp;</font><br><br>
+<a name="l26">A</a> class can be DERIVED from another class. The new class INHERITS the variables and methods of the BASE CLASS. Additional variables and/or methods can be added:
+<p>
+
+<b><br><pre>
+
+#include &lt;iostream&gt;
+#include &lt;cmath&gt;
+using namespace std;
+
+class vector
+{
+public:
+
+   double x;
+   double y;
+
+   vector (double a = 0, double b = 0)
+   {
+      x = a;
+      y = b;
+   }
+
+   double module()
+   {
+      return sqrt (x*x + y*y);
+   }
+
+   double surface()
+   {
+       return x * y;
+   }
+};
+
+class trivector: public vector   // trivector is derived from vector
+{
+public:
+   double z;                      // added to x and y from vector
+
+   trivector (double m=0, double n=0, double p=0): vector (m, n)
+   {
+      z = p;                      // Vector constructor will
+   }                              // be called before trivector
+                                  // constructor, with parameters
+                                  // m and n.
+
+   trivector (vector a)           // What to do if a vector is
+   {                              // cast to a trivector
+      x = a.x;
+      y = a.y;
+      z = 0;
+   }
+
+   double module ()               // define module() for trivector
+   {
+      return sqrt (x*x + y*y + z*z);
+   }
+
+   double volume ()
+   {
+       return this->surface() * z;         // or x * y * z
+   }
+};
+
+int main ()
+{
+   vector a (4, 5);
+   trivector b (1, 2, 3);
+
+   cout &lt;&lt; "a (4, 5)    b (1, 2, 3)    *r = b" &lt;&lt; endl &lt;&lt; endl;
+
+   cout &lt;&lt; "Surface of a: " &lt;&lt; a.surface() &lt;&lt; endl;
+   cout &lt;&lt; "Volume of b: " &lt;&lt; b.volume() &lt;&lt; endl;
+   cout &lt;&lt; "Surface of base of b: " &lt;&lt; b.surface() &lt;&lt; endl;
+
+   cout &lt;&lt; "Module of a: " &lt;&lt; a.module() &lt;&lt; endl;
+   cout &lt;&lt; "Module of b: " &lt;&lt; b.module() &lt;&lt; endl;
+   cout &lt;&lt; "Module of base of b: " &lt;&lt; b.vector::module() &lt;&lt; endl;
+
+   trivector k;
+   k = a;               // thanks to trivector(vector) definition
+                        // copy of x and y,       k.z = 0
+   vector j;
+   j = b;               // copy of x and y.       b.z leaved out
+
+   vector *r;
+   r = &b;
+
+   cout &lt;&lt; "Surface of r: " &lt;&lt; r->surface() &lt;&lt; endl;
+   cout &lt;&lt; "Module of r: " &lt;&lt; r->module() &lt;&lt; endl;
+
+   return 0;
+}
+
+</pre><br><br></b>
+
+
+<br><br><font size=+4 color=#0F0000>27.&nbsp;</font><br><br>
+<a name="l27">In</a> the program above, <b>r-&gt;module()</b> calculates the vector module, using <b>x</b> and <b>y</b>, because <b>r</b> has been declared a vector pointer. The fact <b>r</b> actually points towards a trivector is not taken into account. If you want the program to check the type of the pointed object and choose the appropriate method, then you must declare that method <b>virtual</b> inside the base class.
+<p>
+
+(If at least one of the methods of the base class is virtual then a "header" of 4 bytes is added to every instance of the classes. This allows the program to determine towards what a vector actually points.)
+<p>
+
+<b><br><pre>
+
+#include &lt;iostream&gt;
+#include &lt;cmath&gt;
+using namespace std;
+
+class vector
+{
+public:
+
+   double x;
+   double y;
+
+   vector (double a = 0, double b = 0)
+   {
+      x = a;
+      y = b;
+   }
+
+   virtual double module()
+   {
+      return sqrt (x*x + y*y);
+   }
+};
+
+class trivector: public vector
+{
+public:
+   double z;
+
+   trivector (double m = 0, double n = 0, double p = 0)
+   {
+      x = m;                  // Just for the game,
+      y = n;                  // here I do not call the vector
+      z = p;                  // constructor and I make the
+   }                          // trivector constructor do the
+                              // whole job. Same result.
+
+   double module ()
+   {
+      return sqrt (x*x + y*y + z*z);
+   }
+};
+
+void test (vector &k)
+{
+    cout &lt;&lt; "Test result:          " &lt;&lt; k.module() &lt;&lt; endl;
+}
+
+int main ()
+{
+   vector a (4, 5);
+   trivector b (1, 2, 3);
+
+   cout &lt;&lt; "a (4, 5)    b (1, 2, 3)" &lt;&lt; endl &lt;&lt; endl;
+
+   vector *r;
+
+   r = &a;
+   cout &lt;&lt; "module of vector a: " &lt;&lt; r->module() &lt;&lt; endl;
+
+   r = &b;
+   cout &lt;&lt; "module of trivector b: " &lt;&lt; r->module() &lt;&lt; endl;
+
+   test (a);
+
+   test (b);
+
+   vector &s = b;
+
+   cout &lt;&lt; "module of trivector b: " &lt;&lt; s.module() &lt;&lt; endl;
+
+   return 0;
+}
+
+</pre><br><br></b>
+
+
+<br><br><font size=+4 color=#0F0000>28.&nbsp;</font><br><br>
+<a name="l28">Maybe</a> you wonder if a class can be derived from more than one base class. Answer is yes:
+<p>
+
+<b><br><pre>
+
+#include &lt;iostream&gt;
+#include &lt;cmath&gt;
+using namespace std;
+
+class vector
+{
+public:
+
+   double x;
+   double y;
+
+   vector (double a = 0, double b = 0)
+   {
+      x = a;
+      y = b;
+   }
+
+   double surface()
+   {
+      return fabs (x * y);
+   }
+};
+
+class number
+{
+public:
+
+   double z;
+
+   number (double a)
+   {
+      z = a;
+   }
+
+   int is_negative ()
+   {
+      if (z &lt; 0) return 1;
+      else       return 0;
+   }
+};
+
+class trivector: public vector, public number
+{
+public:
+
+   trivector(double a=0, double b=0, double c=0): vector(a,b), number(c)
+   {
+   }           // The trivector constructor calls the vector
+               // constructor, then the number constructor,
+               // and in this example does nothing more.
+
+   double volume()
+   {
+      return fabs (x * y * z);
+   }
+};
+
+int main ()
+{
+   trivector a(2, 3, -4);
+
+   cout &lt;&lt; a.volume() &lt;&lt; endl;
+   cout &lt;&lt; a.surface() &lt;&lt; endl;
+   cout &lt;&lt; a.is_negative() &lt;&lt; endl;
+
+   return 0;
+}
+
+</pre><br><br></b>
+
+
+<br><br><font size=+4 color=#0F0000>29.&nbsp;</font><br><br>
+<a name="l29">Class</a> derivation allows to construct "more complicated" classes build above other classes. There is another application of class derivation: allow the programmer to write generic functions.
+<p>
+
+Suppose you define a base class with no variables. It makes no sense to use instances of that class inside your program. But you write a function whose purpose is to sort instances of that class. Well, that function will be able to sort any types of objects provided they belong to a class derived from that base class! The only condition is that inside every derived class definition all methods the sort function needs are correctly defined:
+<p>
+
+<b><br><pre>
+
+#include &lt;iostream&gt;
+#include &lt;cmath&gt;
+using namespace std;
+
+class octopus
+{
+public:
+
+   virtual double module() = 0;  // = 0 implies function is not
+                                 // defined. This makes instances
+                                 // of this class cannot be declared.
+};
+
+double biggest_module (octopus &a, octopus &b, octopus &c)
+{
+    double r = a.module();
+    if (b.module() &gt; r) r = b.module();
+    if (c.module() &gt; r) r = c.module();
+    return r;
+}
+
+class vector: public octopus
+{
+public:
+
+   double x;
+   double y;
+
+   vector (double a = 0, double b = 0)
+   {
+      x = a;
+      y = b;
+   }
+
+   double module()
+   {
+      return sqrt (x * x + y * y);
+   }
+};
+
+class number: public octopus
+{
+public:
+
+   double n;
+
+   number (double a = 0)
+   {
+      n = a;
+   }
+
+   double module()
+   {
+      if (n >= 0) return n;
+      else        return -n;
+   }
+};
+
+int main ()
+{
+    vector k (1,2), m (6,7), n (100, 0);
+    number p (5),   q (-3),  r (-150);
+
+    cout &lt;&lt; biggest_module (k, m, n) &lt;&lt; endl;
+    cout &lt;&lt; biggest_module (p, q, r) &lt;&lt; endl;
+
+    cout &lt;&lt; biggest_module (p, q, n) &lt;&lt; endl;
+
+   return 0;
+}
+
+</pre><br><br></b>
+
+
+Perhaps you think &quot;okay, that's a good idea to derive classes from the class <b>octopus</b> because that way I can apply to instances of my classes methods and function that were designed a generic way for the <b>octopus</b> class. But what if there exists another base class, named <b>cuttlefish</b>, which has very interesting methods and functions too? Do I have to make my choice between <b>octopus</b> and <b>cuttlefish</b> when I want to derive a class?&quot; No, of course. A derived class can be at the same time derived from <b>octopus</b> and from <b>cuttlefish</b>. That's POLYMORPHISM. The derived class simply has to define the methods necessary for <b>octopus</b> together with the methods necessary for <b>cuttlefish</b>:
+<p>
+
+<b><br><pre>
+
+class octopus
+{
+   virtual double module() = 0;
+};
+
+class cuttlefishcolor=#FFF0F0
+{
+   virtual int test() = 0;
+};
+
+class vector: public octopus, public cuttlefish
+{
+   double x;
+   double y;
+
+   double module ()
+   {
+      return sqrt (x * x + y * y);
+   }
+
+   int test ()
+   {
+      if (x &gt; y) return 1;
+      else       return 0;
+   }
+}
+
+</pre><br><br></b>
+
+
+<br><br><font size=+4 color=#0F0000>30.&nbsp;</font><br><br>
+<a name="l30">Probably</a> you wonder what all those <b>public:</b> keywords mean. They mean the variables or the methods below them may be accessed and used everywhere in the program.
+<p>
+
+If you want them to be accessible only to methods of the class AND to methods of derived classes then you must put the keyword <b>protected:</b> above them.
+<p>
+
+If you want variables or methods be accessible ONLY to methods of the class then you must put the keyword <b>private:</b> above them.
+<p>
+
+The fact variables or methods are declared private or protected means no function external to the class may access or use them. That's ENCAPSULATION. If you want to give to a specific function the right to access those variables and methods then you must include that function's prototype inside the class definition, preceded by the keyword <b>friend</b>.
+<p>
+
+<br><br><br>
+<br><br><font size=+4 color=#0F0000>31.&nbsp;</font><br><br>
+<a name="l31">Now</a> let's talk about input/output. In C++ that's a very broad subject.
+<p>
+
+Here is a program that writes to a file:
+<p>
+
+<b><br><pre>
+
+#include &lt;iostream&gt;
+#include &lt;fstream&gt;
+using namespace std;
+
+int main ()
+{
+   fstream f;
+
+   f.open("c:\\test.txt", ios::out);
+
+   f &lt;&lt; "This is a text output to a file." &lt;&lt; endl;
+
+   double a = 345;
+
+   f  &lt;&lt; "A number: " &lt;&lt; a &lt;&lt; endl;
+
+   f.close();
+
+   return 0;
+}
+
+</pre><br><br></b>
+
+
+Here is a program that reads from a file:
+<p>
+
+<b><br><pre>.&nbsp;</font>
+
+#include &lt;iostream&gt;
+#include &lt;fstream&gt;
+using namespace std;
+
+int main ()
+{
+   fstream f;
+   char c;
+
+   cout &lt;&lt; "What's inside the test.txt file from";
+   cout &lt;&lt; "the C: hard disk root " &lt;&lt; endl;
+   cout &lt;&lt; endl;
+
+   f.open("c:\\test.txt", ios::in);
+
+   while (! f.eof() )
+   {
+      f.get(c);                          // Or c = f.get()
+      cout &lt;&lt; c;
+   }
+
+   f.close();
+
+   return 0;
+}
+
+</pre><br><br></b>
+
+
+<br><br><font size=+4 color=#0F0000>32.&nbsp;</font><br><br>
+<a name="l32">Roughly</a> said, it is possible to do on character arrays the same operations as on files. This is very useful to convert data or manage memory arrays.
+<p>
+
+Here is a program that writes inside a character array:
+<p>
+
+<b><br><pre>
+
+#include &lt;iostream&gt;
+#include &lt;strstream&gt;
+#include &lt;cstring&gt;
+#include &lt;cmath&gt;
+using namespace std;
+
+int main ()
+{
+   char a[1024];
+   ostrstream b(a, 1024);
+
+   b.seekp(0);                           // Start from first char.
+   b &lt;&lt; "2 + 2 = " &lt;&lt; 2 + 2 &lt;&lt; ends;     // ( ends, not endl )
+                                         // ends is simply the
+                                         // null character   '\0'
+   cout &lt;&lt; a &lt;&lt; endl;
+
+   double v = 2;
+
+   strcpy (a, "A sinus: ");
+
+   b.seekp(strlen (a));
+   b &lt;&lt; "sin (" &lt;&lt; v &lt;&lt; ") = " &lt;&lt; sin(v) &lt;&lt; ends;
+
+   cout &lt;&lt; a &lt;&lt; endl;
+
+   return 0;
+}
+
+</pre><br><br></b>
+
+
+A program that reads from a character string:
+<p>
+
+<b><br><pre>
+
+#include &lt;iostream&gt;
+#include &lt;strstream&gt;
+#include &lt;cstring&gt;
+using namespace std;
+
+int main ()
+{
+   char a[1024];
+   istrstream b(a, 1024);
+
+   strcpy (a, "45.656");
+
+   double k, p;
+
+   b.seekg(0);                       // Start from first character.
+   b &gt;&gt; k;
+
+   k = k + 1;
+
+   cout &lt;&lt; k &lt;&lt; endl;
+
+   strcpy (a, "444.23 56.89");
+
+   b.seekg(0);
+   b &gt;&gt; k &gt;&gt; p;
+
+   cout &lt;&lt; k &lt;&lt; ", " &lt;&lt; p + 1 &lt;&lt; endl;
+
+   return 0;
+}
+
+</pre><br><br></b>
+
+
+<br><br><font size=+4 color=#0F0000>33.&nbsp;</font><br><br>
+<a name="l33">This</a> program performs formated output two different ways. Please note the <b>width()</b> and <b>setw()</b> MODIFIERS are only effective on the next item output to the stream. The second next item will not be influenced.
+<p>
+
+<b><br><pre>
+
+#include &lt;iostream&gt;
+#include &lt;iomanip&gt;
+using namespace std;
+
+int main ()
+{
+   int i;
+
+   cout &lt;&lt; "A list of numbers:" &lt;&lt; endl;
+   for (i = 1; i <= 1024; i *= 2)
+   {
+      cout.width (7);
+      cout &lt;&lt; i &lt;&lt; endl;
+   }
+
+   cout &lt;&lt; "A table of numbers:" &lt;&lt; endl;
+   for (i = 0; i <= 4; i++)
+   {
+      cout &lt;&lt; setw(3) &lt;&lt; i &lt;&lt; setw(5) &lt;&lt; i * i * i &lt;&lt; endl;
+   }
+
+   return 0;
+}
+
+</pre><br><br></b>
+
+
+You now have a basic knowledge about C++. Inside good books you will
+learn many more things. The file management system is very powerful,
+it has many other possibilities than those illustrated here. There is
+also a lot more to say about classes: template classes, virtual classes...
+<p>
+
+In order to work correctly with C++ you will need a good reference book,
+just like you need one for C. You will also need information on how C++
+is used in your particular domain of activity. The standards, the global
+approach, the tricks, the typical problems encountered and their
+solutions... The best reference is of course the book written by Bjarn
+Stroustrup himself. Following book contains almost every detail about
+C and C++ and is constructed a way similar to this text:
+<p>
+
+Jamsa's C/C++ Programmer's Bible<br>
+&copyright; 1998 Jamsa Press<br>
+Las Vegas, United States<br>
+<br>
+French edition:<br>
+C/C++ La Bible du programmeur<br>
+Kris Jamsa, Ph.D - Lars Klander<br>
+France&nbsp;: Editions Eyrolles<br>
+<a href="http://www.eyrolles.com">www.eyrolles.com</a><br>
+Canada&nbsp;: Les Editions Reynald Goulet inc.<br>
+<a href="http://www.goulet.ca">www.goulet.ca</a><br>
+ISBN 2-212-09058-7<br>
+<p>
+
+<br>
+
+I wish to thank Didier Bizzarri,
+<a href="http://hytti.uku.fi/~tronkko">Toni Ronkko</a>,
+<a href="http://www.4p8.com">Fr&eacute;d&eacute;ric Cloth</a>,
+Jack Lam and <a href="http://www.wtf.dk/hp">Morten Brix Pedersen</a> for their
+inspiration, advice, help and data. <p>
+
+<br><br><br>
+
+<DIV ALIGN=right>
+Eric Brasseur
+&nbsp;-&nbsp;
+23 February 1998 - 15 January 2002
+&nbsp; &nbsp; &nbsp;
+[ <A HREF="index.html">Homepage</A> ]
+</DIV>
+
+</BODY>
+</HTML>
+ 

@@ -1,0 +1,132 @@
+\hypertarget{cs2014coin-util_8c}{}\section{cs2014coin-\/util.c File Reference}
+\label{cs2014coin-util_8c}\index{cs2014coin-\/util.\+c@{cs2014coin-\/util.\+c}}
+
+
+This is the implementation of utilities for cs2014 coins.  
+
+
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}cs2014coin.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}cs2014coin-\/int.\+h\char`\"{}}\newline
+Include dependency graph for cs2014coin-\/util.c\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=324pt]{cs2014coin-util_8c__incl}
+\end{center}
+\end{figure}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{cs2014coin-util_8c_a83079f604f51143b0e11495d30d58b20}\label{cs2014coin-util_8c_a83079f604f51143b0e11495d30d58b20}} 
+\#define \hyperlink{cs2014coin-util_8c_a83079f604f51143b0e11495d30d58b20}{C\+C\+\_\+\+M\+A\+X\+E\+RR}~(sizeof(\hyperlink{cs2014coin-util_8c_a8e3da0eb987e1e7cd239012fe8d18655}{errstrs})/sizeof(const char$\ast$))
+\begin{DoxyCompactList}\small\item\em macro for how many errors we have \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+const char $\ast$ \hyperlink{cs2014coin-util_8c_af955b20ed8c88563e864ecca0b2e538e}{cs2014coin\+\_\+err} (int errno)
+\begin{DoxyCompactList}\small\item\em return out best guess error string \end{DoxyCompactList}\item 
+void \hyperlink{cs2014coin-util_8c_afd151090a1b9f8e9a800daa05be4bbf6}{dumpbuf} (char $\ast$msg, unsigned char $\ast$buffer, int buflen)
+\begin{DoxyCompactList}\small\item\em debug printerfor buffers \end{DoxyCompactList}\item 
+int \hyperlink{cs2014coin-util_8c_a703c5c765e9038368f07fa48d3a89934}{zero\+\_\+bits} (int bits, unsigned char $\ast$buf, int buflen)
+\begin{DoxyCompactList}\small\item\em check if rightmost N bits of a buffer are zero \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const char $\ast$ \hyperlink{cs2014coin-util_8c_a8e3da0eb987e1e7cd239012fe8d18655}{errstrs} \mbox{[}$\,$\mbox{]}
+\begin{DoxyCompactList}\small\item\em an array of speciic strings \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This is the implementation of utilities for cs2014 coins. 
+
+It should go without saying that these coins are for play\+:-\/)
+
+This is part of C\+S2014 \href{https://down.dsg.cs.tcd.ie/cs2014/examples/c-progs-2/README.html}{\tt https\+://down.\+dsg.\+cs.\+tcd.\+ie/cs2014/examples/c-\/progs-\/2/\+R\+E\+A\+D\+M\+E.\+html} 
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{cs2014coin-util_8c_af955b20ed8c88563e864ecca0b2e538e}\label{cs2014coin-util_8c_af955b20ed8c88563e864ecca0b2e538e}} 
+\index{cs2014coin-\/util.\+c@{cs2014coin-\/util.\+c}!cs2014coin\+\_\+err@{cs2014coin\+\_\+err}}
+\index{cs2014coin\+\_\+err@{cs2014coin\+\_\+err}!cs2014coin-\/util.\+c@{cs2014coin-\/util.\+c}}
+\subsubsection{\texorpdfstring{cs2014coin\+\_\+err()}{cs2014coin\_err()}}
+{\footnotesize\ttfamily const char$\ast$ cs2014coin\+\_\+err (\begin{DoxyParamCaption}\item[{int}]{errno }\end{DoxyParamCaption})}
+
+
+
+return out best guess error string 
+
+
+\begin{DoxyParams}{Parameters}
+{\em errno} & is an errno, presumably returned from somewhere else in this A\+PI \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+error string (a const)
+\end{DoxyReturn}
+Error string handler. Good to use unique error numbers for all different conditions \mbox{\Hypertarget{cs2014coin-util_8c_afd151090a1b9f8e9a800daa05be4bbf6}\label{cs2014coin-util_8c_afd151090a1b9f8e9a800daa05be4bbf6}} 
+\index{cs2014coin-\/util.\+c@{cs2014coin-\/util.\+c}!dumpbuf@{dumpbuf}}
+\index{dumpbuf@{dumpbuf}!cs2014coin-\/util.\+c@{cs2014coin-\/util.\+c}}
+\subsubsection{\texorpdfstring{dumpbuf()}{dumpbuf()}}
+{\footnotesize\ttfamily void dumpbuf (\begin{DoxyParamCaption}\item[{char $\ast$}]{msg,  }\item[{unsigned char $\ast$}]{buffer,  }\item[{int}]{buflen }\end{DoxyParamCaption})}
+
+
+
+debug printerfor buffers 
+
+debug printer for buffers
+
+
+\begin{DoxyParams}{Parameters}
+{\em buffer} & is where stuff\textquotesingle{}s at  buflen is how many octets \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\mbox{\Hypertarget{cs2014coin-util_8c_a703c5c765e9038368f07fa48d3a89934}\label{cs2014coin-util_8c_a703c5c765e9038368f07fa48d3a89934}} 
+\index{cs2014coin-\/util.\+c@{cs2014coin-\/util.\+c}!zero\+\_\+bits@{zero\+\_\+bits}}
+\index{zero\+\_\+bits@{zero\+\_\+bits}!cs2014coin-\/util.\+c@{cs2014coin-\/util.\+c}}
+\subsubsection{\texorpdfstring{zero\+\_\+bits()}{zero\_bits()}}
+{\footnotesize\ttfamily int zero\+\_\+bits (\begin{DoxyParamCaption}\item[{int}]{bits,  }\item[{unsigned char $\ast$}]{buf,  }\item[{int}]{buflen }\end{DoxyParamCaption})}
+
+
+
+check if rightmost N bits of a buffer are zero 
+
+
+\begin{DoxyParams}{Parameters}
+{\em bits} & is the value of N (in bits) \\
+\hline
+{\em buf} & is the buffer \\
+\hline
+{\em buflen} & is the length \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+1 if those N bits are all zero, 0 otherwise
+\end{DoxyReturn}
+be better if this were more efficient also be better if this were constant time so in real-\/world code we ought probably have two versions of this one, for coin checking that\textquotesingle{}s constant time, but doesn\textquotesingle{}t need to be too efficient and one for mining that doesn\textquotesingle{}t need to be constant time but does need max efficiency 
+
+\subsection{Variable Documentation}
+\mbox{\Hypertarget{cs2014coin-util_8c_a8e3da0eb987e1e7cd239012fe8d18655}\label{cs2014coin-util_8c_a8e3da0eb987e1e7cd239012fe8d18655}} 
+\index{cs2014coin-\/util.\+c@{cs2014coin-\/util.\+c}!errstrs@{errstrs}}
+\index{errstrs@{errstrs}!cs2014coin-\/util.\+c@{cs2014coin-\/util.\+c}}
+\subsubsection{\texorpdfstring{errstrs}{errstrs}}
+{\footnotesize\ttfamily const char$\ast$ errstrs\mbox{[}$\,$\mbox{]}}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}
+=\{
+\textcolor{stringliteral}{"This should never be seen"},
+\textcolor{stringliteral}{"That's a mad length"},
+\textcolor{stringliteral}{"DRBG failed, which is odd"},
+\textcolor{stringliteral}{"Key generator failed, which is very odd"},
+\textcolor{stringliteral}{"Too many iterations, sorry"},
+\textcolor{stringliteral}{"Unknown ciphersuite"},
+\}
+\end{DoxyCode}
+
+
+an array of speciic strings 
+
+an array of speciic strings -\/ C\+C\+\_\+foo \#define\textquotesingle{}d values are index the strings in this array 

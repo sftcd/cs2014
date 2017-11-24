@@ -1,0 +1,74 @@
+\hypertarget{cs2014coin-main_8c}{}\section{cs2014coin-\/main.c File Reference}
+\label{cs2014coin-main_8c}\index{cs2014coin-\/main.\+c@{cs2014coin-\/main.\+c}}
+
+
+This is the main function for cs2014 coin handling.  
+
+
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+{\ttfamily \#include $<$getopt.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}cs2014coin.\+h\char`\"{}}\newline
+Include dependency graph for cs2014coin-\/main.c\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{cs2014coin-main_8c__incl}
+\end{center}
+\end{figure}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{cs2014coin-main_8c_a27a1bcd135235e6fd1b52af23cb7886a}{M\+A\+X\+Z\+E\+R\+O\+B\+I\+TS}~20
+\begin{DoxyCompactList}\small\item\em the A\+PI we want... \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{cs2014coin-main_8c_a7405332bf1fd750e532b1e333cf41092}\label{cs2014coin-main_8c_a7405332bf1fd750e532b1e333cf41092}} 
+\#define \hyperlink{cs2014coin-main_8c_a7405332bf1fd750e532b1e333cf41092}{D\+E\+F\+Z\+E\+R\+O\+B\+I\+TS}~17
+\begin{DoxyCompactList}\small\item\em the default length of zero-\/bit run \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{cs2014coin-main_8c_aca6b7654301c81946540a3f80694b140}\label{cs2014coin-main_8c_aca6b7654301c81946540a3f80694b140}} 
+\#define \hyperlink{cs2014coin-main_8c_aca6b7654301c81946540a3f80694b140}{M\+O\+D\+E\+\_\+\+M\+A\+KE}~0
+\begin{DoxyCompactList}\small\item\em mode where we make a coin \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{cs2014coin-main_8c_a04b254126af7e934b608d6fc4f570518}\label{cs2014coin-main_8c_a04b254126af7e934b608d6fc4f570518}} 
+\#define \hyperlink{cs2014coin-main_8c_a04b254126af7e934b608d6fc4f570518}{M\+O\+D\+E\+\_\+\+C\+H\+E\+CK}~1
+\begin{DoxyCompactList}\small\item\em mode where we check a coin looks feasible \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{cs2014coin-main_8c_ad3abbe096450034083770ac55806d999}\label{cs2014coin-main_8c_ad3abbe096450034083770ac55806d999}} 
+\#define \hyperlink{cs2014coin-main_8c_ad3abbe096450034083770ac55806d999}{D\+E\+F\+F\+N\+A\+ME}~\char`\"{}cs2014.\+coin\char`\"{}
+\begin{DoxyCompactList}\small\item\em default file name \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{cs2014coin-main_8c_a9a05fb05f758a87628212c4bfc50c182}\label{cs2014coin-main_8c_a9a05fb05f758a87628212c4bfc50c182}} 
+void {\bfseries usage} (char $\ast$progname)
+\item 
+int \hyperlink{cs2014coin-main_8c_a0ddf1224851353fc92bfbff6f499fa97}{main} (int argc, char $\ast$argv\mbox{[}$\,$\mbox{]})
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This is the main function for cs2014 coin handling. 
+
+This is part of C\+S2014 \href{https://down.dsg.cs.tcd.ie/cs2014/examples/c-progs-2/README.html}{\tt https\+://down.\+dsg.\+cs.\+tcd.\+ie/cs2014/examples/c-\/progs-\/2/\+R\+E\+A\+D\+M\+E.\+html} 
+
+\subsection{Macro Definition Documentation}
+\mbox{\Hypertarget{cs2014coin-main_8c_a27a1bcd135235e6fd1b52af23cb7886a}\label{cs2014coin-main_8c_a27a1bcd135235e6fd1b52af23cb7886a}} 
+\index{cs2014coin-\/main.\+c@{cs2014coin-\/main.\+c}!M\+A\+X\+Z\+E\+R\+O\+B\+I\+TS@{M\+A\+X\+Z\+E\+R\+O\+B\+I\+TS}}
+\index{M\+A\+X\+Z\+E\+R\+O\+B\+I\+TS@{M\+A\+X\+Z\+E\+R\+O\+B\+I\+TS}!cs2014coin-\/main.\+c@{cs2014coin-\/main.\+c}}
+\subsubsection{\texorpdfstring{M\+A\+X\+Z\+E\+R\+O\+B\+I\+TS}{MAXZEROBITS}}
+{\footnotesize\ttfamily \#define M\+A\+X\+Z\+E\+R\+O\+B\+I\+TS~20}
+
+
+
+the A\+PI we want... 
+
+the max length of zero-\/bit run we can support 
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{cs2014coin-main_8c_a0ddf1224851353fc92bfbff6f499fa97}\label{cs2014coin-main_8c_a0ddf1224851353fc92bfbff6f499fa97}} 
+\index{cs2014coin-\/main.\+c@{cs2014coin-\/main.\+c}!main@{main}}
+\index{main@{main}!cs2014coin-\/main.\+c@{cs2014coin-\/main.\+c}}
+\subsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily int main (\begin{DoxyParamCaption}\item[{int}]{argc,  }\item[{char $\ast$}]{argv\mbox{[}$\,$\mbox{]} }\end{DoxyParamCaption})}
+
+buffer for a coin
+
+string for file name 

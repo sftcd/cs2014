@@ -1,0 +1,6 @@
+<map id="cs2014coin.h" name="cs2014coin.h">
+<area shape="rect" id="node2" href="$cs2014coin-check_8c.html" title="This is the implemetation of the cs2014 coin checker. " alt="" coords="5,80,144,107"/>
+<area shape="rect" id="node3" href="$cs2014coin-main_8c.html" title="This is the main function for cs2014 coin handling. " alt="" coords="168,80,299,107"/>
+<area shape="rect" id="node4" href="$cs2014coin-make_8c.html" title="This is the implementation of the cs2014 coin maker. " alt="" coords="323,80,458,107"/>
+<area shape="rect" id="node5" href="$cs2014coin-util_8c.html" title="This is the implementation of utilities for cs2014 coins. " alt="" coords="483,80,603,107"/>
+</map>

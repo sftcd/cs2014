@@ -1,0 +1,95 @@
+\hypertarget{cs2014coin-check_8c}{}\section{cs2014coin-\/check.c File Reference}
+\label{cs2014coin-check_8c}\index{cs2014coin-\/check.\+c@{cs2014coin-\/check.\+c}}
+
+
+This is the implemetation of the cs2014 coin checker.  
+
+
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+{\ttfamily \#include $<$arpa/inet.\+h$>$}\newline
+{\ttfamily \#include $<$mbedtls/error.\+h$>$}\newline
+{\ttfamily \#include $<$mbedtls/md.\+h$>$}\newline
+{\ttfamily \#include $<$mbedtls/pk.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}cs2014coin.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}cs2014coin-\/int.\+h\char`\"{}}\newline
+Include dependency graph for cs2014coin-\/check.c\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{cs2014coin-check_8c__incl}
+\end{center}
+\end{figure}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{cs2014coin-check_8c_ae24a8f3306fdaad53c6ac0fd494e3d5c}\label{cs2014coin-check_8c_ae24a8f3306fdaad53c6ac0fd494e3d5c}} 
+\#define \hyperlink{cs2014coin-check_8c_ae24a8f3306fdaad53c6ac0fd494e3d5c}{SB}(\+\_\+\+\_\+\+\_\+var\+\_\+\+\_\+\+\_\+,  \+\_\+\+\_\+\+\_\+shift\+\_\+\+\_\+\+\_\+)~(\+\_\+\+\_\+\+\_\+var\+\_\+\+\_\+\+\_\+$\vert$=(1$<$$<$\+\_\+\+\_\+\+\_\+shift\+\_\+\+\_\+\+\_\+))
+\begin{DoxyCompactList}\small\item\em set a bit in a mask to indicate some error \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{cs2014coin-check_8c_a21155e3c6dc04da3b8c6f635e8bf79b8}\label{cs2014coin-check_8c_a21155e3c6dc04da3b8c6f635e8bf79b8}} 
+\#define \hyperlink{cs2014coin-check_8c_a21155e3c6dc04da3b8c6f635e8bf79b8}{CB}(\+\_\+\+\_\+\+\_\+var\+\_\+\+\_\+\+\_\+,  \+\_\+\+\_\+\+\_\+shift\+\_\+\+\_\+\+\_\+)~(\+\_\+\+\_\+\+\_\+var\+\_\+\+\_\+\+\_\+\&=$\sim$(1$<$$<$\+\_\+\+\_\+\+\_\+shift\+\_\+\+\_\+\+\_\+))
+\begin{DoxyCompactList}\small\item\em clear a bit in a mask to indicate that error wasn\textquotesingle{}t seen \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{cs2014coin-check_8c_a14bef37cd5f67358cd43ce1308049667}{lc\+\_\+memcmp} (const void $\ast$a, const void $\ast$b, size\+\_\+t size)
+\begin{DoxyCompactList}\small\item\em a local constant time memcmp \end{DoxyCompactList}\item 
+int \hyperlink{cs2014coin-check_8c_ae7d692031170a392c66b9810c65a79a3}{cs2014coin\+\_\+check} (int bits, unsigned char $\ast$buf, int buflen, int $\ast$res)
+\begin{DoxyCompactList}\small\item\em check a coin \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This is the implemetation of the cs2014 coin checker. 
+
+It should go without saying that these coins are for play\+:-\/)
+
+This is part of C\+S2014 \href{https://down.dsg.cs.tcd.ie/cs2014/examples/c-progs-2/README.html}{\tt https\+://down.\+dsg.\+cs.\+tcd.\+ie/cs2014/examples/c-\/progs-\/2/\+R\+E\+A\+D\+M\+E.\+html} 
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{cs2014coin-check_8c_ae7d692031170a392c66b9810c65a79a3}\label{cs2014coin-check_8c_ae7d692031170a392c66b9810c65a79a3}} 
+\index{cs2014coin-\/check.\+c@{cs2014coin-\/check.\+c}!cs2014coin\+\_\+check@{cs2014coin\+\_\+check}}
+\index{cs2014coin\+\_\+check@{cs2014coin\+\_\+check}!cs2014coin-\/check.\+c@{cs2014coin-\/check.\+c}}
+\subsubsection{\texorpdfstring{cs2014coin\+\_\+check()}{cs2014coin\_check()}}
+{\footnotesize\ttfamily int cs2014coin\+\_\+check (\begin{DoxyParamCaption}\item[{int}]{bits,  }\item[{unsigned char $\ast$}]{buf,  }\item[{int}]{buflen,  }\item[{int $\ast$}]{res }\end{DoxyParamCaption})}
+
+
+
+check a coin 
+
+
+\begin{DoxyParams}{Parameters}
+{\em bits} & specifies how many bits need to be zero in the hash-\/output \\
+\hline
+{\em buf} & is an allocated buffer for the coin \\
+\hline
+{\em buflen} & specifies the input coin size \\
+\hline
+{\em res} & contains the result of checking the coin \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+zero for success, non-\/zero for fail (note\+: success != good coin!)
+\end{DoxyReturn}
+Check a coin of the required quality/strength Note we attempt to be roughly constant time here, just for fun But, if this were called on recovered plaintext, that might be significant! See \href{https://cryptocoding.net/index.php/Coding_rules}{\tt https\+://cryptocoding.\+net/index.\+php/\+Coding\+\_\+rules} T\+O\+DO\+: have a dummy public key ready for this so we do sig check of some sort \mbox{\Hypertarget{cs2014coin-check_8c_a14bef37cd5f67358cd43ce1308049667}\label{cs2014coin-check_8c_a14bef37cd5f67358cd43ce1308049667}} 
+\index{cs2014coin-\/check.\+c@{cs2014coin-\/check.\+c}!lc\+\_\+memcmp@{lc\+\_\+memcmp}}
+\index{lc\+\_\+memcmp@{lc\+\_\+memcmp}!cs2014coin-\/check.\+c@{cs2014coin-\/check.\+c}}
+\subsubsection{\texorpdfstring{lc\+\_\+memcmp()}{lc\_memcmp()}}
+{\footnotesize\ttfamily int lc\+\_\+memcmp (\begin{DoxyParamCaption}\item[{const void $\ast$}]{a,  }\item[{const void $\ast$}]{b,  }\item[{size\+\_\+t}]{size }\end{DoxyParamCaption})}
+
+
+
+a local constant time memcmp 
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & is buffer 1 \\
+\hline
+{\em b} & is buffer 2 \\
+\hline
+{\em size} & is the length of both \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 for same, 1 for not same
+\end{DoxyReturn}
+A constant time memcmp, found at\+: \href{https://github.com/OpenVPN/openvpn/commit/11d21349a4e7e38a025849479b36ace7c2eec2ee}{\tt https\+://github.\+com/\+Open\+V\+P\+N/openvpn/commit/11d21349a4e7e38a025849479b36ace7c2eec2ee} Note -\/ this was done due to a real attck on Open\+V\+PN \href{https://www.rapid7.com/db/vulnerabilities/alpine-linux-cve-2013-2061}{\tt https\+://www.\+rapid7.\+com/db/vulnerabilities/alpine-\/linux-\/cve-\/2013-\/2061} 
