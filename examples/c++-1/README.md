@@ -64,15 +64,20 @@ the standard ```cout``` object with one argument, that
 is the string we want to print. Note that the ```\n``` there
 means "add a new line when printing."
 
+Note that C++ is not (still, after decades) really as well supported as C in Linux and elsewhere. For
+example ```man printf``` produces useful information as expected, but ```man
+cout``` does not, even though ```g++``` is installed.  The standard C libraries
+(sockets etc.) that are available most everywhere don't all have C++
+equivalents. 
+
 And finally, since we said ```main()``` would return an 
 integer result we better do that to be nice and tidy:
 
 			return(0);
 
-
 ###C++ Details:
 
-- A nicely terse [tutorial](http://joule.bu.edu/~hazen/progr/cppcen.html), so good I have a [local copy](cppcen.html) 
+- A nicely terse [tutorial](http://joule.bu.edu/~hazen/progr/cppcen.html), so good I have a [local copy](../../materials/cppcen.html) 
 - some [slideware](https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-s096-introduction-to-c-and-c-january-iap-2013/lectures-and-assignments/)
 
 

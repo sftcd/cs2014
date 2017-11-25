@@ -52,12 +52,17 @@ the first being...</p>
 the standard <code>cout</code> object with one argument, that
 is the string we want to print. Note that the <code>\n</code> there
 means "add a new line when printing."</p>
+<p>Note that C++ is not (still, after decades) really as well supported as C in Linux and elsewhere. For
+example <code>man printf</code> produces useful information as expected, but <code>man
+cout</code> does not, even though <code>g++</code> is installed.  The standard C libraries
+(sockets etc.) that are available most everywhere don't all have C++
+equivalents. </p>
 <p>And finally, since we said <code>main()</code> would return an 
 integer result we better do that to be nice and tidy:</p>
 <pre><code>        return(0);
 </code></pre>
 <h3>C++ Details:</h3>
 <ul>
-<li>A nicely terse <a href="http://joule.bu.edu/~hazen/progr/cppcen.html">tutorial</a>, so good I have a <a href="cppcen.html">local copy</a> </li>
+<li>A nicely terse <a href="http://joule.bu.edu/~hazen/progr/cppcen.html">tutorial</a>, so good I have a <a href="../../materials/cppcen.html">local copy</a> </li>
 <li>some <a href="https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-s096-introduction-to-c-and-c-january-iap-2013/lectures-and-assignments/">slideware</a></li>
 </ul>
