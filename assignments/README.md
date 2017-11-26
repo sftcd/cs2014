@@ -57,5 +57,11 @@ This is a dummy you should ignore.
 You goal [here](assignment5/README.html) is to make clear 
 that Fridays are good.
 
+## Assignment six
+
+[This](assignment6/README.html) one requires you to write
+some C++ socket client code.
+
+
 
 

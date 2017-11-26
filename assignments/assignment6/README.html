@@ -1,0 +1,90 @@
+<p><meta charset="utf-8" /></p>
+<h1>CS2014 2017 Assignment6 - Socket Knocking on the door...</h1>
+<h2>Specification</h2>
+<p>Your assignment this time is to write a C++ program that connects
+to a server on a TCP socket and logs the server's response 
+to an HTTP GET request that you send it via the socket.</p>
+<ul>
+<li>
+<p>Your binary must take the following command line arguments, 
+in both long and short form:</p>
+</li>
+<li>
+<p>h, host: the DNS name or IP address of the host to contact</p>
+</li>
+<li>
+<p>p, port: the TCP port on the server to which to connect</p>
+</li>
+<li>
+<p>w, web: make an HTTP GET request for the "/" resource</p>
+</li>
+<li>
+<p>f, file: store any output received from socket in file </p>
+</li>
+<li>
+<p>H, help: produce a usage message such as that below</p>
+</li>
+<li>?, help: produce a usage message such as that below</li>
+</ul>
+<p>And example usage string is:</p>
+<pre><code>    $ knock -?
+    usage: ./knock -h host -p port [-H] [-w] [-f file]
+</code></pre>
+<p>The mandatory parameters are the host and port.If
+those are not supplied then you may return an error message,
+or you may prompt the user to enter them.<br />
+For other input parameters, you may prompt the user
+or produce output to stdout as needed.</p>
+<ul>
+<li>The host input MUST be an IPv4 or IPv6 address or a Fully Qualified
+Domain Name (FQDN)</li>
+<li>The port MUST be an integer between 1 and 65535</li>
+</ul>
+<h2>Background</h2>
+<ul>
+<li>There's a nice sockets tutorial <a href="http://www.bogotobogo.com/cplusplus/sockets_server_client.php">here</a></li>
+</ul>
+<p>It turns out there isn't a standard/portable C++ interface for networking, so
+you have two choices here - to use the BSD/Posix C socket library from your C++
+code, which is fine. Or you can sarch the web to see if you can find a C++
+wrapper or other library that you can use. Either can work and you can get full
+marks either way. Not that if the library needs to be installed in the OS, (as
+opposed to uploaded with your own code), then you'll need to get my ok, as I'd
+need to install it on the machine that runs submitty. (And I'll probably say
+"no" in any case, unless there's a good reason.)</p>
+<p>My advice FWIW: knowing about the BSD sockets interfaces is well worth-while as
+you'll benefit much more from that since many programming
+languages/environments provide this same interface. So I'd suggest writing that
+code from scratch and not cut'n'pasting someone else's code.</p>
+<h2>Some hints...</h2>
+<ul>
+<li>In our previous uses of Makefile, <code>CC</code> was the variable to set for the
+  compiler, but for C++ the equivalent variable is <code>CXX</code>.</li>
+<li>You'll find lots of examples of client and server code for using sockets
+  online.</li>
+<li>While you only need to write client code for the assignment, you might
+  want to also write server code so you can test locally. If you do, great!<ul>
+<li>If you don't, well I guess it is ok to have your home-grown client
+  talk to e.g. www.tcd.ie port 80.</li>
+</ul>
+</li>
+</ul>
+<h2>What's here?</h2>
+<p>The files in this assignment directory you should see now are:</p>
+<ul>
+<li><a href="Makefile">Makefile</a>  - the Makefile to builld the above and link in the mbed TLS library</li>
+<li><a href="README.html">README.html</a> - this HTML file</li>
+<li><a href="README.md">README.md</a> - the markdown source for this HTML file</li>
+</ul>
+<h2>Deadline</h2>
+<p>The deadline for submission of this assignment is 2017-12-04</p>
+<h2>Submission</h2>
+<p>For this assignment you should submit all of your <em>.cpp and </em>.h files<br />
+as usual via <a href="https://cs2014.scss.tcd.ie/">https://cs2014.scss.tcd.ie/</a>.</p>
+<p>You should ensure that this compile works successfully in your working
+directory (in addition to whatever you do yourself) when run locally for 
+you first:</p>
+<pre><code>    $ g++ -std=c++14 *.cpp
+</code></pre>
+<p>If that produces a working <code>a.out</code> then you may well pass the 
+submitty tests and get marks. Otherwise you might not;-(</p>
