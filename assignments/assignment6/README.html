@@ -22,8 +22,8 @@ in both long and short form:</p>
 </li>
 <li>?, help: produce a usage message such as that below</li>
 </ul>
-<p>And example usage string is:</p>
-<pre><code>    $ knock -?
+<p>And example usage string if your binrary is called <code>knock</code> is:</p>
+<pre><code>    $ ./knock -?
     usage: ./knock -h host -p port [-H] [-w] [-f file]
 </code></pre>
 <p>The mandatory parameters are the host and port.If
@@ -37,17 +37,15 @@ Domain Name (FQDN)</li>
 <li>The port MUST be an integer between 1 and 65535</li>
 </ul>
 <h2>Background</h2>
-<ul>
-<li>There's a nice sockets tutorial <a href="http://www.bogotobogo.com/cplusplus/sockets_server_client.php">here</a></li>
-</ul>
+<p>There's a nice sockets tutorial <a href="http://www.bogotobogo.com/cplusplus/sockets_server_client.php">here</a></p>
 <p>It turns out there isn't a standard/portable C++ interface for networking, so
 you have two choices here - to use the BSD/Posix C socket library from your C++
 code, which is fine. Or you can sarch the web to see if you can find a C++
 wrapper or other library that you can use. Either can work and you can get full
-marks either way. Not that if the library needs to be installed in the OS, (as
-opposed to uploaded with your own code), then you'll need to get my ok, as I'd
-need to install it on the machine that runs submitty. (And I'll probably say
-"no" in any case, unless there's a good reason.)</p>
+marks either way. Note that if the library needs to be installed in the OS, (as
+opposed to being source files uploaded with your own code), then you'll need to get my ok, as I'd
+need to install it on the machine that runs submitty. And I'll probably say
+"no," unless there's a good reason, sorry.</p>
 <p>My advice FWIW: knowing about the BSD sockets interfaces is well worth-while as
 you'll benefit much more from that since many programming
 languages/environments provide this same interface. So I'd suggest writing that
@@ -57,11 +55,12 @@ code from scratch and not cut'n'pasting someone else's code.</p>
 <li>In our previous uses of Makefile, <code>CC</code> was the variable to set for the
   compiler, but for C++ the equivalent variable is <code>CXX</code>.</li>
 <li>You'll find lots of examples of client and server code for using sockets
-  online.</li>
+  online. My advice again: read those and understand them, but then write
+  your own code and don't only cut'n'paste.</li>
 <li>While you only need to write client code for the assignment, you might
-  want to also write server code so you can test locally. If you do, great!<ul>
-<li>If you don't, well I guess it is ok to have your home-grown client
-  talk to e.g. www.tcd.ie port 80.</li>
+  want to also write server code so you can test locally. If you do that, great!<ul>
+<li>If you don't do that, well I guess it is ok to have your home-grown client
+  talk to e.g. www.tcd.ie port 80 or similar.</li>
 </ul>
 </li>
 </ul>
@@ -76,11 +75,12 @@ code from scratch and not cut'n'pasting someone else's code.</p>
 <p>The deadline for submission of this assignment is 2017-12-04</p>
 <h2>Submission</h2>
 <p>For this assignment you should submit all of your <em>.cpp and </em>.h files<br />
-as usual via <a href="https://cs2014.scss.tcd.ie/">https://cs2014.scss.tcd.ie/</a>.</p>
-<p>You should ensure that this compile works successfully in your working
-directory (in addition to whatever you do yourself) when run locally for 
-you first:</p>
+via <a href="https://cs2014.scss.tcd.ie/">https://cs2014.scss.tcd.ie/</a>.
+That means submitting all the source files needed for your program
+to compile and run successfully.</p>
+<p>You should ensure that compile instruction below works successfully in your working
+directory (in addition to whatever you do yourself while developing):</p>
 <pre><code>    $ g++ -std=c++14 *.cpp
 </code></pre>
-<p>If that produces a working <code>a.out</code> then you may well pass the 
-submitty tests and get marks. Otherwise you might not;-(</p>
+<p>If that produces a working <code>a.out</code> then you're in with a shout
+of passing the submitty tests and get marks. Otherwise,... you might not;-(</p>
