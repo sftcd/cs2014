@@ -67,5 +67,10 @@ what's going on when constructing the Handler in the example code.
 
 The rest is fairly obvious.
 
+##Debugging
+
+As with C programs, if you compile with -g you can debug with ```gdb```.
+
+With C++ there can be more going on when you step through code in the debugger of course.
 
 
