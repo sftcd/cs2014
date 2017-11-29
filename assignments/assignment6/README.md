@@ -64,6 +64,8 @@ code from scratch and not cut'n'pasting someone else's code.
   want to also write server code so you can test locally. If you do that, great!
 	- If you don't do that, well I guess it is ok to have your home-grown client
 	  talk to e.g. www.tcd.ie port 80 or similar.
+- I had a bug in my verifier code (thanks again Ed!:-) that's now (20171129) fixed.
+
 
 ## What's here?
 
