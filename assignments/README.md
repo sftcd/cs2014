@@ -62,6 +62,10 @@ that Fridays are good.
 [This](assignment6/README.html) one requires you to write
 some C++ socket client code.
 
+## Assignment seven/eight
+
+[This](assignment7-8/README.html) is a server thing.
+
 
 
 

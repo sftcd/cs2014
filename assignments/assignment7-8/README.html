@@ -1,0 +1,246 @@
+<p><meta charset="utf-8" /></p>
+<h1>CS2014 2017 Assignment7 - Vanity Primes</h1>
+<h2>Specification</h2>
+<p>Your job this time is to write a <em>daemon</em> that implements an HTTP server
+that generates "vanity primes" on request when supplied with the "vanity"
+string to include in such a prime. (Note: in real applications we would
+NOT do this - it'd weaken the security properties of whatever was using
+the primes - this is for play only!)</p>
+<ul>
+<li>
+<p>A <em>daemon</em> is a program that forks a child process to do it's work and then
+  the parent exits leaving the child process running as a server. (This part of the code is
+given to you, you just need to use it right.) </p>
+</li>
+<li>
+<p>A "vanity prime" is a (long) prime number the high order bits of which are
+  constructed to match a supplied vanity string. (Think of vanity car license
+plates.)</p>
+</li>
+<li>
+<p>All our vanity primes for this assignment MUST be 1024 bits long</p>
+</li>
+<li>
+<p>For this assignment, vanity strings are limited to ASCII hex values, e.g.
+  "0xdeadbeef" but may be of any length up to (nearly) 1024 bits long. </p>
+</li>
+<li>
+<p>Requests and responses MUST use the HTTP protocol properly 
+using an HTTP GET request to the <code>/.well-known/vanityprime</code> 
+resource on the HTTP server, with the vanity string specified as an ASCII-hex
+value (upper or lower case) provided via a "vs=" query string. (See 
+<a href="https://tools.ietf.org/html/rfc5785">RFC5875</a> for reasons why the resource
+is named like that.)</p>
+</li>
+<li>
+<p>An example request/response send using the <code>curl</code> tool would be:</p>
+<pre><code>$ curl http://127.0.0.1:8081/.well-known/vanityprime?vs=0xabcdef0d
+abcdef0d3a3a6a85e58529393eaa0e0a6ec78dbbffccc53135d53cdbd49e5bd0927a6ca209de46f97fd8de910d0ad2dab2863562b423c58b45d72ab0bc9d33c432acebeb23ed4f5d6dcec0ad47de2e26a4a4ca13ab0a80279a29610fc25f5e37c07545bca440f734dc4efa9241a992d4a539dc56de2dda6d4dd129d1575491bb
+</code></pre>
+</li>
+<li>
+<p>Normal HTTP processing is expected to work - a standard web browser or a 
+command line tool (such as  <code>wget</code> or <code>curl</code>) ought all work when
+talking to your server. That means that you do need a "proper" HTTP 
+server that'll know how to handle (in this case) ignore various HTTP
+headers that browsers add, e.g. DNT, Accept-* etc. </p>
+</li>
+<li>
+<p>Your server need only work for localhost and hence need not support TLS,
+nor use of a domain name for the HTTP server. 
+It's fine if your server only works for IPv4, and not [::1] or even only 
+for 127.0.0.1. Similarly, there's no need to support h2 nor QUIC - just
+plain old HTTP/1.1 is fine.
+If you do support any of those things, that's fine, but not needed. </p>
+</li>
+<li>
+<p>You MAY allow specifying the port number on the command line when starting the
+server. The default port to use is 8081.</p>
+</li>
+<li>
+<p>We MUST be able to tell the server (forked by the daemon) to exit when we're done playing
+about. That's done by accessing the "/.well-known/vpexit" resource, e.g.:</p>
+<pre><code>$ curl http://127.0.0.1:8081/.well-known/vpexit
+$
+</code></pre>
+</li>
+<li>
+<p>You MUST ensure that your code exits cleanly <em>before</em> submitting
+to submitty. If you don't figure that out, Christian or I may be irritated:-)
+See below for guidance as to the stages in developing this assignment.</p>
+</li>
+</ul>
+<h2>Vanity Prime number generation</h2>
+<p>There's a good-enough <a href="https://en.wikipedia.org/wiki/Generating_primes">WikiPedia</a>
+page on how to generate long primes - it's pretty easy, just generate a random
+odd value of the length required, then check if it's prime first using checks
+for divisibility by small primes and then a probabilistic test like Miller-Rabin
+that gives high confidence of primality - typically we end up with a probability
+of (waaay) less than one in 2^20 of a composite passing the test.</p>
+<p>For the purposes of this assignment, the cryptographic quality of the primes
+doesn't matter - we don't care if we end up with so-called strong primes or not.</p>
+<p>Supplying an overly long vanity string can lead to failure to find a vanity prime.
+There are lots of prime numbers in the universe, but sometimes you'll be
+unluckly. Being unlucky should be overwhelmingly unlikely as long as the
+vanity string is less than maybe ~1000 bits long. (More info
+<a href="https://crypto.stackexchange.com/questions/1970/how-are-primes-generated-for-rsa">here</a>,
+where one of the comments says about 1 in 400 1024-bit odd numbers
+will be prime, thanks to 
+the [prime number theorem](https://mathworld.wolfram.com/PrimeNumberTheorem.html(.)</p>
+<p>In a more general case, we might want the vanity string to be visible in various standard
+encodings of the prime number, such as base64 or binary etc. but that's not needed here.</p>
+<p>The vanity string is incorporated into the first step of prime generation - we
+just overwrite the most significant bits of the random prime-candidate with our
+vanity string. That does require delving under the hood of the normal prime
+generator code a bit - but that's the fun bit of the exercise.  </p>
+<h2>Implementation approaches: C++ <em>or</em> Go</h2>
+<p>You have (at least) two options for implementing this assignment: </p>
+<ul>
+<li>modify the C++ example program from 
+<a href="https://github.com/civetweb/civetweb.git">civetweb</a>, 
+adding in calls to <a href="https://tls.mbed.org/">mbedtls</a> code for 
+vanity prime generation, or,</li>
+<li>(more adventurously:-) implement using the <code>Go</code> language </li>
+</ul>
+<p>Depending on which option you take, you'll submit to a
+different Submitty assignment (as7/Vanity-C++ or as8/Go-go-Vanity). </p>
+<p>Not everyone will be able to install the <code>Go</code> language support
+(and it's missing on college boxes today, sorry), hence the option
+of doing the assignment in C++. </p>
+<p>If someone submits both a C++ and golang solution, whichever
+scores higher will be used for marking.</p>
+<p>If you would like to take a different implementation approach,
+check with <a href="mailto:stephen.farrell@cs.tcd.ie">me</a> first, but it'll
+be hard to support most other approaches, but I might allow it,
+if someone has something interesting to suggest.</p>
+<h2>Implementation stages</h2>
+<p>I recommemd you follow this plan for implementing, regardless
+of the language used:</p>
+<ol>
+<li>Read/understand the problem</li>
+<li>Get a vanilla HTTP server running (not as a daemon)</li>
+<li>Add a handler of some kind for the "/.well-known/vpexit" resource and
+get that working with curl, i.e. your server should exit when that
+resource is requested</li>
+<li>Add a handler for the "/.well-known/vanityprime" resource that
+just echoes something</li>
+<li>Add support for extracting the vanity string from the query string 
+to that handler</li>
+<li>Figure out how to generate a vanity prime</li>
+<li>Add the vanity prime generation code to your server </li>
+<li>Integrate the vanity prime generation code with your handler</li>
+<li>Test various error cases</li>
+<li>Turn the server into a daemon using the language-specific 
+method for that recommended below</li>
+<li>Test some more, esp that exiting works correctly in all
+cases</li>
+</ol>
+<p><em>After</em> all that has worked, only then submit to submitty.</p>
+<h2>C++ implementation</h2>
+<p><a href="https://github.com/civetweb/civetweb.git">civetweb</a> is a relatively
+lightweight HTTP library/server code base that's good enough for
+what we want. You should clone that somewhere and build it.</p>
+<p>civetweb has an example C++ server intended for embedded sysems 
+that allows you to easily
+add a handler for the .well-known URLs we're using.
+Once you've cloned the civetweb
+git repo you'll find that code and a Makefile in  the 
+<code>./examples/embedded_cpp/</code> directory.
+You need to change the <code>main()</code> function in that to be
+the <code>process()</code> function called from <code>daemon.cpp</code></p>
+<p>For prime generation code, you can copy (relevant parts of) the body 
+of the implementation of  the <code>mbedtls_mpi_gen_prime()</code> function 
+into your code. You'll need to modify the Makefile to tell it
+where to find mbedtls header files and to link the mbedtls 
+libraries. See assignment3's Makefile for one example of a way
+to do that. (I'll not say to copy that approach, but as3's
+Makefile does show you what you need.)</p>
+<p>In the <a href="c++/">c++</a> direcory below here, you'll also find a 
+Makefile that works to integrate the embedded_cpp server
+with mbedtls. That directory also has the <code>daemon.cpp</code>
+described below and (with obvious modifications) the Makefile 
+will build your daemon version.</p>
+<p>Specific notes for use with Submitty:</p>
+<ul>
+<li>Your server MUST honor the "/.well-kniwn/vpexit" resource and 
+exit when requested. The default code in <code>embedded_cpp.cpp</code>
+uses the "/exit" resource instead, but you MUST change that.</li>
+</ul>
+<h3>C++ Daemon</h3>
+<p>The reason we need the C++ version of this to be a daemon is so that
+submitty can run the server and then the test client - submitty's
+not that good at doing things in parallel, so we solve that by
+making the server a daemon, which is a good thing to know about
+anyway.</p>
+<p>I took the <code>daemon.cpp</code> code from
+<a href="http://shahmirj.com/blog/beginners-guide-to-creating-a-daemon-in-linux">here</a>
+which also explains what's going on. In contrast to the daemon code given
+there, I've modified <code>daemon.cpp</code> so that the child process will exit, when
+told to via HTTP.</p>
+<p>Sometimes when people use the
+term they mean a process run at startup, usually by some init/systemd/upstart
+system, but here we only mean that the process forks a child then exits.</p>
+<h3>Golang implementation</h3>
+<p>(This is a bit of a work-in-progress still - I'm still fixing submitty
+to handle Go at the minute, so this may change.)</p>
+<p>Your implementation should be in a single file called <code>server.go</code></p>
+<p>There is a "net/http" package that makes coding up a simple web server
+pretty trivial - the standard documentation even has almost all the
+code you need.</p>
+<p>There is a "crypto/rand" package that handles prime generation, so if
+you go check the source for the <code>Prime</code> function, you'll find 
+that you can copy and modify that fairly easily.</p>
+<h3>Go daemon</h3>
+<p>Seems like this is sorta-controversial (not that systemd etc ever were:-).</p>
+<p>What's worked for me was to use <a href="https://github.com/VividCortex/godaemon">goadaemon</a>
+but it only seems to work in the built/compiled version where is seems fine.
+That is, <code>go run server.go</code> doesn't work with the daemon code, but 
+<code>go build server.go</code> does produce a <code>server</code> binary that seems to
+do the right things.</p>
+<p>Before using that one needs to:</p>
+<pre><code>    $ go get https://github.com/VividCortex/godaemon
+</code></pre>
+<p>And then the minimal code explained at the git repo seems to do the
+job.</p>
+<h2>Other hints...</h2>
+<ul>
+<li>
+<p>The "?vs=0x" part of the query string does not end up
+as a part of the vanity prime. Those characters are just
+there to a) make our query string handling consistent with
+common use on the web, and b) the "0x" indicates we're
+using ASCII hex encoding and so provides for potential
+extension points later. (Not that theres a "later" for
+this code:-)</p>
+</li>
+<li>
+<p>If the vanity string isn't syntactically correct (e.g. if it
+has odd characters or an odd number of characters) then your
+server ought return some form of error. I don't care what kind
+of error you produce there (but an HTTP 4xx would be nice).</p>
+</li>
+</ul>
+<h2>What's here?</h2>
+<p>The files in this assignment directory you should see now are:</p>
+<ul>
+<li><a href="Makefile">Makefile</a>  - the Makefile to builld this HTML and compile Go code</li>
+<li><a href="README.html">README.html</a> - this HTML file</li>
+<li><a href="README.md">README.md</a> - the markdown source for this HTML file</li>
+<li><a href="c++/">c++</a> - this directory has C++ code for a daemonised HTTP server and a Makefile to get you started</li>
+<li><a href="sendone.sh">sendone.sh</a> - a Bash script to send a single request to a server </li>
+<li><a href="sendem.go">sendem.go</a> - a client that requests and verifies a bunch of vanity primes</li>
+<li><a href="checkoneandexit.go">checkoneandexit.go</a> - a go program that sends a single request, 
+    checks the answer, and then nicely asks the server to exit</li>
+</ul>
+<h2>Deadline</h2>
+<p>The deadline for submission of this assignment is 2017-12-15 </p>
+<h2>Submission</h2>
+<p>Again: You MUST ensure that your code exits cleanly <em>before</em> subitting
+to submitty. If you don't figure that out, Christian or I may be irritated:-)
+The reason for that is that submitty is not really designed for server
+code assignments, so we're stretching things a bit and I'd really 
+prefer that you not get in one another's way due to ports being bound
+to hanging processes etc.</p>
+<p>For this assignment you should submit your server.go file<br />
+or your embedded_cpp.cpp and daemon.cpp files via the correct button 
+as usual via <a href="https://cs2014.scss.tcd.ie/">https://cs2014.scss.tcd.ie/</a>.</p>
