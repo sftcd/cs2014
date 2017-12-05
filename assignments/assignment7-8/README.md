@@ -171,7 +171,7 @@ will build your daemon version.
 
 Specific notes for use with Submitty:
 
-- Your server MUST honor the "/.well-kniwn/vpexit" resource and 
+- Your server MUST honor the "/.well-known/vpexit" resource and 
 exit when requested. The default code in ```embedded_cpp.cpp```
 uses the "/exit" resource instead, but you MUST change that.
 - Please stick with the file names embedded_cpp.cpp and
@@ -218,7 +218,7 @@ that you can copy and modify that fairly easily.
 Seems like this is sorta-controversial (not that systemd etc ever were:-).
 
 What's worked for me was to use [godaemon](https://github.com/VividCortex/godaemon)
-but it only seems to work in the built/compiled version where is seems fine.
+but it only seems to work in the built/compiled version where it seems fine.
 That is, ```go run server.go``` doesn't work with the daemon code, but 
 ```go build server.go``` does produce a ```server``` binary that seems to
 do the right things.
@@ -271,8 +271,8 @@ code assignments, so we're stretching things a bit and I'd really
 prefer that you not get in one another's way due to ports being bound
 to hanging processes etc.
 
-For this assignment you should submit your server.go file  
-or your embedded_cpp.cpp and daemon.cpp files via the correct button 
+For this assignment you should submit your server.go file or your 
+embedded_cpp.cpp and daemon.cpp files via the correct button 
 as usual via [https://cs2014.scss.tcd.ie/](https://cs2014.scss.tcd.ie/).
 
 

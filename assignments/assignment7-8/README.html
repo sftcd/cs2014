@@ -162,7 +162,7 @@ described below and (with obvious modifications) the Makefile
 will build your daemon version.</p>
 <p>Specific notes for use with Submitty:</p>
 <ul>
-<li>Your server MUST honor the "/.well-kniwn/vpexit" resource and 
+<li>Your server MUST honor the "/.well-known/vpexit" resource and 
 exit when requested. The default code in <code>embedded_cpp.cpp</code>
 uses the "/exit" resource instead, but you MUST change that.</li>
 <li>Please stick with the file names embedded_cpp.cpp and
@@ -198,7 +198,7 @@ that you can copy and modify that fairly easily.</p>
 <h3>Go daemon</h3>
 <p>Seems like this is sorta-controversial (not that systemd etc ever were:-).</p>
 <p>What's worked for me was to use <a href="https://github.com/VividCortex/godaemon">godaemon</a>
-but it only seems to work in the built/compiled version where is seems fine.
+but it only seems to work in the built/compiled version where it seems fine.
 That is, <code>go run server.go</code> doesn't work with the daemon code, but 
 <code>go build server.go</code> does produce a <code>server</code> binary that seems to
 do the right things.</p>
@@ -246,6 +246,6 @@ The reason for that is that submitty is not really designed for server
 code assignments, so we're stretching things a bit and I'd really 
 prefer that you not get in one another's way due to ports being bound
 to hanging processes etc.</p>
-<p>For this assignment you should submit your server.go file<br />
-or your embedded_cpp.cpp and daemon.cpp files via the correct button 
+<p>For this assignment you should submit your server.go file or your 
+embedded_cpp.cpp and daemon.cpp files via the correct button 
 as usual via <a href="https://cs2014.scss.tcd.ie/">https://cs2014.scss.tcd.ie/</a>.</p>
