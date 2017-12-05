@@ -42,7 +42,7 @@ abcdef0d3a3a6a85e58529393eaa0e0a6ec78dbbffccc53135d53cdbd49e5bd0927a6ca209de46f9
 <p>Normal HTTP processing is expected to work - a standard web browser or a 
 command line tool (such as  <code>wget</code> or <code>curl</code>) ought all work when
 talking to your server. That means that you do need a "proper" HTTP 
-server that'll know how to handle (in this case) ignore various HTTP
+server that'll know how to handle (in this case ignore) various HTTP
 headers that browsers add, e.g. DNT, Accept-* etc. </p>
 </li>
 <li>
@@ -86,7 +86,7 @@ vanity string is less than maybe ~1000 bits long. (More info
 <a href="https://crypto.stackexchange.com/questions/1970/how-are-primes-generated-for-rsa">here</a>,
 where one of the comments says about 1 in 400 1024-bit odd numbers
 will be prime, thanks to 
-the [prime number theorem](https://mathworld.wolfram.com/PrimeNumberTheorem.html(.)</p>
+the <a href="https://mathworld.wolfram.com/PrimeNumberTheorem.html">prime number theorem</a>.)</p>
 <p>In a more general case, we might want the vanity string to be visible in various standard
 encodings of the prime number, such as base64 or binary etc. but that's not needed here.</p>
 <p>The vanity string is incorporated into the first step of prime generation - we
@@ -111,10 +111,10 @@ of doing the assignment in C++. </p>
 scores higher will be used for marking.</p>
 <p>If you would like to take a different implementation approach,
 check with <a href="mailto:stephen.farrell@cs.tcd.ie">me</a> first, but it'll
-be hard to support most other approaches, but I might allow it,
+be hard to support most other approaches, though I might allow it,
 if someone has something interesting to suggest.</p>
 <h2>Implementation stages</h2>
-<p>I recommemd you follow this plan for implementing, regardless
+<p>I recommend you follow this plan for implementing, regardless
 of the language used:</p>
 <ol>
 <li>Read/understand the problem</li>
@@ -165,6 +165,9 @@ will build your daemon version.</p>
 <li>Your server MUST honor the "/.well-kniwn/vpexit" resource and 
 exit when requested. The default code in <code>embedded_cpp.cpp</code>
 uses the "/exit" resource instead, but you MUST change that.</li>
+<li>Please stick with the file names embedded_cpp.cpp and
+daemon.cpp when submitting - it may well work ok if you
+don't but no harm being predictable:-)</li>
 </ul>
 <h3>C++ Daemon</h3>
 <p>The reason we need the C++ version of this to be a daemon is so that
@@ -177,8 +180,11 @@ anyway.</p>
 which also explains what's going on. In contrast to the daemon code given
 there, I've modified <code>daemon.cpp</code> so that the child process will exit, when
 told to via HTTP.</p>
+<p>Because we're using <code>fork()</code> and other system calls for
+the daemon code, you probably really need to test your code
+on a real Linux system before submitting and not only on a Windows-thing.</p>
 <p>Sometimes when people use the
-term they mean a process run at startup, usually by some init/systemd/upstart
+term daemon they mean a process run at startup, usually by some init/systemd/upstart
 system, but here we only mean that the process forks a child then exits.</p>
 <h3>Golang implementation</h3>
 <p>(This is a bit of a work-in-progress still - I'm still fixing submitty
@@ -210,7 +216,7 @@ as a part of the vanity prime. Those characters are just
 there to a) make our query string handling consistent with
 common use on the web, and b) the "0x" indicates we're
 using ASCII hex encoding and so provides for potential
-extension points later. (Not that theres a "later" for
+extension points later. (Not that there's a "later" for
 this code:-)</p>
 </li>
 <li>

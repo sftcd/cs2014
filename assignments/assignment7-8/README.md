@@ -38,7 +38,7 @@ is named like that.)
 - Normal HTTP processing is expected to work - a standard web browser or a 
 command line tool (such as  ```wget``` or ```curl```) ought all work when
 talking to your server. That means that you do need a "proper" HTTP 
-server that'll know how to handle (in this case) ignore various HTTP
+server that'll know how to handle (in this case ignore) various HTTP
 headers that browsers add, e.g. DNT, Accept-* etc. 
 
 - Your server need only work for localhost and hence need not support TLS,
@@ -80,7 +80,7 @@ vanity string is less than maybe ~1000 bits long. (More info
 [here](https://crypto.stackexchange.com/questions/1970/how-are-primes-generated-for-rsa),
 where one of the comments says about 1 in 400 1024-bit odd numbers
 will be prime, thanks to 
-the [prime number theorem](https://mathworld.wolfram.com/PrimeNumberTheorem.html(.)
+the [prime number theorem](https://mathworld.wolfram.com/PrimeNumberTheorem.html).)
 
 In a more general case, we might want the vanity string to be visible in various standard
 encodings of the prime number, such as base64 or binary etc. but that's not needed here.
@@ -112,12 +112,12 @@ scores higher will be used for marking.
 
 If you would like to take a different implementation approach,
 check with [me](mailto:stephen.farrell@cs.tcd.ie) first, but it'll
-be hard to support most other approaches, but I might allow it,
+be hard to support most other approaches, though I might allow it,
 if someone has something interesting to suggest.
 
 ## Implementation stages
 
-I recommemd you follow this plan for implementing, regardless
+I recommend you follow this plan for implementing, regardless
 of the language used:
 
 1. Read/understand the problem
@@ -174,6 +174,9 @@ Specific notes for use with Submitty:
 - Your server MUST honor the "/.well-kniwn/vpexit" resource and 
 exit when requested. The default code in ```embedded_cpp.cpp```
 uses the "/exit" resource instead, but you MUST change that.
+- Please stick with the file names embedded_cpp.cpp and
+daemon.cpp when submitting - it may well work ok if you
+don't but no harm being predictable:-)
 
 ### C++ Daemon
 
@@ -189,8 +192,12 @@ which also explains what's going on. In contrast to the daemon code given
 there, I've modified ```daemon.cpp``` so that the child process will exit, when
 told to via HTTP.
 
+Because we're using ```fork()``` and other system calls for
+the daemon code, you probably really need to test your code
+on a real Linux system before submitting and not only on a Windows-thing.
+
 Sometimes when people use the
-term they mean a process run at startup, usually by some init/systemd/upstart
+term daemon they mean a process run at startup, usually by some init/systemd/upstart
 system, but here we only mean that the process forks a child then exits.
 
 ### Golang implementation
@@ -232,7 +239,7 @@ as a part of the vanity prime. Those characters are just
 there to a) make our query string handling consistent with
 common use on the web, and b) the "0x" indicates we're
 using ASCII hex encoding and so provides for potential
-extension points later. (Not that theres a "later" for
+extension points later. (Not that there's a "later" for
 this code:-)
 
 - If the vanity string isn't syntactically correct (e.g. if it
