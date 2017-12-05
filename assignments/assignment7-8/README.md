@@ -217,7 +217,7 @@ that you can copy and modify that fairly easily.
 
 Seems like this is sorta-controversial (not that systemd etc ever were:-).
 
-What's worked for me was to use [goadaemon](https://github.com/VividCortex/godaemon)
+What's worked for me was to use [godaemon](https://github.com/VividCortex/godaemon)
 but it only seems to work in the built/compiled version where is seems fine.
 That is, ```go run server.go``` doesn't work with the daemon code, but 
 ```go build server.go``` does produce a ```server``` binary that seems to
