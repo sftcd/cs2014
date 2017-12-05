@@ -187,9 +187,8 @@ on a real Linux system before submitting and not only on a Windows-thing.</p>
 term daemon they mean a process run at startup, usually by some init/systemd/upstart
 system, but here we only mean that the process forks a child then exits.</p>
 <h3>Golang implementation</h3>
-<p>(This is a bit of a work-in-progress still - I'm still fixing submitty
-to handle Go at the minute, so this may change.)</p>
-<p>Your implementation should be in a single file called <code>server.go</code></p>
+<p>Your implementation should be in a single file called <code>server.go</code>
+but other options may work too.</p>
 <p>There is a "net/http" package that makes coding up a simple web server
 pretty trivial - the standard documentation even has almost all the
 code you need.</p>

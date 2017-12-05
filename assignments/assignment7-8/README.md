@@ -202,10 +202,8 @@ system, but here we only mean that the process forks a child then exits.
 
 ### Golang implementation
 
-(This is a bit of a work-in-progress still - I'm still fixing submitty
-to handle Go at the minute, so this may change.)
-
 Your implementation should be in a single file called ```server.go```
+but other options may work too.
 
 There is a "net/http" package that makes coding up a simple web server
 pretty trivial - the standard documentation even has almost all the
