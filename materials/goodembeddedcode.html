@@ -1,0 +1,1844 @@
+<!DOCTYPE html>
+<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]> <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]> <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en"><!--<![endif]--><!-- UTEIIS01 --><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<meta charset="utf-8">
+	<!-- Set the viewport width to device width for mobile -->
+    <link rel="shortcut icon" type="image/ico" href="https://www.embedded.com/images/embedded/favicon.ico">
+    <meta name="pagecaching" content="801">
+	<meta name="server_addr" content="10.40.51.4">
+        <meta name="referrer" content="always">	
+	<script src="goodembeddedcode_files/jquery.js" type="text/javascript"></script>
+    
+	
+	<title>A guide to C++ for the cautious embedded programmer | Embedded</title><meta property="og:title" content="A guide to C++ for the cautious embedded programmer">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://www.embedded.com/design/prototyping-and-development/4008303/A-guide-to-C--for-the-cautious-embedded-programmer">
+<meta property="og:image" content="https://m.eet.com/images/edn/images/icons/contentitem-default.png">
+<meta property="og:site_name" content="Embedded">
+<meta property="og:description" content="Approached in the right way, the C++  language has many benefits to offer the embedded software developer. Here are some brief guidelines in its use, 
+highlighting areas of good practice &quot; things to do and things to avoid.
+">
+<meta property="fb:admins" content="337533009670734">
+<meta name="description" content="Approached in the right way, the C++  language has many benefits to offer the embedded software developer. Here are some brief guidelines in its...">
+<meta name="Headline" content="A guide to C++ for the cautious embedded programmer">
+<meta name="news_keywords" content="C Language, Top Down Implementation, Deeply Nested Inheritance, Objects, Encapsulation, Exception Handling System, EHS, ">
+<meta name="author" content="Colin Walls">
+<meta name="created" content="June 08, 2009">
+<meta name="original-source" content="http://www.embedded.com/design/prototyping-and-development/4008303/A-guide-to-C--for-the-cautious-embedded-programmer"><link href="https://www.embedded.com/design/prototyping-and-development/4008303/A-guide-to-C--for-the-cautious-embedded-programmer" rel="canonical">
+
+<!-- BEGIN Krux ControlTag for "AspenCore Generic" -->
+<script class="kxct" data-id="sbnf4txm4" data-timing="async" data-version="3.0" type="text/javascript">
+  window.Krux||((Krux=function(){ Krux.q.push(arguments) }).q=[]);
+  (function(){
+    var k=document.createElement('script');k.type='text/javascript';k.async=true;
+    k.src=(location.protocol==='https:'?'https:':'http:')+'//cdn.krxd.net/controltag/sbnf4txm4.js';
+    var s=document.getElementsByTagName('script')[0];s.parentNode.insertBefore(k,s);
+  }());
+</script>
+<!-- END Krux ControlTag -->
+
+<script class="kxint" data-namespace="aspencore" type="text/javascript">
+window.Krux||((Krux=function(){ Krux.q.push(arguments); }).q=[]);
+(function(){
+  function retrieve(n){
+    var k= 'kx'+'aspencore_'+n, ls=(function(){
+      try {
+        return window.localStorage;
+      } catch(e) {
+        return null;
+      }
+    })();
+    if (ls) {
+        return ls[k] || '';
+    } else if (navigator.cookieEnabled) {
+        var m = document.cookie.match(k+'=([^;]*)');
+        return (m && unescape(m[1])) || '';
+    } else {
+        return '';
+    }
+  }
+  Krux.user = retrieve('user');
+  Krux.segments = retrieve('segs') ? retrieve('segs').split(',') : [];
+})();
+</script>
+
+
+<script>
+    dmpDataLayer = [{
+    "title": "A guide to C++ for the cautious embedded programmer",
+    "section": ["Prototyping & Development"],
+    "pageType": "Design How-To",
+    "keywords": ["Consumer Electronics & Appliances","DSP","Software","Hardware Development","Compilers & Linkers","Debugging Tools","Design","Prototyping & Development"]
+    }];
+</script>
+
+<script>
+  dataLayer = [{
+    'Author': 'Colin Walls'
+  }];
+</script>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KV6L8V7');</script>
+<!-- End Google Tag Manager -->
+
+<!-- Start: GPT Sync --><script type="text/javascript">
+ var gptadslots=[];
+ (function(){
+  var useSSL = 'https:' == document.location.protocol;
+  var src = (useSSL ? 'https:' : 'http:') + '//www.googletagservices.com/tag/js/gpt.js';
+  document.write('<scr' + 'ipt src="' + src + '"></scr' + 'ipt>');
+ })();
+</script>
+
+<script type="text/javascript">
+
+
+
+
+
+ googletag.pubads().setTargeting('kw',['dc_article','ConsumerElectronicsAppliances','DSP','SoftwareHardwareDevelopment','CompilersLinkers','DebuggingTools','4008303']);
+ googletag.pubads().setTargeting('aid',['4008303']);
+			if (document.documentElement.clientWidth > 736){
+			gptadslots[1]=googletag.defineSlot('/74317539/emd/prototyping-and-development',[[2,2]],'div-gpt-ad-942957474691236830-1')
+.addService(googletag.pubads())
+.setTargeting('pos',['welcome']);
+			}
+
+						if (document.documentElement.clientWidth > 1027){
+			gptadslots[2]=googletag.defineSlot('/74317539/emd/prototyping-and-development',[[1,2]],'div-gpt-ad-942957474691236830-2')
+.addService(googletag.pubads())
+.setTargeting('pos',['wallpaper']);
+			}
+						if (document.documentElement.clientWidth > 736){
+			gptadslots[3]=googletag.defineSlot('/74317539/emd/prototyping-and-development',[[728,90]],'div-gpt-ad-942957474691236830-3')
+.addService(googletag.pubads())
+.setTargeting('pos',['top']);
+			}
+
+			gptadslots[4]=googletag.defineSlot('/74317539/emd/prototyping-and-development',[[300,250],[300,600]],'div-gpt-ad-942957474691236830-4')
+.addService(googletag.pubads())
+.setTargeting('pos',['rec1']);
+gptadslots[5]=googletag.defineSlot('/74317539/emd/prototyping-and-development',[[300,250]],'div-gpt-ad-942957474691236830-5')
+.addService(googletag.pubads())
+.setTargeting('pos',['rec2']);
+gptadslots[42]=googletag.defineSlot('/74317539/emd/prototyping-and-development',[[4,4]],'div-gpt-ad-942957474691236830-42')
+.addService(googletag.pubads())
+.setTargeting('pos',['video']);
+gptadslots[43]=googletag.defineSlot('/74317539/emd/prototyping-and-development',[[300,60]],'div-gpt-ad-942957474691236830-43')
+.addService(googletag.pubads())
+.setTargeting('pos',['eventpromo']);
+gptadslots[44]=googletag.defineSlot('/74317539/emd/prototyping-and-development',['fluid'],'div-gpt-ad-native')
+.addService(googletag.pubads());
+googletag.pubads().enableSingleRequest();
+
+googletag.pubads().setTargeting("ksg", Krux.segments);
+googletag.pubads().setTargeting("kuid", Krux.user); 
+
+googletag.pubads().enableSyncRendering();
+googletag.enableServices();
+</script>
+     <script type="text/javascript" src="goodembeddedcode_files/jHtmlArea-0.js"></script>
+    <script src="goodembeddedcode_files/modernizr.js" type="text/javascript"></script>
+    <script type="text/javascript" src="goodembeddedcode_files/contentgating.js"></script>
+    
+    <link href="goodembeddedcode_files/socialfeed.css" rel="stylesheet" type="text/css">
+	<link href="goodembeddedcode_files/css.css" rel="stylesheet" type="text/css">
+	<link href="goodembeddedcode_files/jquery-ui.css" rel="stylesheet" type="text/css">
+	<link href="goodembeddedcode_files/global.css" rel="stylesheet" type="text/css">
+	<link href="goodembeddedcode_files/app.css" rel="stylesheet" type="text/css">
+	<link href="goodembeddedcode_files/start-up.css" rel="stylesheet" type="text/css">
+	<link href="goodembeddedcode_files/registration.css" rel="stylesheet" type="text/css">
+		
+	<!-- IE Fix for HTML5 Tags -->
+	<!--[if lt IE 9]>
+		<link rel="stylesheet" href="/css/embedded/ie.css">
+		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<script> /* break us out of any containing iframes */if (top != self) { top.location.replace(self.location.href); }</script>
+	<script type="text/javascript">
+		var _doubleclickRand = Math.random() * 10000000000000000;
+	</script>   
+	
+	<script type="text/javascript">
+		$(document).ready(function(){
+			_listService.applyListing();
+			initCalendar();
+			//$("a[alt^='prettyPhoto']").each(function(){ $(this).attr('href', $(this).attr('href').replace(/returnurl=&/gi,'returnUrl=' + encodeURIComponent(window.location) + '&')); });
+			//$("a[alt^='prettyPhoto']").prettyPhoto({ social_tools: false });
+		});
+	</script>
+<script type="text/javascript">
+(function() {
+window._pa = window._pa || {};
+var pa = document.createElement('script'); pa.type = 'text/javascript'; pa.async = true;
+pa.src = ('https:' == document.location.protocol ? 'https:' : 'http:') + "//tag.marinsm.com/serve/55649c11dabbd5919e00015f.js";
+var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(pa, s);
+window._pq = window._pq || [];
+_pq.push(['track', 'website_embedded']);
+})();
+</script>
+ <script type="text/javascript">
+    var _elqQ = _elqQ || []; _elqQ.push(['elqSetSiteId', '657486201']);
+    _elqQ.push(['elqTrackPageView']);
+    (function () {
+        function async_load() {
+            var s = document.createElement('script'); s.type = 'text/javascript';
+            s.async = true; s.src = '//img.en25.com/i/elqCfg.min.js';
+            var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(s, x);
+        }
+        if (window.addEventListener) window.addEventListener('DOMContentLoaded', async_load, false);
+        else if (window.attachEvent) window.attachEvent('onload', async_load);
+    })();
+</script>
+</head>
+<body>
+        <div class="ads">
+        		<div id="div-gpt-ad-942957474691236830-1">
+		 <script type="text/javascript">
+		  googletag.display('div-gpt-ad-942957474691236830-1');
+		 </script>
+	</div>
+        </div>   
+       	
+			<div id="div-gpt-ad-942957474691236830-2">
+		 <script type="text/javascript">
+		  googletag.display('div-gpt-ad-942957474691236830-2');
+		 </script>
+	</div>
+		
+
+
+	<div class="page">
+	<div class="promoheader" style="width: 1058px; margin: auto;">
+<!-- Google Tag Manager (noscript) -->
+<div><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KV6L8V7" style="display:none;visibility:hidden" height="0" width="0"></iframe></div>
+<!-- End Google Tag Manager (noscript) -->
+</div>
+
+	    <header>
+		<!-- UTEIIS01 -->
+<!--<div class="universal-header">
+	<a class="datasheets" href="http://www.datasheets.com?cid=UniversalHeader" title="Datasheets.com: Search For Over 250 Million Parts">datasheets.com</a>
+	<a class="ebn" href="http://www.ebnonline.com?cid=UniversalHeader" title="EBN: The Online Community for Global Supply Chain Professionals">EBN.com</a>
+	<a class="edn" href="http://www.edn.com?cid=UniversalHeader" title="EDN: Join Electronics Engineers and Experts around the Globe">EDN.com</a>
+	<a class="eet" href="http://www.eet.com?cid=UniversalHeader" title="EE Times: The Information Powerhouse for the Global Electronics Industry">EETimes.com</a>
+	<a class="emb" href="http://www.embedded.com?cid=UniversalHeader" title="Embedded: The Source For Everything Embedded">Embedded.com</a>
+	<a class="pa" href="http://www.planetanalog.com?cid=UniversalHeader" title="Planet Analog: All Signal, No Noise">PlanetAnalog.com</a>
+	<a class="tol" href="http://www.techonline.com?cid=UniversalHeader" title="TechOnline: Education For The Creators of Technology ">TechOnline.com</a>
+	<span class="spacer">&nbsp;</span>
+	<div class='events'>
+		<a>Events <i>&#x25BC;</i></a>
+		<ul class='unstyled'>
+			<li><a href="http://www.eeliveshow.com?cid=UniversalHeader" target="_blank">EE Live!</a></li>
+			<li><a href="http://www.designcon.com?cid=UniversalHeader" target="_blank">DesignCon</a></li>
+			<li><a href="http://www.escbrazil.com.br?cid=UniversalHeader" target="_blank">ESC Brazil</a></li>
+			<li><a href="http://www.esc-india.com.com?cid=UniversalHeader" target="_blank">ESC India</a></li>
+			<li><a href="http://e.ubmelectronics.com/armtechcon/index.html?cid=UniversalHeader" target="_blank">ARM TechCon</a></li>
+			<li><a href="http://www.designersofthings.com/sanfrancisco?cid=UniversalHeader" target="_blank">Designers of Things</a></li>
+		</ul>
+	</div>
+	<a class="ubmt" href="http://tech.ubm.com?cid=UniversalHeader">UBM Tech</a>
+</div>
+<div class="universal-header-for-mobile">
+<a>UBM Tech <i>&#x25BC;</i></a>
+<ul class='unstyled'>
+	<a href="http://www.datasheets.com?cid=UniversalHeader">datasheets.com</a>
+	<a href="http://www.ebn.com?cid=UniversalHeader">EBN.com</a>
+	<a href="http://www.edn.com?cid=UniversalHeader">EDN.com</a>
+	<a href="http://www.eet.com?cid=UniversalHeader">EETimes.com</a>
+	<a href="http://www.embedded.com?cid=UniversalHeader">Embedded.com</a>
+	<a href="http://www.planetanalog.com?cid=UniversalHeader">PlanetAnalog.com</a>
+	<a href="http://www.techonline.com?cid=UniversalHeader">TechOnline.com</a>
+</ul>
+</div>-->
+        
+	    <div class="ads row hide-for-small">
+	            <div class="twelve columns wrap">
+	               <div class="banner">
+                    	<div id="div-gpt-ad-942957474691236830-3">
+		 <script type="text/javascript">
+		  googletag.display('div-gpt-ad-942957474691236830-3');
+		 </script>
+	</div>
+                 </div>
+                    <div class="milestone">
+            		 <!-- MILESTONE -->    
+        		</div>		
+	            </div>
+	    </div>
+	    
+	    <div class="welcome row">
+        	<p class="welcome"></p>
+        </div>
+        
+        <div class="masthead row">
+            <div class="five columns">
+                <a href="https://www.embedded.com/"><img src="goodembeddedcode_files/embedded-logo.png" alt=""></a>
+            </div>
+            <div class="seven columns user-meta hide-for-small">
+                <div class="links">
+                    <a href="https://www.embedded.com/contactus">Contact Us</a> <span class="divider">•</span>
+                    <!--span id="newsletter-signed-in" style="display:none;">
+                          <a alt="prettyPhoto" href="/UserAccount/Subscribe?iframe=true&amp;width=570&amp;height=600">Subscribe to Newsletters</a>
+                    </span>
+                    <!--span id="newsletter-login">                    
+	                    					    	<!--a class="first" id="captureSignInLink" onclick="janrain.capture.ui.renderScreen('signIn')" href="javascript:void(0)"><b>Subscribe to Newsletters</b></a>
+					                        </span-->
+                </div>
+
+                <div class="login-bar-janrain">
+
+<!--
+    ============================================================================
+        A NOTE ON NAVIGATION:
+        These links are not needed for integration into your site. These links
+        are only used for navigating the reference implementation that exists on
+        our servers for testing/demo/sample purposes. It is not required for
+        your implementation.
+
+        Here you can see an example of using janrain.capture.ui.renderScreen in
+        conjunction with HTML elements to simplify user navigation.
+    ============================================================================
+    -->
+		<div class="login-bar">		
+		<div id="signed-in" class="account">
+			<a href="#" id="captureSignInLink" class="button" onclick="janrain.capture.ui.renderScreen('signIn')">Sign In</a>
+			<a href="#" id="captureSignUpLink" class="button" onclick="janrain.capture.ui.renderScreen('signIn')" data-capturescreen="traditionalRegistration">Sign Up</a>
+			<a href="https://www.embedded.com/myprofile?screenToRender=editProfile" "="" id="captureProfileLink" class="button" style="display:none">Edit Profile</a>
+			<a href="#" id="captureSignOutLink" class="button" style="display:none" onclick="janrain.capture.ui.endCaptureSession()">Sign Out</a>
+		</div> 
+	</div> 
+	
+    <!--
+    ============================================================================
+        SIGNIN SCREENS:
+        The following screens are part of the sign in user workflow. For a
+        complete out-of-the-box sign in experience, these screens must be
+        included on the page where you are implementing sign in and registration.
+    ============================================================================
+    -->
+
+    <!-- signIn:
+    This is the starting point for sign in and registration. This screen is
+    rendered by default. In order to change this behavior, the Flow must be
+    edited.
+    -->
+    <div style="display:none;" id="signIn">
+        <div class="capture_header">
+            <h1>Login</h1>
+        </div>
+        <div class="capture_signin">
+            <h2>Sign In With</h2>
+            {* loginWidget *} <br>
+        </div>
+        <div class="capture_backgroundColor">
+            <div class="capture_signin">
+                {* #signInForm *}
+                    {* signInEmailAddress *}
+                    {* currentPassword *}
+                    <div class="capture_form_item">
+                        <a href="#" data-capturescreen="forgotPassword">Forgot your password?</a>
+                    </div>
+                    <div class="capture_rightText">
+                        <button class="capture_secondary capture_btn capture_primary" type="submit"><span class="janrain-icon-16 janrain-icon-key"></span> Sign In</button>
+                        <a href="#" id="capture_signIn_createAccountButton" data-capturescreen="traditionalRegistration" class="capture_secondary capture_createAccountButton capture_btn capture_primary">Register</a>
+                    </div>
+                {* /signInForm *}
+            </div>
+        </div>
+    </div>
+
+    <!-- returnSocial:
+    This is the screen the user sees in place of the signIn screen if they've
+    already signed in with a social account on this site. Rendering of this
+    screen is defined in the Flow only when the 'janrainLastAuthMethod' cookie
+    is set to'socialSignin'.
+    -->
+    <div style="display:none;" id="returnSocial">
+        <div class="capture_header">
+            <h1>Sign In</h1>
+        </div>
+        <div class="capture_signin">
+            <h2>Welcome back, {* welcomeName *}!</h2>
+            {* loginWidget *}
+            <div class="capture_centerText switchLink"><a href="#" data-cancelcapturereturnexperience="true">Use another account</a></div>
+        </div>
+    </div>
+
+    <!-- returnTraditional:
+    This is the screen the user sees in place of the signIn screen if they've
+    already signed in with a traditional account on this site. Rendering of this
+    screen is defined in the Flow only when the 'janrainLastAuthMethod' cookie
+    is set to'traditionalSignin'.
+    -->
+    <div style="display:none;" id="returnTraditional">
+        <div class="capture_header">
+            <h1>Sign In</h1>
+        </div>
+        <h2 class="capture_centerText"><span id="traditionalWelcomeName">Welcome Back</span></h2>
+        <div class="capture_backgroundColor">
+            {* #signInForm *}
+                {* signInEmailAddress *}
+                {* currentPassword *}
+                <div class="capture_form_item capture_rightText">
+                    <button class="capture_secondary capture_btn capture_primary" type="submit"><span class="janrain-icon-16 janrain-icon-key"></span> Sign In</button>
+                </div>
+            {* /signInForm *}
+            <div class="capture_centerText switchLink"><a href="#" data-cancelcapturereturnexperience="true">Use another account</a></div>
+        </div>
+    </div>
+
+    <!-- accountDeactivated:
+        This screen is rendered if the user's account is deactivated. Screen
+        rendering is handled in janrain-init.js.
+    -->
+    <div style="display:none;" id="accountDeactivated">
+        <div class="capture_header">
+            <h1>Account Deactivated</h1>
+        </div>
+        <div class="content_wrapper">
+            <p>Your account has been deactivated.</p>
+        </div>
+    </div>
+
+    <div style="display:none;" id="reactivateAccount">    
+        <h2>Account Reactivation Failed</h2> 
+        <p>Sorry, we could not verify that email address.</p>   
+    </div>
+
+    <div style="display: none;" id="reactivateAccountSuccess">    
+        <h2>Account Activated</h2>    
+        <p>Your account has been reactivated.</p>
+        <div class="capture_footer">
+            <a onclick="janrain.capture.ui.renderScreen('signIn')" href="javascript:void(0)" class="capture_btn capture_primary">Sign in</a>
+        </div>       
+    </div>
+
+
+    <!-- emailVerificationRequired:
+        This screen is rendered if you have enabled the requirement for verified emails and the user's email has not yet been verified. This screen may appear immediately after registration and also on subsequent logins until the email is verified. Screen rendering is handled in the postLoginScreens Capture settings per API client. A value of "emailVerificationRequired" will enable the requirement of having a verified email. A value of "false" will disable the requirement of having a verified email.
+    -->
+    <div style="display:none;" id="emailVerificationRequired">
+        <div class="capture_header">
+            <h1>Email Verification Required</h1>
+        </div>
+        <p>You must verify your email address before signing in. Check 
+your email for your verification email, or enter your email address in 
+the form below to resend the email.</p>
+
+        {* #resendVerificationForm *}
+            {* signInEmailAddress *}
+            <div class="capture_footer">
+                <input value="Submit" class="capture_btn capture_primary" type="submit">
+            </div>
+        {* /resendVerificationForm *}
+    </div>
+
+
+    <!--
+    ============================================================================
+        REGISTRATION SCREENS:
+        The following screens are part of the registration user workflow. For a
+        complete out-of-the-box registration experience, these screens must be
+        included on the page where you are implementing sign in and
+        registration.
+    ============================================================================
+    -->
+
+    <!-- socialRegistration:
+        When a user clicks an IDP and does not already have an account in your
+        capture application, this screen is rendered. This behavior is defined
+        in the Flow.
+    -->
+    <div style="display:none;" id="socialRegistration">
+        <div class="capture_header">
+            <h1>Almost Done</h1>
+        </div>
+        <p>Please confirm the information below before signing in.</p>
+        {* #socialRegistrationForm *}
+            <!-- The following fields are required by default and must be included in the socialRegistrationForm. In order to change any of these fields to optional, the Flow must be edited. -->
+            {* firstName *}
+            {* lastName *}
+            {* displayName *}
+            {* emailAddress *}
+            {* addressCountry *}
+			{* companyName *}
+			{* ednembJobfunction *}
+			{* jobFunctionOther *}
+			{* ednembIndustry *}
+			{* industryOther *}
+			<div class="checkboxes">
+			{* optInRegistration *}
+			{* optAgree  *}
+			{* optShare *}
+			</div>
+
+       
+            <div class="capture_footer">
+                <div class="capture_left">
+                    {* backButton *}
+                </div>
+                <div class="capture_right">
+                    <input value="Register" id="signupBtn2" class="capture_btn signupBtn capture_primary" type="submit">
+                </div>
+            </div>
+        {* /socialRegistrationForm *}
+    </div>
+
+    <!-- traditionalRegistration:
+        When a user clicks the 'Create Account' button this screen is rendered.
+    -->
+    <div style="display:none;" id="traditionalRegistration">
+        <div class="capture_header">
+            <h1>Registration</h1>
+        </div>
+        <p>Please confirm the information below before signing in. Already have an account? <a id="capture_traditionalRegistration_navSignIn" href="#" data-capturescreen="signIn">Sign In.</a></p>
+        {* #registrationForm *}
+            <!-- The following fields are required by default and must be included in the registrationForm. In order to change any of these fields to optional, the Flow must be edited. -->
+            {* emailAddress *}
+            {* newPassword *}
+            {* newPasswordConfirm *}
+            {* displayName *}
+            {* firstName *}
+            {* lastName *}
+            {* addressCountry *}
+			{* companyName *}
+			{* ednembJobfunction *}
+			{* jobFunctionOther *}
+			{* ednembIndustry *}
+			{* industryOther *}
+			<div class="checkboxes">
+			{* optInRegistration *}
+			{* optAgree  *}
+			{* optShare *}
+			</div>
+
+            {* siteName *}
+        <div class="capture_footer">
+                <div class="capture_left">
+                    {* backButton *}
+                </div>
+                <div class="capture_right">
+                    <input value="Register" id="signupBtn1" class="capture_btn signupBtn capture_primary" type="submit">
+                </div>
+            </div>
+        {* /registrationForm *}
+    </div>
+
+    <!-- emailVerificationNotification:
+        This screen is rendered after a user has registered. In the case of
+        traditional registration, this screen is always rendered after the user
+        completes registration on the traditionalRegistration screen. In the
+        case of social registration, this screen is only rendered if the data
+        returned from the IDP does not contain a verified email address.
+        Twitter is an example of an IDP that does not return a verified email.
+    -->
+
+    <div style="display:none;" id="emailVerificationNotification">
+        <div class="capture_header">
+            <h1>Thank You for Registering</h1>
+        </div>
+        <p>Please wait you will be redirected shortly.</p>
+    </div>
+
+    <!--
+    ============================================================================
+        FORGOT PASSWORD SCREENS:
+        The following screens are part of the forgot password user workflow. For
+        a complete out-of-the-box registration experience, these screens must be
+        included on the page where you are implementing forgot password
+        functionality.
+    ============================================================================
+    -->
+
+    <!-- forgotPassword:
+        Entry point into the forgot password user workflow. This screen is
+        rendered when the user clicks on the 'Forgot your password?' link on the
+        signIn screen.
+    -->
+    <div style="display:none;" id="forgotPassword">
+        <div class="capture_header">
+            <h1>Create New Password</h1>
+        </div>
+        <h2>We'll send you a link to create a new password.</h2>
+        {* #forgotPasswordForm *}
+            {* signInEmailAddress *}
+            <div class="capture_footer">
+                <div class="capture_left">
+                    {* backButton *}
+                </div>
+                <div class="capture_right">
+                    <input value="Send" class="capture_btn capture_primary" type="submit">
+                </div>
+            </div>
+        {* /forgotPasswordForm *}
+    </div>
+
+    <!-- forgotPasswordSuccess:
+        When the user submits an email address on the forgotPassword screen,
+        this screen is rendered.
+    -->
+    <div style="display:none;" id="forgotPasswordSuccess">
+        <div class="capture_header">
+            <h1>Create New Password</h1>
+        </div>
+            <p>We've sent an email with instructions to create a new password. Your existing password has not been changed.</p>
+        <div class="capture_footer">
+            <a href="#" onclick="janrain.capture.ui.modal.close()" class="capture_btn capture_primary">Close</a>
+        </div>
+    </div>
+
+
+
+
+    <!--
+    ============================================================================
+        MERGE ACCOUNT SCREENS:
+        The following screens are part of the account merging user workflow. For
+        a complete out-of-the-box account merging experience, these screens must
+        be included on the page where you are implementing account merging
+        functionality.
+    ============================================================================
+    -->
+
+    <!-- mergeAccounts:
+        This screen is rendered if the user created their account through
+        traditional registration and then tries to sign in with an IDP that
+        shares the same email address that exists in their user record.
+
+        NOTE! You will notice special tags you see on this screen. These tags,
+        such as '{| current_displayName |}' are rendered by the Janrain Capture
+        Widget in a way similar to JTL tags, but are more limited. We currently
+        only support modifying the text in this screen through the Flow. You
+        can, however, add your own markup and text throughout this screen as you
+        see fit.
+    -->
+    <div style="display:none;" id="mergeAccounts">
+        {* mergeAccounts {"custom": true} *}
+        <div id="capture_mergeAccounts_mergeAccounts_mergeOptionsContainer" class="capture_mergeAccounts_mergeOptionsContainer">
+            <div class="capture_header">
+                <div class="capture_icon_col">
+                    {| rendered_current_photo |}
+                </div>
+                <div class="capture_displayName_col">
+                    {| current_displayName |}<br>
+                    {| current_emailAddress |}
+                </div>
+                <span class="capture_mergeProvider janrain-provider-icon-24 janrain-provider-icon-{| current_provider_lowerCase |}"></span>
+            </div>
+            <div class="capture_dashed">
+                <div class="capture_mergeCol capture_centerText capture_left">
+                    <p class="capture_bigText">{| foundExistingAccountText |} <b>{| current_emailAddress |}</b>.</p>
+                    <div class="capture_hover">
+                        <div class="capture_popup_container">
+                            <span class="capture_popup-arrow"></span>{| moreInfoHoverText |}<br>
+                            {| existing_displayName |} - {| 
+existing_provider |} : {| existing_siteName |} {| existing_createdDate 
+|}
+                        </div>
+                        {| moreInfoText |}
+                    </div>
+                </div>
+                <div class="capture_mergeCol capture_mergeExisting_col capture_right">
+                    <div class="capture_shadow capture_backgroundColor capture_border">
+                        {| rendered_existing_provider_photo |}
+                        <div class="capture_displayName_col">
+                            {| existing_displayName |}<br>
+                            {| existing_provider_emailAddress |}
+                        </div>
+                        <span class="capture_mergeProvider janrain-provider-icon-16 janrain-provider-icon-{| existing_provider_lowerCase |} "></span>
+                        <div class="capture_centerText capture_smallText">Created {| existing_createdDate |} at {| existing_siteName |}</div>
+                    </div>
+                </div>
+            </div>
+            <div id="capture_mergeAccounts_form_collection_mergeAccounts_mergeRadio" class="capture_form_collection_merge_radioButtonCollection capture_form_collection capture_elementCollection capture_form_collection_mergeAccounts_mergeRadio" data-capturefield="undefined">
+                <div id="capture_mergeAccounts_form_item_mergeAccounts_mergeRadio_1_0" class="capture_form_item capture_form_item_mergeAccounts_mergeRadio capture_form_item_mergeAccounts_mergeRadio_1_0 capture_toggled" data-capturefield="undefined">
+                    <label for="capture_mergeAccounts_mergeAccounts_mergeRadio_1_0">
+                        <input id="capture_mergeAccounts_mergeAccounts_mergeRadio_1_0" data-capturefield="undefined" data-capturecollection="true" value="1" class="capture_mergeAccounts_mergeRadio_1_0 capture_input_radio" checked="checked" name="mergeAccounts_mergeRadio" type="radio">
+                            {| connectLegacyRadioText |}
+                    </label>
+                </div>
+                <div id="capture_mergeAccounts_form_item_mergeAccounts_mergeRadio_2_1" class="capture_form_item capture_form_item_mergeAccounts_mergeRadio capture_form_item_mergeAccounts_mergeRadio_2_1" data-capturefield="undefined">
+                    <label for="capture_mergeAccounts_mergeAccounts_mergeRadio_2_1">
+                        <input id="capture_mergeAccounts_mergeAccounts_mergeRadio_2_1" data-capturefield="undefined" data-capturecollection="true" value="2" class="capture_mergeAccounts_mergeRadio_2_1 capture_input_radio" name="mergeAccounts_mergeRadio" type="radio">
+                            {| createRadioText |} {| current_provider |}
+                    </label>
+                </div>
+                <div class="capture_tip" style="display:none;">
+                </div>
+                <div class="capture_tip_validating" data-elementname="mergeAccounts_mergeRadio">Validating</div>
+                <div class="capture_tip_error" data-elementname="mergeAccounts_mergeRadio"></div>
+            </div>
+            <div class="capture_footer">
+                {| connect_button |}
+                {| create_button |}
+            </div>
+        </div>
+    </div>
+
+    <!-- traditionalAuthenticateMerge:
+        When the user elects to merge their traditional and social account, the
+        user will see this screen. They will then enter their current sign in
+        credentials and, upon successful authorization, the accounts will be
+        merged.
+    -->
+    <div style="display:none;" id="traditionalAuthenticateMerge">
+        <div class="capture_header">
+            <h1>Sign In to Complete Account Merge</h1>
+        </div>
+        <div class="capture_signin">
+            {* #signInForm *}
+                {* signInEmailAddress *}
+                {* currentPassword *}
+                <div class="capture_footer">
+                    <div class="capture_left">
+                        {* backButton *}
+                    </div>
+                    <div class="capture_right">
+                        <button class="capture_secondary capture_btn capture_primary" type="submit"><span class="janrain-icon-16 janrain-icon-key"></span> Sign In</button>
+                    </div>
+                </div>
+             {* /signInForm *}
+        </div>
+    </div>
+
+
+
+
+    <!--
+    ============================================================================
+        EMAIL VERIFICATION SCREENS:
+        The following screens are part of the email verification user workflow.
+        For a complete out-of-the-box email verification experience, these
+        screens must be included on page where you are implementing email
+        verification.
+    ============================================================================
+    -->
+
+    <!-- verifyEmail:
+        This is the landing screen after a user clicks on the link in the
+        verification email sent to the user when they've registered with a
+        non-verified email address.
+
+        HOW IT WORKS: The code that is generated by Capture and included in the
+        link sent in the verification email is sent to the server and, if valid,
+        the user's email will be marked as valid and the verifyEmailSuccess
+        screen will be rendered. If the code is not accepted for any reason,
+        the verifyEmail screen is shown and the user has another opportunity
+        to have the verification email sent to them.
+
+        NOTE: The links generated in the emails sent to users are based on
+        Capture settings found in Janrain's Capture Dashboard. In addition to
+        entering the URL of your email verification page, you will need to add
+        'screenToRender' as a parameter in the URL with a value of 'verifyEmail'
+        which is this screen.
+    -->
+    <div style="display:none;" id="verifyEmail">
+        <div class="capture_header">
+            <h1>Resend Verification Email</h1>
+        </div>
+        <p>Sorry, we could not verify that email address. Enter your email below, and we'll send you another email.</p>
+        {* #resendVerificationForm *}
+            {* signInEmailAddress *}
+            <div class="capture_footer">
+                <input value="Submit" class="capture_btn capture_primary" type="submit">
+            </div>
+         {* /resendVerificationForm *}
+    </div>
+
+    <!-- resendVerificationSuccess:
+        This screen is rendered when a user enters an email address from the
+        verifyEmail screen.
+    -->
+    <div style="display:none;" id="resendVerificationSuccess">
+        <div class="capture_header">
+            <h1>Verification Email Sent</h1>
+        </div>
+        <div class="hr"></div>
+        <p>Check your email for a link to verify your email address.</p>
+        <div class="capture_footer">
+            <a onclick="janrain.capture.ui.renderScreen('signIn')" href="javascript:void(0)" class="capture_btn capture_primary">Sign in</a>
+        </div>
+    </div>
+
+    <!-- verifyEmailSuccess:
+        This screen is rendered if the verification code provided in the link
+        sent to the user in the verification email is accepted and the user's
+        email address has been verified.
+    -->
+    <div style="display:none;" id="emailVerificationNotification">
+        <div class="capture_header">
+            <h1>Thank You for Registering</h1>
+        </div>
+        <p>Please wait you will be redirected shortly.</p>
+    </div>
+
+    <!--
+    ============================================================================
+        RESET PASSWORD SCREENS:
+        The following screens are part of the password reset user workflow.
+        For a complete out-of-the-box password reset experience, these screens
+        must be included on the page where you are implementing password reset
+        functionality.
+
+        NOTE: The order in which these screens are rendered is as follows:
+        resetPasswordRequestCode
+        resetPasswordRequestCodeSuccess
+        resetPassword
+        resetPasswordSuccess
+    ============================================================================
+    -->
+
+    <!-- resetPassword:
+        This screen is rendered when the user clicks the link in provided in the
+        password reset email and the code in the link is valid.
+    -->
+    <div style="display:none;" id="resetPassword">
+        <div class="capture_header">
+            <h1>Change Password</h1>
+        </div>
+        {* #changePasswordFormNoAuth *}
+            {* newPassword *}
+            {* newPasswordConfirm *}
+            <div class="capture_footer">
+                <input value="Submit" class="capture_btn capture_primary" type="submit">
+            </div>
+        {* /changePasswordFormNoAuth *}
+    </div>
+    <!-- resetPasswordSuccess:
+        This screen is rendered when the user successfully changes their
+        password from the resetPassword screen.
+    -->
+    <div style="display:none;" id="resetPasswordSuccess">
+        <div class="capture_header">
+            <h1>Password Changed</h1>
+        </div>
+        <p>Your password has been successfully updated.</p>
+        <div class="capture_footer">
+            <a onclick="janrain.capture.ui.renderScreen('signIn')" href="javascript:void(0)" class="capture_btn capture_primary">Sign in</a>
+        </div>
+    </div>
+    <!-- resetPasswordRequestCode:
+        This is the landing screen for the password reset workflow. When the
+        user clicks the link provided in the reset password email, a code is
+        supplied and is passed to Capture for verification. If the code is valid
+        the resetPassword screen is rendered immediately and the content of
+        this screen is not presented. If the code is not accepted for any reason
+        this screen is then presented, allowing the user to re-enter their
+        email address.
+    -->
+    <div style="display:none;" id="resetPasswordRequestCode">
+        <div class="capture_header">
+            <h1>Create New Password</h1>
+        </div>
+        <p>We didn't recognize that password reset code. Enter your email below, and we'll send you another email.</p>
+        {* #resetPasswordForm *}
+            {* signInEmailAddress *}
+            <div class="capture_footer">
+                <input value="Send" class="capture_btn capture_primary" type="submit">
+            </div>
+        {* /resetPasswordForm *}
+    </div>
+
+    <!-- resetPasswordRequestCodeSuccess:
+        This screen is rendered if the user submitted an email address on the
+        resetPasswordRequestCode screen.
+    -->
+    <div style="display:none;" id="resetPasswordRequestCodeSuccess">
+        <div class="capture_header">
+            <h1>Create New Password</h1>
+        </div>
+            <p>We've sent you an email with instructions to create a new password. Your existing password has not been changed.</p>
+        <div class="capture_footer">
+            <a href="#" onclick="janrain.capture.ui.modal.close()" class="capture_btn capture_primary">Close</a>
+        </div>
+    </div>
+
+
+
+</div>                <div class="search">
+                    <a href="#" class="button"><img src="goodembeddedcode_files/transparent-swatch.png" alt=""></a>
+                </div>
+
+            </div>
+
+        </div>
+     	<!-- Navigation MOBILE -->
+        <div class="navigation row show-for-small">
+            <div class="seven mobile-three columns">
+                <ul class="nav-bar">
+                    <li class="has-flyout">
+                        <a href="#">Navigation</a>
+                        <a href="#" class="flyout-toggle"><span></span></a>
+                        <ul class="flyout">
+                            <li><a href="">Development</a></li>
+                            <li><a href="">Essentials &amp; Education</a></li>
+                            <li><a href="">Community</a></li>
+                            <li><a href="">Archives </a></li>
+                            <li><a href="">About Us</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="three mobile-one columns">
+                <div class="search">
+                    <a href="#" class="button"><img src="goodembeddedcode_files/transparent-swatch.png" alt=""></a>
+                </div>
+            </div>
+        </div>
+         <div class="row">
+            <div class="twelve mobile-four columns">
+                <div class="search-popup">
+                    <form class="form-inline search-form clearfix" _lpchecked="1">
+                        <input class="input-text" placeholder="Search" type="text">
+                        <input class="button" value="Submit" type="submit">
+                        <label class="error"></label>
+                    </form>
+                </div>
+            </div>
+        </div>
+    <!-- Navigation -->
+
+
+	<div class="navigation row hide-for-small">
+    <div class="twelve columns">
+        <label class="error"></label>
+        <ul class="nav-bar">
+            <li class="active home-btn">
+                <a href="https://www.embedded.com/">Home</a>
+            </li>
+            <li class="has-flyout double">
+                <a href="#">Development</a>
+                <a class="flyout-toggle" href="#"><span></span></a>
+                <div class="flyout-wrapper row hidden">
+                <div class="six mobile-two columns">
+                    <ul style="display:block;" class="flyout">
+                        <li><a href="https://www.embedded.com/development">All Articles</a></li>
+                        <li><a href="https://www.embedded.com/development/configurable-systems">Configurable Systems</a></li>
+                        <li><a href="https://www.embedded.com/development/connectivity">Connectivity</a></li>
+                        <li><a href="https://www.embedded.com/development/debug-and-optimization">Debug &amp; Optimization</a></li>
+                        <li><a href="https://www.embedded.com/development/mcus-processors-and-socs">MCUs, Processors &amp; SoCs</a></li>
+                        <li><a href="https://www.embedded.com/development/operating-systems">Operating Systems</a></li>
+                        <li><a href="https://www.embedded.com/development/power-optimization">Power Optimization</a></li>
+                    </ul>
+                </div>
+                        <div class="six mobile-two columns">
+                <ul style="display:block;" class="flyout">
+                    <li><a href="https://www.embedded.com/development/programming-languages-and-tools">Programming Languages &amp; Tools</a></li>
+                    <li><a href="https://www.embedded.com/development/prototyping-and-development">Prototyping &amp; Development</a></li>
+                    <li><a href="https://www.embedded.com/development/real-time-and-performance">Real-time &amp; Performance</a></li>
+                    <li><a href="https://www.embedded.com/development/real-world-applications">Real-world Applications</a></li>
+                    <li><a href="https://www.embedded.com/development/safety-and-security">Safety &amp; Security</a></li>
+                    <li><a href="https://www.embedded.com/development/system-integration">System Integration</a></li>
+                </ul>
+                </div>
+                </div>
+            </li>
+            <li class="has-flyout">
+                <a href="#">Essentials &amp; Education</a>
+                <a class="flyout-toggle" href="#"><span></span></a>
+                <ul class="flyout" style="display: none;">
+                    <li><a href="https://www.embedded.com/products/all">Products</a></li>
+				    <li><a href="https://www.embedded.com/news/all">News</a></li>
+				    <li><a href="https://www.embedded.com/education-training/source-codes">Source Code Library</a></li>
+				    <li><a href="https://www.embedded.com/education-training/webinars">Webinars</a></li>
+                    <li><a href="https://www.embedded.com/education-training/courses">Courses</a></li>
+                    <li><a href="https://www.embedded.com/education-training/tech-papers">Tech Papers</a></li>
+                </ul>
+            </li>
+            <li class="has-flyout">
+                <a href="#">Community</a>
+                <a class="flyout-toggle" href="#"><span></span></a>
+                <ul class="flyout">
+                    <li><a href="https://www.embedded.com/insights">Insights</a></li>				   
+                    <li><a href="http://forums.embedded.com/">Forums</a></li>		   
+				    <li><a href="https://www.embedded.com/events">Events</a></li>
+                </ul>
+            </li>
+            <li class="has-flyout">
+                <a href="#">Archives</a>
+                <a class="flyout-toggle" href="#"><span></span></a>
+                <ul class="flyout">
+                    <li><a href="https://www.embedded.com/magazines">ESP / ESD Magazine</a></li>
+                    <li><a href="https://www.embedded.com/videos">Videos</a></li>
+				    <li><a href="https://www.embedded.com/collections/all">Collections</a></li>
+                </ul>
+            </li>
+            <li class="has-flyout">
+                <a href="#">About Us</a>
+                <a class="flyout-toggle" href="#"><span></span></a>
+                <ul class="flyout">
+                    <li><a href="https://www.embedded.com/aboutus">About Embedded</a></li>
+                    <li><a href="https://www.embedded.com/contactus">Contact Us</a></li>
+                    <li><a href="https://www.embedded.com/newsletters">Newsletters</a></li>
+                    <li><a href="https://www.embedded.com/advertising">Advertising</a></li>
+                    <li><a href="https://www.embedded.com/editorial-contributions">Editorial Contributions</a></li>
+                    <li><a href="https://www.embedded.com/site-map">Site Map</a></li>
+                </ul>
+            </li>
+            <li class="search">
+                <form _lpchecked="1" class="form-inline search-form clearfix">
+                    <input value="Search" class="input-text" type="text">
+                    <input value="" class="search-button" type="submit">
+                </form>
+            </li>
+        </ul>
+    </div>
+</div>
+</header>
+	    <div id="embedded-main-content">
+	    <div class="row">
+	<div class="twelve columns">
+		<div class="announcements"><div id="lecture_topper_filler"></div></div>
+	</div>
+</div>	        <!-- BREADCRUMBS ROW -->
+	<div class="row">
+		<div class="twelve columns hide-for-small">
+			<!-- Breadcrumbs -->
+<ul class="bread-crumbs">
+				
+        <li><a class="button" href="https://www.embedded.com/">Home</a></li><li class="arrow">&gt;</li> 
+        					<li><a class="button" href="https://www.embedded.com/development/prototyping-and-development">Prototyping &amp; Development Development Centers</a></li> <li class="arrow">&gt;</li> <li><a class="button active" href="https://www.embedded.com/development/prototyping-and-development/articles">Design How-To</a></li>
+				        </ul>
+<!-- Breadcrumbs -->		</div>
+	</div>
+	<div class="content row">
+	    <!-- LEFT COLUMN -->
+	    <div class="eight columns tablet-clear">
+	        <!-- BLOG DETAILED ROW -->
+			<div class="row">
+						 				<div class="twelve columns">
+			        <div class="module bigbox blog">
+			            <div class="body content-detail">
+			                <!-- <p class="company-text-ad">Sponsored by <a href="#">Cirrus</a></p> Show for Tablet and Mobile -->
+			                <div class="item full">
+			                    <h1>A guide to C++ for the cautious embedded programmer</h1>
+			                    <p class="meta darkgrey hide-for-small">
+			                    <span class="author">
+			                    <strong>
+			                    Colin Walls			                    </strong>
+			                    </span>
+								</p>
+			                    <p class="meta">
+			                        <span class="date">June 08, 2009</span>
+			                    </p>
+			                    <div class="social-strip hide-for-small">
+	<div class="social-plugins left">
+		<span class="social_media linkedin">
+		  <script src="goodembeddedcode_files/in.js" type="text/javascript"></script>
+		    <script type="IN/Share" data-url="https://www.embedded.com/design/prototyping-and-development/4008303/A-guide-to-C--for-the-cautious-embedded-programmer" data-counter="right"></script>
+		</span>    
+		<span class="social_media" style="position: static !important;">
+			    <g:plusone size="medium"></g:plusone>
+		</span>
+		<span class="social_media">
+			    <div id="twitter">
+					<script type="text/javascript" src="goodembeddedcode_files/widgets.js"></script>
+					<a href="http://twitter.com/share" class="twitter-share-button" data-url="https://www.embedded.com/design/prototyping-and-development/4008303/A-guide-to-C--for-the-cautious-embedded-programmer" data-text="A guide to C++ for the cautious embedded programmer" data-count="horizontal" data-via="embedded_com" data-counturl="https://www.embedded.com/design/prototyping-and-development/4008303/A-guide-to-C--for-the-cautious-embedded-programmer">Tweet</a>
+			    </div>    
+		</span>
+		<span class="social_media">
+			    <div id="fb-root"></div>
+			    <script>            (function (d, s, id) {
+				    var js, fjs = d.getElementsByTagName(s)[0];
+				    if (d.getElementById(id)) return;
+				    js = d.createElement(s); js.id = id;
+				    js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=22297258016";
+				    fjs.parentNode.insertBefore(js, fjs);
+				} (document, 'script', 'facebook-jssdk'));</script>
+			    <div class="fb-like" data-href="https://www.embedded.com/design/prototyping-and-development/4008303/A-guide-to-C--for-the-cautious-embedded-programmer" data-send="false" data-layout="button_count" data-width="42" data-show-faces="false"></div>
+
+
+		</span>
+	</div>
+	<div class="traditional right">        
+		<span class="relative social-save">
+			<a href="#" class="save-follow"><img src="goodembeddedcode_files/folder.png" alt="Save As File"></a>
+			<span class="save-dropdown button content_4008303 author_" data-contentitemid="4008303" data-authorid="">
+				<a class="save-content" href="#">Save to My Library</a>
+				<a class="follow-comment" href="#">Follow Comments</a>
+							</span>
+		</span>
+		<a href="#" class="hide-for-tablet" onclick="openprintviewwindow('/print/4008303');"><img src="goodembeddedcode_files/printer.png" alt="Print"></a>
+		<a href="mailto:?subject=A%20guide%20to%20C++%20for%20the%20cautious%20embedded%20programmer&amp;body=https://www.embedded.com/design/prototyping-and-development/4008303/A-guide-to-C--for-the-cautious-embedded-programmer" target="_blank"><img src="goodembeddedcode_files/envelope.png" alt="Email"></a>
+	</div>
+</div>			                    <p class="meta darkgrey show-for-small">
+			                         <span class="author">
+			                         <strong>
+			                         Colin WallsJune 08, 2009			                         </strong>
+			                         </span>
+								</p>
+														<style>
+								.externalpdf-icon{
+									background:url(/images/edn/master/sprite-master.png) repeat scroll -226px -123px transparent;
+									float:left;
+									height:65px;
+									margin:0 10px 10px 0;
+									width:55px;
+								}
+							</style>
+								
+			                    <p>
+			                   		   In some ways, writing embedded software is 
+much like writing software for any other kind of application. But in 
+other ways it differs widely. This means that embedded software 
+developers can learn lessons from their desktop-bound counterparts, but 
+they must harvest that wisdom selectively. 
+</p><p>
+
+</p><p>
+Embedded software technology appears to lag behind - it's often a little
+ late in picking up on the latest trends and fashions. This is largely 
+because embedded developers have a cautious, conservative attitude, 
+which is borne out of years of experience contending with limited 
+resources: memory that cannot be treated as unlimited and CPUs that are 
+just powerful enough to get the job done.
+</p><p>
+
+</p><p>
+The choice of programming language echoes this pragmatic conservatism. 
+Embedded software engineers were slow to pick up on high-level languages
+ years ago, but eventually C became accepted. 
+</p><p>
+
+</p><p>
+It took the arrival of very high quality code generation and flexible, 
+transparent debugging technology for the industry to accept such 
+innovative ideas, and that was only under the relentless pressure to 
+become more productive. 
+</p><p>
+
+</p><p>
+The obvious step forward from C is C++. Even though its use for embedded
+ software has steadily increased in recent years, it is far from 
+universal. Why is that?
+</p><p>
+
+</p><p>
+It is not stubborn resistance to change. It's simply continued worries 
+about resource utilization. Memory may be bigger, but embedded software 
+developers cannot just add an extra gigabyte when needed. Processors are
+ much faster, but cost and power limitations mean they are way behind 
+the devices found in even the more modest PCs.
+</p><p>
+
+</p><p>
+<b>Five good ideas for using C++ in embedded apps</b><br>
+Is this concern about the suitability of C++ for embedded software 
+really justified? Not really. Like any tool, the language needs to be 
+handled correctly to yield good results. The cautious (embedded) 
+programmer needs guidelines.
+</p><p>
+
+</p><p>
+<b><i>Good Idea #1: Understand how C++ actually works.</i></b> To get 
+the best from any programming language, you need to fully understand 
+what the language constructs mean and what kind of code the compiler 
+might generate. 
+</p><p>
+
+</p><p>
+Look at the code produced and try to understand why it's done the way it is. Pay attention to details. 
+</p><p>
+
+</p><p>
+For example, if you think the two statements i++; and ++i; are always 
+identical in C++, think again. (They yield the same result, but the 
+postfix operator probably requires intermediate storage, so the prefix 
+version may be more efficient.)
+</p><p>
+
+</p><p>
+<b><i>Good Idea  #2: Start by applying C++ incrementally. </i></b> If 
+you're using C, it may be a big step to change to C++. However, since 
+C++ is not an object-oriented language (it's a procedural language with 
+some object oriented features " and is basically a super-set of C) you 
+can start taking advantage of the extra functionality one bit at a time.
+ 
+</p><p>
+
+</p><p>
+As you learn new features and see how they can improve your code, you can start to apply them.
+</p><p>
+
+</p><p>
+<b><i>Good Idea #3: Apply language features in appropriate ways. </i></b>
+ Like C, C++ was not designed specifically for embedded applications, so
+ it is not 100% suited to the task. Some features of the language carry 
+absolutely no cost in resources like overloaded functions, for example, 
+which are just a compiler/linker symbol issue; these may be used freely 
+as required. 
+</p><p>
+
+</p><p>
+Other features can cause significant overhead and should be used with 
+care or avoided all together. A good example is the exception handling 
+system (EHS). This facility enables the construction of very robust 
+code, with very little effort required by the programmer to accommodate a
+ wide range of exceptional events smoothly. 
+</p><p>
+
+</p><p>
+The downside is that, behind the scenes, a lot of code has been silently
+ generated to accommodate this functionality. Although avoiding the EHS 
+entirely may not be necessary, using it in a simple way minimizes 
+unwelcome surprises. 
+</p><p>
+
+</p><p>
+It's worth noting that the EHS overhead code may be generated, even if 
+EHS is not being deployed; EHS support is switched on, by default, in 
+many compilers.
+</p><p>
+
+</p><p>
+<b><i>Good Idea #4: Encapsulate expertise in objects. </i></b>  An 
+embedded software team has a diverse set of skills. Different members of
+ the team have different areas of expertise. Endeavor to encapsulate 
+that expertise into classes so that it can be utilized safely by other 
+members of the team. 
+</p><p>
+
+</p><p>
+For example, a hardware device may have some very precise requirements 
+associated with its access; representing the device by an object means 
+that not every user needs to understand its eccentricities. A similar 
+approach can be used to hide the specifics of a real-time operating 
+system.
+</p><p>
+
+</p><p>
+<b><i>Good Idea #5: Use tools that are optimized for embedded. </i></b> 
+ It's a known fact that embedded software development is different from 
+desktop programming. This is widely recognized and a great many 
+companies offer tools for embedded programming, but tread carefully 
+here. Some tools are much more oriented towards the needs of embedded 
+developers than others; some vendors simply adapt desktop development 
+tools.
+</p><p>
+
+</p><p>
+<b>Five things to avoid</b><br>
+<b><i>#1: Writing "clever" code is never smart.</i></b>  C++ gives you 
+the opportunity to write very clear, concise code. It also provides the 
+means to write very convoluted, arcane code which does nothing except 
+illustrate how clever you think you are. Do not give in to this 
+temptation. 
+</p><p>
+
+</p><p>
+For example, in C++ you can define your own operators. Always ensure 
+that their functionality will not surprise a reader of the code. For 
+example, you could define a new class and include a definition of the + 
+operator, such that an expression may be written like this:
+</p><p>
+
+</p><p>
+      <b>a + b;</b>
+</p><p>
+
+</p><p>
+The above example adds the value of the object <b>b</b> to the object <b>a.</b> This is unwise, as the <b>+ operator</b> does not normally function in this way. Redefining the <b>+= operator</b> would be much better.
+</p><p>
+
+</p><p>
+If they do not serve to clarify the logic of the software, do not use 
+overloaded operators; just use member functions with meaningful names 
+instead. Neither language feature introduces any hidden overheads into 
+the resulting code.
+</p><p>
+
+</p><p>
+<b><i>#2: Do not treat an embedded system like a desktop computer. </i></b>  If you're programming a PC, you can assume that memory is infinite (and free) and that you will always have enough CPU power. 
+</p><p>
+
+</p><p>
+With embedded software, you need to be more circumspect as both memory 
+and CPU power are limited. The best approach is to write some code, then
+ measure its size and its execution performance. Only when you are 
+satisfied that these measurements are within reasonable bounds should 
+you move on.
+</p><p>
+
+</p><p>
+<b><i>#3: A purely top down implementation may be dangerous. </i></b> It
+ may be attractive to build a software application by starting at the 
+high level and including just stubs for lower level functions. Then, 
+when that structure is debugged, you can start implementing the next 
+level down. 
+</p><p>
+
+</p><p>
+The drawback to this strategy is that a nasty surprise may be waiting 
+just around the corner. You can finish coding and find that the whole 
+program is too big and/or too slow. And you have no idea where you 
+acquired the additional overhead. 
+</p><p>
+
+</p><p>
+A better approach is to start at the other end. Encapsulate the lower 
+level functionality in objects and build the application up from there "
+ following the previous advice of measuring as you go. With this 
+approach you will not encounter any surprises.
+</p><p>
+
+</p><p>
+<b><i>#4: Avoid the use of deeply nested inheritance. </i></b>  Part of 
+the point behind object-oriented programming is the ability to define 
+classes in terms of others (base classes) that have been previously 
+created (by you or by another developer) without the need to fully 
+understand the inner workings of the base classes. 
+</p><p>
+
+</p><p>
+This is inheritance. The downside is that objects instantiated from such
+ derived classes may carry some overhead " not much, but some. And this 
+overhead may mount up as the depth of inheritance increases. So, for an 
+embedded application, where overheads may really count, you need to be 
+vigilant.
+</p><p>
+
+</p><p>
+<b><i>#5: It is not logical to avoid language features just because your tools do not handle them well. </i></b>
+ Some language features can be very useful, but will carry an overhead 
+if not handled in an appropriate way for embedded applications. An 
+obvious example is function templates which if badly implemented, can 
+cause an enormous code bloat. 
+</p><p>
+
+</p><p>
+A common implementation of templates results in instantiations which are
+ local to a module. This can lead to numerous copies of identical code 
+that could waste an enormous amount of memory. If your tools do not 
+handle such constructs well, do not eschew good programming practice. 
+Get some tools that will enable you to program productively.
+</p><p>
+
+</p><p>
+<b>Conclusion</b><br>
+As code size and complexity increases relentlessly, C++ is becoming an 
+excellent programming language of choice for embedded applications. Past
+ failures have deterred many developers from adopting the language 
+choosing instead to continue using C. The key to success with C++ is to 
+use it intelligently, focus on the problems that it addresses, and pay 
+attention to its implementation on an embedded system.
+</p><p>
+
+</p><p>
+<i><b>Colin Walls</b> has over twenty-five years experience in the 
+electronics industry, largely involved with embedded software. A 
+frequent presenter at conferences and seminars including the Embedded 
+Systems Conference he is a member of the marketing team of the Embedded 
+Systems Division of <a href="http://www.mentor.com/">Mentor Graphics</a>.</i>
+</p><p>
+
+			                    </p>
+			                    <div id="div-gpt-ad-native">
+<script type="text/javascript">
+googletag.cmd.push(function() { googletag.display('div-gpt-ad-native'); });
+</script>
+</div>
+			                    <div class="clear"></div>
+			                 <div class="social-strip hide-for-small">
+	<div class="social-plugins left">
+		<span class="social_media linkedin">
+		  <script src="goodembeddedcode_files/in.js" type="text/javascript"></script>
+		    <script type="IN/Share" data-url="https://www.embedded.com/design/prototyping-and-development/4008303/A-guide-to-C--for-the-cautious-embedded-programmer" data-counter="right"></script>
+		</span>    
+		<span class="social_media" style="position: static !important;">
+			    <g:plusone size="medium"></g:plusone>
+		</span>
+		<span class="social_media">
+			    <div id="twitter">
+					<script type="text/javascript" src="goodembeddedcode_files/widgets.js"></script>
+					<a href="http://twitter.com/share" class="twitter-share-button" data-url="https://www.embedded.com/design/prototyping-and-development/4008303/A-guide-to-C--for-the-cautious-embedded-programmer" data-text="A guide to C++ for the cautious embedded programmer" data-count="horizontal" data-via="embedded_com" data-counturl="https://www.embedded.com/design/prototyping-and-development/4008303/A-guide-to-C--for-the-cautious-embedded-programmer">Tweet</a>
+			    </div>    
+		</span>
+		<span class="social_media">
+			    <div id="fb-root"></div>
+			    <script>            (function (d, s, id) {
+				    var js, fjs = d.getElementsByTagName(s)[0];
+				    if (d.getElementById(id)) return;
+				    js = d.createElement(s); js.id = id;
+				    js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=22297258016";
+				    fjs.parentNode.insertBefore(js, fjs);
+				} (document, 'script', 'facebook-jssdk'));</script>
+			    <div class="fb-like" data-href="https://www.embedded.com/design/prototyping-and-development/4008303/A-guide-to-C--for-the-cautious-embedded-programmer" data-send="false" data-layout="button_count" data-width="42" data-show-faces="false"></div>
+
+
+		</span>
+	</div>
+	<div class="traditional right">        
+		<span class="relative social-save">
+			<a href="#" class="save-follow"><img src="goodembeddedcode_files/folder.png" alt="Save As File"></a>
+			<span class="save-dropdown button content_4008303 author_" data-contentitemid="4008303" data-authorid="">
+				<a class="save-content" href="#">Save to My Library</a>
+				<a class="follow-comment" href="#">Follow Comments</a>
+							</span>
+		</span>
+		<a href="#" class="hide-for-tablet" onclick="openprintviewwindow('/print/4008303');"><img src="goodembeddedcode_files/printer.png" alt="Print"></a>
+		<a href="mailto:?subject=A%20guide%20to%20C++%20for%20the%20cautious%20embedded%20programmer&amp;body=https://www.embedded.com/design/prototyping-and-development/4008303/A-guide-to-C--for-the-cautious-embedded-programmer" target="_blank"><img src="goodembeddedcode_files/envelope.png" alt="Email"></a>
+	</div>
+</div>			                 
+			                 							    
+			                </div>
+			            </div>
+			        </div>
+				</div>
+						</div>
+			<!-- COMMENTS ROW -->
+       				<div class="row">
+    <div class="twelve column">
+        <div class="module comments">
+            <h2><span id="comment-counter">Loading comments...</span> <a href="#" class="button orig-txt comments_login">Write a comment</a></h2>
+            <div id="post-comments" style="display:none;">
+                <div id="comment-signed-in" style="display: none;">
+                    <p><textarea name="description" id="mainComment" rows="4" class="postCommentTextarea"></textarea></p>
+					<p>
+						 <input name="submit" id="submit" onclick=" _commentService.postComment(4008303, $('#mainComment').val(), 0, 'design/prototyping-and-development/4008303/A-guide-to-C--for-the-cautious-embedded-programmer', 1)" value="Submit Comment" class="button no-float" type="button">
+					</p>
+                </div>     
+                <div id="comment-login">
+                    <p class="center">To comment please
+                    <a class="red" href="javascript:void(0)" id="captureSignInLink" onclick="janrain.capture.ui.renderScreen('signIn')">Log In</a> 
+                    </p>
+                </div>
+            </div>
+            <div id="comments" class="body"></div>
+        </div>
+    </div>
+</div>
+  <script type="text/javascript">
+  $(document).ready(function () {
+ _commentService.loadComments(4008303, 
+'design/prototyping-and-development/4008303/A-guide-to-C--for-the-cautious-embedded-programmer');
+
+  _contentItemService.trackContentView(4008303);
+  });
+</script>
+
+
+
+	    </div>
+		 <!-- RIGHT COLUMN -->
+ <div class="four columns tablet-clear">
+ 	<div class="module">
+ 	         	</div>
+ 	<div class="module">
+ 			<div id="div-gpt-ad-942957474691236830-4">
+		 <script type="text/javascript">
+		  googletag.display('div-gpt-ad-942957474691236830-4');
+		 </script>
+	</div>
+ 	</div>
+	<div class="module">
+        <div id="se_widget_hook"></div>
+</div>
+
+ 	 	<div class="module">
+ 			<div id="div-gpt-ad-942957474691236830-5">
+		 <script type="text/javascript">
+		  googletag.display('div-gpt-ad-942957474691236830-5');
+		 </script>
+	</div>
+ 	</div>
+ 	<!-- MOST READ ROW -->
+		<div class="module">
+		    <h2 class="blue">Most Commented</h2>
+		    <div class="body">
+		    <ul>
+
+		    				           <li class="item small">
+				                <p class="meta">
+				                    <span class="date">02.23.2008</span>
+				                </p>
+				                <h2><a href="https://www.embedded.com/design/prototyping-and-development/4007514/Milestones-in-embedded-systems-design">Milestones in embedded systems design</a></h2>
+				            </li>
+				 		    </ul>
+		</div>
+		</div>
+ 	<div data-maxitems="10" data-contentitemid="4420567" id="related-container"><div class="module">
+    <h2 class="blue">Related Content</h2>
+    <div class="body">
+            <ul>
+        	 
+            <li class="item small">
+                <p class="meta lightgrey"><span class="date no-padding">06.08.2009</span> | <span class="category">Design</span></p>
+                <h2><a href="https://www.embedded.com/design/prototyping-and-development/4008303/A-guide-to-C--for-the-cautious-embedded-programmer">A guide to C++ for the cautious embedded programmer</a></h2>
+            </li>
+             
+            <li class="item small">
+                <p class="meta lightgrey"><span class="date no-padding">02.01.2010</span> | <span class="category">Design</span></p>
+                <h2><a href="https://www.embedded.com/design/embedded-internet-design/4019627/Java-Essentials-for-Embedded-Networked-Devices--Part-2-Object-oriented-techniques">Java Essentials for Embedded Networked Devices - Part 2: Object-oriented techniques</a></h2>
+            </li>
+             
+            <li class="item small">
+                <p class="meta lightgrey"><span class="date no-padding">08.09.2014</span> | <span class="category">Design</span></p>
+                <h2><a href="https://www.embedded.com/design/programming-languages-and-tools/4433251/Safe-and-secure-object-oriented-programming-with-Ada-2012-s-contracts">Safe and secure object-oriented programming with Ada 2012's contracts</a></h2>
+            </li>
+             
+            <li class="item small">
+                <p class="meta lightgrey"><span class="date no-padding">02.17.2015</span> | <span class="category">Design</span></p>
+                <h2><a href="https://www.embedded.com/design/programming-languages-and-tools/4438679/Modern-C--embedded-systems---Part-2--Evaluating-C--">Modern C++ embedded systems – Part 2: Evaluating C++</a></h2>
+            </li>
+             
+            <li class="item small">
+                <p class="meta lightgrey"><span class="date no-padding">03.09.2009</span> | <span class="category">Design</span></p>
+                <h2><a href="https://www.embedded.com/design/system-integration/4008251/A-crash-course-in-UML-state-machines-Part-2">A crash course in UML state machines: Part 2</a></h2>
+            </li>
+                    </ul>
+        
+    </div>
+</div></div> 		<div class="partial">
+	 		<div id="div-gpt-ad-942957474691236830-42">
+		 <script type="text/javascript">
+		  googletag.display('div-gpt-ad-942957474691236830-42');
+		 </script>
+	</div>
+	</div>
+ </div>
+
+	</div><!-- ContainerSet CacheKey: embeddedv1586new1_article_Embedded_Detail_Design179 --><!-- ContainerSet CacheKey: embeddedv1586new1_Embedded_Home_First1 -->		</div>
+
+    
+     <footer>
+        <!-- RSS ROW -->
+		<div class="rss">
+			<div class="row">
+				<div class="twelve columns">
+					<div class="wrap">
+						<span class="bold">Subscribe to RSS updates</span>
+						<a class="button" href="https://www.embedded.com/rss/all">all articles</a>
+						<span>or</span>
+						<div class="has-flyout">
+							<a class="button category">category <span class="arrow">▼</span></a>
+		                    <div class="flyout-wrap row hidden">
+		                        <div class="six mobile-two columns">
+		                            <ul class="flyout">
+		                                <li><a href="https://www.embedded.com/rss/development-center/configurable-systems">Configurable Systems</a></li>   
+		                                <li><a href="https://www.embedded.com/rss/development-center/connectivity">Connectivity</a></li>   
+		                                <li><a href="https://www.embedded.com/rss/development-center/debug-and-optimization">Debug &amp; Optimization</a></li>   
+		                                <li><a href="https://www.embedded.com/rss/development-center/mcus-processors-and-socs">MCUs, Processors &amp; SoCs</a></li>   
+		                                <li><a href="https://www.embedded.com/rss/development-center/operating-systems">Operating Systems</a></li>   
+		                                <li><a href="https://www.embedded.com/rss/development-center/power-optimization">Power Optimization</a></li>   
+		                                <li><a href="https://www.embedded.com/rss/development-center/programming-languages-and-tools">Programming Languages &amp; Tools</a></li>   
+		                            </ul>									
+		                        </div>
+		                        <div class="six mobile-two columns">
+		                            <ul class="flyout">
+		                                <li><a href="https://www.embedded.com/rss/development-center/prototyping-and-development">Prototyping &amp; Development</a></li>   
+		                                <li><a href="https://www.embedded.com/rss/development-center/real-time-and-performance">Real-time &amp; Performance</a></li>   
+		                                <li><a href="https://www.embedded.com/rss/development-center/real-world-applications">Real-world Applications</a></li>   
+		                                <li><a href="https://www.embedded.com/rss/development-center/safety-and-security">Safety &amp; Security</a></li>   
+		                                <li><a href="https://www.embedded.com/rss/development-center/system-integration">System Integration</a></li>   
+		                                <li><a href="https://www.embedded.com/rss/blogs">Insights</a></li>
+		                                <li><a href="https://www.embedded.com/rss/products">Products</a></li>
+		                            </ul>									
+		                        </div>
+		                    </div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+        <!-- FOOTER LINKS ROW -->
+		<div class="row">
+		    <ul class="block-grid five-up hide-for-small">
+		        <li>
+		            <ul class="list-links">
+						<li class="section">Development Centers</li>
+						<li><a href="https://www.embedded.com/development">All Articles</a></li>
+		                <li><a href="https://www.embedded.com/development/configurable-systems">Configurable Systems</a></li>
+		                <li><a href="https://www.embedded.com/development/connectivity">Connectivity</a></li>
+		                <li><a href="https://www.embedded.com/development/debug-and-optimization">Debug &amp; Optimization</a></li>
+		                <li><a href="https://www.embedded.com/development/mcus-processors-and-socs">MCUs, Processors &amp; SoCs</a></li>
+		                <li><a href="https://www.embedded.com/development/operating-systems">Operating Systems</a></li>
+		                <li><a href="https://www.embedded.com/development/power-optimization">Power Optimization</a></li>
+		                <li><a href="https://www.embedded.com/development/programming-languages-and-tools">Programming Languages &amp; Tools</a></li>
+		                <li><a href="https://www.embedded.com/development/prototyping-and-development">Prototyping &amp; Development</a></li>
+		                <li><a href="https://www.embedded.com/development/real-time-and-performance">Real-time &amp; Performance</a></li>
+		                <li><a href="https://www.embedded.com/development/real-world-applications">Real-world Applications</a></li>
+		                <li><a href="https://www.embedded.com/development/safety-and-security">Safety &amp; Security</a></li>
+		                <li><a href="https://www.embedded.com/development/system-integration">System Integration</a></li>
+					</ul>
+		        </li>
+		        <li>
+		            <ul class="list-links">
+						<li class="section">Essentials &amp; Education</li>
+						<li><a href="https://www.embedded.com/products/all">Products</a></li>
+						<li><a href="https://www.embedded.com/news/all">News</a></li>
+						<li><a href="https://www.embedded.com/education-training/source-codes">Source Code Library</a></li>
+						<li><a href="https://www.embedded.com/education-training/webinars">Webinars</a></li>
+		                <li><a href="https://www.embedded.com/education-training/courses">Courses</a></li>
+		                <li><a href="https://www.embedded.com/education-training/tech-papers">Tech Papers</a></li>
+					</ul>
+		        </li>
+		        <li>
+		            <ul class="list-links">
+						<li class="section">Community</li>
+						<li><a href="https://www.embedded.com/insights">Insights</a></li>
+						<li><a href="http://forums.embedded.com/">Forums</a></li>
+						<li><a href="https://www.embedded.com/events">Events</a></li>
+					</ul>
+		        </li>
+		        <li>
+		            <ul class="list-links">
+		                <li class="section">Archives</li>
+		                <li><a href="https://www.embedded.com/magazines">Embedded Systems Programming / Embedded Systems Design Magazine</a></li>
+						<li><a href="https://www.embedded.com/archive/Embedded-com-Tech-Focus-Newsletter-Archive">Newsletters</a></li>
+						<li><a href="https://www.embedded.com/videos">Videos</a></li>
+						<li><a href="https://www.embedded.com/collections/all">Collections</a></li>
+					</ul>
+		        </li>
+		        <li>
+		            <ul class="list-links">
+						<li class="section">About Us</li>
+						<li><a href="https://www.embedded.com/aboutus">About Embedded</a></li>
+		                <li><a href="https://www.embedded.com/contactus">Contact Us</a></li>
+		                <li><a href="https://www.embedded.com/newsletters">Newsletters</a></li>
+		                <li><a href="https://www.embedded.com/advertising">Advertising</a></li>
+		                <li><a href="https://www.embedded.com/editorial-contributions">Editorial Contributions</a></li>
+		                <li><a href="https://www.embedded.com/site-map">Site Map</a></li>
+					</ul>
+		        </li>
+		    </ul>
+		    <div class="twelve columns show-for-small">
+		        <ul class="list-links">
+		            <li><a href="#">Design Centres</a></li>
+		            <li><a href="#">Essentials &amp; Education</a></li>
+		            <li><a href="#">Community</a></li>
+		            <li><a href="#">Archives</a></li>
+		            <li><a href="#">About Us</a></li>
+		        </ul>
+		    </div>
+		</div>
+		
+		<style type="text/css">
+				#footerblack li{
+                	font-size:0.8em;
+               	}
+                #footerblack #rightlinks ul {
+	                line-height: 0.7em !important;
+                }
+				#footerblack{				
+					padding-bottom:15px;
+				}
+				#footerblack ul.ubm-global-network{
+					margin : 10px 0;
+				}
+				#footerblack #left {
+				    width: 88px;
+				} 			
+		</style>
+		<!-- BEGIN BLACK FOOTER -->
+		<div id="footerblack">  
+		  <link rel="stylesheet" type="text/css" href="goodembeddedcode_files/footergreyblack.css">
+			<style type="text/css">
+	    		#footerblack{
+	    			max-width:100% !important;
+	    		}
+				#footerblack ul.ubm-global-network, #footergrey 
+ul.ubm-global-network{
+					float: none !important;
+					margin-bottom: 25px !important;
+					list-style: none;
+					border-bottom: solid .1em #999;
+					border-top: solid .1em #999;
+					padding: 1em .5em;
+					color: #999;
+					text-align: center
+				}
+				#footerblack ul.ubm-global-network li, #footergrey 
+ul.ubm-global-network li{  
+					display: inline;
+					line-height: 2em;
+					border-right: solid .1em #fff;
+					padding: 0 1em 0 0;
+					margin: 0 1em 0 0;
+					color: #fff;
+				}
+				#footerblack ul.ubm-global-network li.first, #footerblack 
+ul.ubm-global-network li.last, #footergrey ul.ubm-global-network 
+li.first, #footergrey ul.ubm-global-network li.last{
+					border-right: medium none; 
+				}
+				.ubm-global-network li a{
+					color: #999!important;
+				}
+				#footerblack ul.ubm-global-network ul, #footergrey 
+ul.ubm-global-network ul{
+					margin-bottom:0px;
+				}
+				#footerblack #rightlinks, #footergrey #rightlinks{
+					float:left !important;
+				}
+			</style>
+		<div>
+		<ul class="ubm-global-network hide-for-small">
+			<ul>
+				<li class="first"><strong>ASPENCORE NETWORK</strong> </li>
+			</ul>
+				<li><a href="http://www.ebnonline.com/" target="_blank">EBN</a></li>
+				<li><a href="http://www.edn.com/" target="_blank">EDN</a></li> 
+				<li><a href="http://www.eetimes.com/" target="_blank">EE&nbsp;Times</a></li> 
+				<li><a href="https://www.eeweb.com/" target="_blank">EEWeb</a></li> 
+				<li><a href="http://www.electronicproducts.com/" target="_blank">Electronic&nbsp;Products</a></li> 
+				<li><a href="http://www.electronics-tutorials.ws/" target="_blank">Electronics-Tutorials</a></li> 
+				<li><a href="http://www.embedded.com/" target="_blank">Embedded</a></li> 
+				<li><a href="http://www.planetanalog.com/" target="_blank">Planet&nbsp;Analog</a></li> 
+				<li><a href="http://www.electroschematics.com/" target="_blank">ElectroSchematics</a></li> 
+				<li><a href="http://www.powerelectronicsnews.com/" target="_blank">Power&nbsp;Electronics&nbsp;News</a></li> 
+				<li><a href="http://www.techonline.com/" target="_blank">TechOnline</a></li> 
+				<li><a href="http://www.datasheets.com/" target="_blank">Datasheets.com</a></li> 
+				<li><a href="http://www.embedded-control-europe.com/" target="_blank">Embedded&nbsp;Control&nbsp;Europe</a></li> 
+				<li><a href="http://www.embedded-know-how.com/" target="_blank">Embedded&nbsp;Know&nbsp;How</a></li> 
+				<li><a href="http://embedded-news.tv/" target="_blank">Embedded&nbsp;News</a></li> 
+				<li><a href="http://iot-design-zone.com/" target="_blank">IOT&nbsp;Design&nbsp;Zone</a></li> 
+				<li><a href="http://motor-control-design.com/" target="_blank">Motor&nbsp;Control&nbsp;Design</a></li> 
+				<li><a href="http://electronics-know-how.com/" target="_blank">Electronics&nbsp;Know&nbsp;How</a></li> 
+		</ul>
+		<ul class="ubm-global-network hide-for-small">
+			<ul>
+				<li class="first"><strong>GLOBAL NETWORK</strong> </li>
+			</ul>
+			<li><a target="_blank" href="http://www.eetasia.com/">EE&nbsp;Times&nbsp;Asia</a></li> 
+			<li><a target="_blank" href="http://www.eet-china.com/">EE&nbsp;Times&nbsp;China</a></li>
+			<li><a target="_blank" href="http://www.eetindia.co.in/">EE&nbsp;Times&nbsp;India</a></li>
+			<li><a target="_blank" href="http://eetimes.jp/">EE&nbsp;Times&nbsp;Japan</a></li>
+			<li><a target="_blank" href="http://www.eettaiwan.com/">EE&nbsp;Times&nbsp;Taiwan</a></li>
+			<li><a target="_blank" href="http://www.ednasia.com/">EDN&nbsp;Asia</a></li>
+			<li><a target="_blank" href="http://www.ednchina.com/">EDN&nbsp;China</a></li>
+			<li><a target="_blank" href="http://www.edntaiwan.com/">EDN&nbsp;Taiwan</a></li>
+			<li><a target="_blank" href="http://ednjapan.com/">EDN&nbsp;Japan</a></li>
+			<li><a target="_blank" href="http://www.esmchina.com/">ESM&nbsp;China</a></li>
+		</ul>
+	</div>			
+		    <div style="clear:both;"></div><!-- // to clear the right and left evenly // -->
+		    <!-- BLACK FOOTER LEFT SIDE -->
+    	<!-- /BLACK FOOTER LEFT SIDE -->
+    <!--BLACK FOOTER rightlinks SIDE -->
+    <div id="rightlinks">     
+      <ul class="normal">
+        <li><strong>Working With Us:</strong></li>
+    <li><a href="http://www.aspencore.com/" target="_blank" class="normal">About</a></li>  |
+        <li><a href="http://mac.aspencore.com/AspenCore_Contact-Us.html" target="_blank" class="normal">Contact Us</a></li>  |
+        <li><a href="http://mac.aspencore.com/AspenCore_Media-Guide.html" target="_blank" class="normal">Media Kits</a></li> 
+      </ul>
+      <ul class="blue">
+        <li><a href="http://www.aspencore.com/terms-of-use" target="_blank" class="blue">Terms of Service</a></li>  |
+        <li><a href="http://www.aspencore.com/privacy-policy" target="_blank" class="blue">Privacy Statement</a></li>  |
+        <li>Copyright ©2017 AspenCore All Rights Reserved</li>
+      </ul>
+    </div><!-- / BLACK FOOTER rightlinks -->
+    <div style="clear:both;"></div><!-- // to clear the right and left evenly // -->
+  </div>    
+<!-- / BLACK FOOTER rightlinks -->
+    <div style="clear:both;"></div><!-- // to clear the right and left evenly // -->
+		  </footer></div><!-- END footerblack -->
+		<!-- / END BLACK FOOTER -->
+	      
+    
+   
+	<script type="text/javascript">
+	var _gaq = _gaq || [];
+	_gaq.push(['_setAccount', 'UA-20164576-1']);
+        _gaq.push(['_setDomainName', '.embedded.com']);
+	_gaq.push(['_trackPageview']);
+			_gaq.push(['_trackEvent']);
+		(function() {
+		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	})();
+</script>
+	<script type="text/javascript">
+    var uvOptions = {};
+    (function () {
+        var uv = document.createElement('script'); uv.type = 
+'text/javascript'; uv.async = true;
+        uv.src = ('https:' == document.location.protocol ? 'https://' : 
+'http://') + 'widget.uservoice.com/vXhNDLnX1CtX07Kf4sAFw.js';
+        var s = document.getElementsByTagName('script')[0]; 
+s.parentNode.insertBefore(uv, s);
+    })();
+</script>    <script type="text/javascript">
+_bizo_data_partner_id = "1322";
+</script>
+<script type="text/javascript">
+(function()
+{ var s = document.getElementsByTagName("script")[0]; var b = 
+document.createElement("script"); b.type = "text/javascript"; b.async = 
+true; b.src = (window.location.protocol === "https:" ? "https://sjs" : 
+"http://js") + ".bizographics.com/insight.min.js"; 
+s.parentNode.insertBefore(b, s); }
+
+)();
+</script>
+<div>
+<img alt="" style="display:none;" src="goodembeddedcode_files/a.gif" height="1" width="1">
+</div>	<script src="goodembeddedcode_files/jquery-ui.js" type="text/javascript"></script>
+	<script src="goodembeddedcode_files/jquery_002.js" type="text/javascript"></script>
+	<script src="goodembeddedcode_files/plugins.js" type="text/javascript"></script>
+	<script src="goodembeddedcode_files/app.js" type="text/javascript"></script>
+	<script src="goodembeddedcode_files/script.js" type="text/javascript"></script>
+	<script src="goodembeddedcode_files/jquery_003.js" type="text/javascript"></script>
+	<script src="goodembeddedcode_files/ubm_004.js" type="text/javascript"></script>
+	<script src="goodembeddedcode_files/ubm_003.js" type="text/javascript"></script>
+	<script src="goodembeddedcode_files/ubm_002.js" type="text/javascript"></script>
+	<script src="goodembeddedcode_files/ubm_005.js" type="text/javascript"></script>
+	<script src="goodembeddedcode_files/ubm_006.js" type="text/javascript"></script>
+	<script src="goodembeddedcode_files/ubm.js" type="text/javascript"></script>
+	<script src="goodembeddedcode_files/main.js" type="text/javascript"></script>
+	<script src="goodembeddedcode_files/emb.js" type="text/javascript"></script>
+	<script src="goodembeddedcode_files/fullcalendar.js" type="text/javascript"></script>
+	<script type="text/javascript" src="goodembeddedcode_files/beacon-min.js"></script>
+	<script type="text/javascript" src="goodembeddedcode_files/adroll.js"></script>
+	<script src="goodembeddedcode_files/janrain-init.js" type="text/javascript"></script>
+	<script src="goodembeddedcode_files/janrain-utils.js" type="text/javascript"></script>
+	<script>
+	
+		var _doubleclickRand = Math.random() * 10000000000000000;
+		var beacon = new UBM.Beacon({ environment: 'p', apiKey: '7a85ceb41b22f6b8c4f0ea4b1298b85809f1c2227aefa21507e3e8724f9d0394' });
+		beacon.pageview();
+	</script>
+<script type="text/javascript" src="goodembeddedcode_files/oasTrack_v1.js"></script>
+<!-- SE Tags -->
+<script type="text/javascript">
+(function() {
+    var cid="embedded", arp = document.createElement('script');
+    arp.type = 'text/javascript'; arp.async = true;
+    arp.src = "//reach.siliconexpert.com/tag/"+cid+".js";
+    var s0 = document.getElementsByTagName('script')[0];
+    s0.parentNode.insertBefore(arp, s0);
+})();
+</script>
+<!-- End SE Tags -->
+
+<!-- Pardot Tracking Code -->
+<script type="text/javascript">
+piAId = '115242';
+piCId = '67995';
+
+(function() {
+	function async_load(){
+		var s = document.createElement('script'); s.type = 'text/javascript';
+		s.src = ('https:' == document.location.protocol ? 'https://pi' : 'http://cdn') + '.pardot.com/pd.js';
+		var c = document.getElementsByTagName('script')[0]; c.parentNode.insertBefore(s, c);
+	}
+	if(window.attachEvent) { window.attachEvent('onload', async_load); }
+	else { window.addEventListener('load', async_load, false); }
+})();
+</script>
+<!-- End Tracking Code -->
+
+
+</body></html>

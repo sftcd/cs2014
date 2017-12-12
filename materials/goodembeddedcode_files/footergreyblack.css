@@ -1,0 +1,227 @@
+/*
+html,body,div,span,applet,object,iframe,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video {
+border:0;
+margin:0;
+padding:0;
+}
+use of the above ^ ^ deoends on the site */
+
+#footerblack {
+	max-width:1000px;
+	/* width:1000px; blows template less than 1000px */
+	background-color:#000;
+	min-height:111px;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:11px;
+	text-align:left;
+}
+
+#footerblack #rightlinks,
+#footergrey #rightlinks {
+	min-height:111px;
+}
+
+#footerblack #rightlinks ul {
+	color:#fff;
+	border-bottom:1px solid #666;
+	margin:0;
+	padding:4px;
+}
+
+#footerblack #rightlinks ul li a {
+	color:#ccc;
+	text-decoration:none;
+	font-weight:bold;
+}
+
+#footerblack #rightlinks ul li a:hover {
+	color:#999;
+	text-decoration:underline;
+}
+
+#footerblack #rightlinks ul.blue {
+	color:#9cf;
+	border-bottom:0;
+	font-weight:normal;
+}
+
+#footerblack #rightlinks ul li a.blue {
+	color:#9cf;
+	font-weight:normal;
+}
+
+#footergrey {
+	max-width:1000px;
+	/* width:1000px; blows template less than 1000px */
+	background-color:#e5e5e7;
+	min-height:111px;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:11px;
+	text-align:left;
+}
+
+#footergrey #rightlinks ul {
+	color:#333;
+	border-bottom:1px solid #ccc;
+	margin:0;
+	padding:4px;
+}
+
+#footergrey #rightlinks ul li a {
+	color:#666;
+	text-decoration:none;
+	font-weight:bold;
+}
+
+#footergrey #rightlinks ul li a:hover {
+	color:#333;
+	text-decoration:underline;
+}
+
+#footergrey #rightlinks ul.blue {
+	color:#369;
+	border-bottom:0;
+	font-weight:normal;
+}
+
+#footergrey #rightlinks ul li a.blue {
+	color:#369;
+	font-weight:normal;
+}
+
+#footergrey #rightlinks ul.normal {
+	font-weight:normal;
+}
+
+#footergrey #rightlinks ul li a.normal {
+	color:#666;
+	font-weight:normal;
+}
+
+#footerblack #left,
+#footergrey #left {
+	float:left;
+}
+
+#footerblack #rightlinks,
+#footergrey #rightlinks {
+	padding: 10px 0px 10px 15px;
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+}
+
+#footerblack #rightlinks ul li,
+#footergrey #rightlinks ul li {
+	display:inline;
+}
+
+#footerblack #rightlinks ul.normal,
+#footerblack #rightlinks ul li a.normal {
+	color:#fffff;
+	font-weight:normal;
+}
+
+@media only screen and (min-width: 63.6876em){
+    #footerblack #rightlinks,
+    #footergrey #rightlinks {
+        overflow:hidden;
+    }
+}
+
+@media only screen and (max-width: 63.6875em) and (min-width: 48em){
+    #container{
+        width:100%;
+    }
+    div#top{
+        max-height:100%;
+    }
+    div#top div#rightlinks ul.first-list{
+        border-left:0px;
+    }
+    div#tech-brands ul{
+        width:35%;
+    }
+    div#rightlinks{
+        width:86%;
+    }
+    div#rightlinks div {
+        display:block;
+        width:100%;
+        margin:10px 0px;
+    }
+    #footerblack #rightlinks, #footergrey #rightlinks {
+        overflow: hidden;
+        width: auto;
+    }
+}
+
+@media only screen and (max-width: 47.999em) and (min-width: 29.9375em){
+	#container{
+        width:100%;
+    }
+    div#top{
+        max-height:100%;
+    }
+    div#top div#rightlinks ul.first-list{
+        border-left:0px;
+    }
+    div#tech-brands ul{
+        width:35%;
+    }
+    div#rightlinks{
+        width:81%;
+    }
+    div#rightlinks div {
+        display:block;
+        width:100%;
+        margin:10px 0px;
+    }
+    #footerblack #rightlinks, #footergrey #rightlinks {
+        overflow: hidden;
+        width: auto;
+    }
+}
+
+@media only screen and (max-width: 29.875em) and (min-width: 20em){
+    #container{
+        width:100%;
+    }
+    div#left {
+        width: 100%;
+        text-align: center;
+    }
+    div#top{
+        max-height:100%;
+    }
+    div#top div#rightlinks ul.first-list{
+        border-left:0px;
+    }
+    div#tech-brands ul{
+        width:35%;
+    }
+    div#rightlinks{
+        width:86%;
+        border-left:1px solid #cccccc;
+    }
+    div#rightlinks div {
+        display:block;
+        width:100%;
+        margin:10px 0px;
+    }
+    div#bottom ul li{
+        line-height:20px;
+    }
+    div#bottom ul{
+        padding:12px 10px;
+    }
+    #footerblack div#rightlinks > ul, #footergrey div#rightlinks > ul {
+        font-size: 0px;
+    }
+
+    #footerblack div#rightlinks > ul li, #footergrey div#rightlinks > ul li {
+        display: block;
+        font-size: 11px;
+        line-height: 16px;
+    }
+}
