@@ -1,0 +1,72 @@
+<h1>CS2014 2017/2018 sample exam paper and associated code</h1>
+<p>This is an example exam paper for my course on systems 
+programming (<a href="https://down.dsg.cs.tcd.ie/cs2014">CS2014</a>),
+the canonical URL for this is 
+<a href="https://down.dsg.cs.tcd.ie/cs2014/sample-exam/README.html">here</a>.</p>
+<h2>Files in this example:</h2>
+<ul>
+<li>README.md - this file in markdown format</li>
+<li>README.html - this file, in HTML format (<code>'make html'</code> to update that from .md)</li>
+<li><a href="Makefile">Makefile</a> - to build the sample answer code and HTML (there's a clean target too)</li>
+<li><a href="./cs2014-exam-2018-sample.pdf">cs2014-exam-2018-sample.pdf</a> - the sample paper</li>
+<li><a href="./dnsparse.c">dnsparse.c</a> - code for question 1</li>
+<li><a href="./mainfsize.c">mainfsize.c</a> - code for question 2</li>
+<li><a href="./mainfsize_pp.cpp">mainfsize_pp.cpp</a> - code for question 2</li>
+<li><a href="./fsize.c">fsize.c</a> - code for question 2</li>
+<li><a href="./fsize.h">fsize.h</a> - code for question 2</li>
+<li><a href="./badcat.c">badcat.c</a> - code for question 3</li>
+<li><a href="./middlingcat.c">middlingcat.c</a> - code for question 3 with minimal improvement</li>
+<li><a href="./lessbadcat.c">lessbadcat.c</a> - code for question 3 with more improvement</li>
+<li><a href="./bad-middling.html">bad-middling.html</a> - diff from badcat.c to middlingcat.c</li>
+<li><a href="./bad-lessbad.html">bad-lessbad.html</a> - diff from badcat.c to lessbadcat.c</li>
+<li><a href="./middling-lessbad.html">middling-lessbad.html</a> - diff from middlingcat.c to lessbadat.c</li>
+</ul>
+<p>After running <code>'make'</code> then these files will be produced (if all
+goes well):</p>
+<ul>
+<li>README.html - the html version of README.md</li>
+<li>dnsparse - a question 1 binary</li>
+<li>mainfsize - a question 2 binary</li>
+<li>mainfsize_pp - a question 2 binary</li>
+<li>mainfsize.o - a question 2 object file</li>
+<li>mainfsize_pp.o - a question 2 object file</li>
+<li>fsize.o - a question 2 object file</li>
+<li>badcat - a bad, crashy binary for question 3 </li>
+<li>middlingcat - a less bad non-crashy program for question 3</li>
+<li>lessbadcat - an even less bad non-crashy program for question 3</li>
+</ul>
+<h1>Question 1 notes</h1>
+<ul>
+<li>I wrote the code there in "real time" so I'm pretty sure it's buggy, in particular 
+  there's likely an off-by-one error if a label of length 63 is encoutered.
+  (You can criticise that code as an exercise if you like - send a pull
+  request!)</li>
+<li>If you suspect issues like the above, it's ok to add notes around your answer.</li>
+<li>As you can see the mapping from the quesion to the code is fairly, but not
+  entirely, obvious. I <em>strongly</em> recommend you use a workbook to write out
+  initial code and then try tidy that up later. Do include all such rough
+  work of course - it'll get marks if it contains anything of use.</li>
+</ul>
+<h1>Question 2 notes</h1>
+<ul>
+<li>For part (b) - you should describe the typical edit, compile, test
+  cycle - for such descriptions, I only need (but do need) enough
+  detail to show you understand what you're doing - you do not need
+  to include exhaustive detail nor be overly precise.</li>
+<li>I haven't coded up 'enhancements' - pull requests are welcome!</li>
+</ul>
+<h1>Question 3 notes</h1>
+<ul>
+<li>There're lots more than 5 flaws in that code! (Oddly, I did find it
+  on the net, and used almost exactly what I found - be careful using
+  random code!)</li>
+<li>Check out the diff files for the kinds of flaws to talk about for
+  part (a) - I assume that's fairly obvious.</li>
+<li>For part (b), I chose to try keep the new code comparable to the
+  old code, just to make those diffs useful. You don't need to do 
+  that in your answer.</li>
+<li>For part (c), I'd like you to show me that you know how to test
+  a program like this - I don't need the fully theory of fuzzing,
+  but would like you to provide your general appraoch and a few
+  examples of things you'd test (less obvious ones are better).</li>
+</ul>
