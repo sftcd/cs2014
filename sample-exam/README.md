@@ -20,9 +20,9 @@ the canonical URL for this is
 - [badcat.c](./badcat.c) - code for question 3
 - [middlingbad.c](./middlingbad.c) - code for question 3 with minimal improvement
 - [lessbadcat.c](./lessbadcat.c) - code for question 3 with more improvement
-- [bad-middling.html](./bad-middling.html) - diff from badcat.c to middlingcat.c
+- [bad-middling.html](./bad-middling.html) - diff from badcat.c to middlingbad.c
 - [bad-lessbad.html](./bad-lessbad.html) - diff from badcat.c to lessbadcat.c
-- [middling-lessbad.html](./middling-lessbad.html) - diff from middlingcat.c to lessbadat.c
+- [middling-lessbad.html](./middling-lessbad.html) - diff from middlingbad.c to lessbadat.c
 
 After running ```'make'``` then these files will be produced (if all
 goes well):
@@ -35,7 +35,7 @@ goes well):
 - mainfsize_pp.o - a question 2 object file
 - fsize.o - a question 2 object file
 - badcat - a bad, crashy binary for question 3 
-- middlingcat - a less bad non-crashy program for question 3
+- middlingbad - a less bad non-crashy program for question 3
 - lessbadcat - an even less bad non-crashy program for question 3
 
 # Question 1 notes
