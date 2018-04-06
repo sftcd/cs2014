@@ -18,7 +18,7 @@ the canonical URL for this is
 - [fsize.c](./fsize.c) - code for question 2
 - [fsize.h](./fsize.h) - code for question 2
 - [badcat.c](./badcat.c) - code for question 3
-- [middlingcat.c](./middlingcat.c) - code for question 3 with minimal improvement
+- [middlingbad.c](./middlingbad.c) - code for question 3 with minimal improvement
 - [lessbadcat.c](./lessbadcat.c) - code for question 3 with more improvement
 - [bad-middling.html](./bad-middling.html) - diff from badcat.c to middlingcat.c
 - [bad-lessbad.html](./bad-lessbad.html) - diff from badcat.c to lessbadcat.c
