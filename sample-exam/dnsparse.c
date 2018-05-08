@@ -30,7 +30,7 @@ int checkDNSValid(char *str) {
   if (str[0] == '.' && strlen(str) != 1)
     return (4);
   if (str[0] == '.')
-    return (5);
+    return (0);
   // labels not too long?
   int labellen = 0;
   for (char *ch = str; *ch; ch++) {
